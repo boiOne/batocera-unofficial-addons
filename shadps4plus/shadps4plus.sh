@@ -28,8 +28,8 @@ rm -f "$install_dir"/*.zip
 chmod a+x "$install_dir/shadps4plus.AppImage"
 
 # Download supporting scripts
-monitor_script_url="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/shadps4/monitor_shadps4.sh"
-launchers_script_url="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/shadps4/create_game_launchers.sh"
+monitor_script_url="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/shadps4plus/monitor_shadps4.sh"
+launchers_script_url="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/shadps4plus/create_game_launchers.sh"
 
 wget -q --show-progress -O "$install_dir/monitor_shadps4.sh" "$monitor_script_url"
 wget -q --show-progress -O "$install_dir/create_game_launchers.sh" "$launchers_script_url"
@@ -83,7 +83,7 @@ fi
 chmod +x "$custom_startup"
 
 # Run ES System Script
-curl -L https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/shadps4/es_ps4/es_ps4_install.sh | bash
+curl -L https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/shadps4plus/es_ps4/es_ps4_install.sh | bash
 
 # Finish
 # Show dialog box for reboot confirmation
