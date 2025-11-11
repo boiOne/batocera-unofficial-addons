@@ -74,7 +74,6 @@ echo -e "\e[0m"
     echo " Install these add-ons at your own risk. They are not endorsed by the Batocera Devs nor are they supported." 
     echo " Please don't go into the official Batocera discord with issues, I can't help you there!"
     echo " Instead; head to https://discord.batoaddons.app and someone will be around to help you!"
-    echo " For guides, head to the Wiki at https://wiki.batoaddons.app"
     sleep 10
 }
 
@@ -134,7 +133,7 @@ apps=(
     ["GREENLIGHT"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/greenlight/greenlight.sh | bash"
     ["HEROIC"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/heroic/heroic.sh | bash"
     ["IPTVNATOR"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/iptvnator/iptvnator.sh | bash"
-	  ["INPUTLEAP"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/inputleap/inputleap.sh | bash"
+	["INPUTLEAP"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/inputleap/inputleap.sh | bash"
     ["ITCHIO"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/itchio/itch.sh | bash"
     ["JDOWNLOADER"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/jdownloader/jdownloader.sh | bash"
     ["JAVA-RUNTIME"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/java/java.sh | bash"
@@ -197,7 +196,7 @@ apps=(
     ["BRIDGE"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/bridge/bridge.sh | bash"
     ["SOAR"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/soar/soar.sh | bash"
     ["DARK-MODE"]="curl -Ls https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/dark/dark.sh | bash"
-	["RGSX"]="curl -L bit.ly/rgsx-install | sh"
+	#["RGSX"]="curl -L bit.ly/rgsx-install | sh"
 )
 
 
@@ -292,7 +291,7 @@ descriptions=(
     ["BRIDGE"]-"Chart downloader for CloneHero/YARG"
     ["SOAR"]="Soar package manager integrated with BUA"
     ["DARK-MODE"]="Custom service to enable/disable F1 dark mode"
-	["RGSX"]="Retro Game Sets Xtra, A free, user-friendly ROM downloader for Batocera"
+	#["RGSX"]="Retro Game Sets Xtra, A free, user-friendly ROM downloader for Batocera"
 )
 
 
