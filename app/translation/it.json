@@ -125,8 +125,8 @@
   "and_more_items": "... e altri {count} oggetto(i)",
   "running_installers": "Esecuzione installazioni",
   "items_lowercase": "oggetti",
-  "hold_button_for": "Tieni premuto il pulsante per {label}"
+  "hold_button_for": "Tieni premuto il pulsante per {label}",
 
-  "resolution": "Risoluzione"
+  "resolution": "Risoluzione",
   "resolution_desc": "Cambia la risoluzione dell'interfaccia"
 }

@@ -130,8 +130,8 @@
   "and_more_items": "... and {count} more item(s)",
   "running_installers": "Running installers",
   "items_lowercase": "items",
-  "hold_button_for": "Hold the button for {label}"
+  "hold_button_for": "Hold the button for {label}",
 
-  "resolution": "Resolution"
+  "resolution": "Resolution",
   "resolution_desc": "Change the resolution of the interface"
 }
