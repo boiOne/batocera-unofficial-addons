@@ -21,7 +21,7 @@
   "docker_menu": "Docker Menu",
   "docker_menu_desc": "Install Docker containers",
   "updater": "Updater",
-  "updater_desc": "Update installed add-ons",
+  "updater_desc": "Update/Uninstall installed add-ons",
   "settings": "Settings",
   "settings_desc": "Configure controller layout and options",
   "exit": "Exit",
@@ -104,14 +104,34 @@
   "previously_installed": "was previously installed.",
   "last_installed": "Last installed:",
   "install_again": "Install again?",
+  "install_them_again": "Install them again?",
   "selected_installed": "selected items are already installed.",
+  "last_prefix": "(Last:",
   "add_to_queue": "Add to Queue",
+  "add_all_to_queue": "items to queue?",
   "some_installed": "Some items are already installed:",
   "add_all_items": "Add all",
-  "items_to_queue": "items to queue?",
+  "items_to_queue": "Add all items to queue?",
   "added": "Added",
   "to_queue": "item(s) to queue",
 
   "and": "and",
-  "more": "more"
+  "more": "more",
+
+  "uninstall": "Uninstall",
+  "uninstall_error": "Could not generate uninstall command for this app.",
+  "nothing_selected_update": "Nothing selected to update.",
+
+  "controller_setup": "Controller Setup",
+  "no_search_match": "No add-ons match your search.",
+  "installation_queue_title": "Installation Queue:",
+  "error": "Error",
+
+  "and_more_items": "... and {count} more item(s)",
+  "running_installers": "Running installers",
+  "items_lowercase": "items",
+  "hold_button_for": "Hold the button for {label}"
+
+  "resolution": "Resolution"
+  "resolution_desc": "Change the resolution of the interface"
 }
