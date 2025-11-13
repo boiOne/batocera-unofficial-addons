@@ -13,6 +13,10 @@ if [ -f "/userdata/roms/ports/YouTubeTV.sh" ]; then
     echo "Removing file: /userdata/roms/ports/YouTubeTV.sh"
     rm -f "/userdata/roms/ports/YouTubeTV.sh"
 fi
+if [ -f "/userdata/roms/ports/YoutubeTV.sh" ]; then
+    echo "Removing file: /userdata/roms/ports/YoutubeTV.sh"
+    rm -f "/userdata/roms/ports/YoutubeTV.sh"
+fi
 if [ -f "/userdata/roms/ports/YoutubeTV.sh.keys" ]; then
     echo "Removing file: /userdata/roms/ports/YoutubeTV.sh.keys"
     rm -f "/userdata/roms/ports/YoutubeTV.sh.keys"

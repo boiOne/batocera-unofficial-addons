@@ -17,6 +17,10 @@ fi
 # Clean up custom.sh entries for CLONEHERO
 
 # Remove installed files
+if [ -f "/userdata/roms/ports/CloneHero.sh" ]; then
+    echo "Removing file: /userdata/roms/ports/CloneHero.sh"
+    rm -f "/userdata/roms/ports/CloneHero.sh"
+fi
 if [ -f "//userdata/system/add-ons/clonehero/extra/icon.png" ]; then
     echo "Removing file: //userdata/system/add-ons/clonehero/extra/icon.png"
     rm -f "//userdata/system/add-ons/clonehero/extra/icon.png"
