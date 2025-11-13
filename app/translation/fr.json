@@ -21,7 +21,7 @@
   "docker_menu": "Menu Docker",
   "docker_menu_desc": "Installer des conteneurs Docker",
   "updater": "Mise à Jour",
-  "updater_desc": "Mettre à jour les modules installés",
+  "updater_desc": "Mettre à jour/Désinstaller les modules installés",
   "settings": "Paramètres",
   "settings_desc": "Configurer la disposition du contrôleur et les options",
   "exit": "Quitter",

@@ -21,7 +21,7 @@
   "docker_menu": "Menú de Docker",
   "docker_menu_desc": "Instalar contenedores de Docker",
   "updater": "Actualizador",
-  "updater_desc": "Actualizar complementos",
+  "updater_desc": "Actualizar/Desinstalar complementos",
   "settings": "Ajustes",
   "settings_desc": "Configurar diseño de controlador y opciones",
   "exit": "Salir",
