@@ -23,4 +23,4 @@ batocera-services enable "$SERVICE_NAME" &
 batocera-services start "$SERVICE_NAME" &>/dev/null &
 
 # === STEP 5: Final success message via dialog ===
-dialog --msgbox "VersionClean service installed successfully!\n\nThe Batocera version string will now show without extra flags." 8 65
+dialog --msgbox "VersionClean service installed successfully!\n\nThe Batocera version string will now show without extra flags. You can disable this by running batocera-services stop versionclean, if for whatever reason that's what you want to do" 8 65
