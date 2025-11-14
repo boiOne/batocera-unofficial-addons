@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Display a notice using BUA dialog
-echo "__BUA_DIALOG__ title=\"Warning\" text=\"Note: Testing has shown Wine-GE versions above 8.15 appear broken on Batocera.\""
+# Display a notice using dialog
+dialog --msgbox "Note: Testing has shown Wine-GE versions above 8.15 appear broken on Batocera." 10 60
 
 # API endpoint for GitHub releases with 100 releases per page
 REPO_URL="https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases?per_page=100"
@@ -28,24 +28,19 @@ if [[ $? -ne 0 || -z "$release_data" ]]; then
     exit 1
 fi
 
-# Build options for BUA menu (limit to first 20 for usability)
-options=""
+# Build options for dialog menu (limit to first 20 for usability)
+menu_args=()
 i=0
 while IFS= read -r line && [ $i -lt 20 ]; do
     name=$(echo "$line" | jq -r '.name')
     tag=$(echo "$line" | jq -r '.tag_name')
     description="${name} - ${tag}"
-    if [ -z "$options" ]; then
-        options="${tag}:${description}"
-    else
-        options="${options},${tag}:${description}"
-    fi
+    menu_args+=("$tag" "$description")
     ((i++))
 done < <(echo "$release_data" | jq -c '.[]')
 
-# Show BUA menu for version selection
-echo "__BUA_MENU__ title=\"Select Wine-GE Version\" options=\"${options}\""
-read choice
+# Show dialog menu for version selection
+choice=$(dialog --stdout --title "Select Wine-GE Version" --menu "Choose which Wine-GE version to install:" 20 80 12 "${menu_args[@]}")
 
 if [ -z "$choice" ]; then
     echo "Installation cancelled."

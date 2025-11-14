@@ -1,8 +1,13 @@
 #!/bin/bash
 
-# Use BUA menu to display the selection menu
-echo "__BUA_MENU__ title=\"Select Wine Version\" options=\"vanilla:Wine & Proton (vanilla/regular),tkg:Wine-TKG-Staging,wine-ge:Wine-GE Custom,ge-proton:GE-Proton,steamy:Steamy-AIO Wine Dependency Installer,v40:V40 Stock Wine\""
-read CHOICE
+# Use dialog menu to display the selection menu
+CHOICE=$(dialog --stdout --title "Select Wine Version" --menu "Choose which Wine/Proton version to install:" 20 70 6 \
+    "vanilla" "Wine & Proton (vanilla/regular)" \
+    "tkg" "Wine-TKG-Staging" \
+    "wine-ge" "Wine-GE Custom" \
+    "ge-proton" "GE-Proton" \
+    "steamy" "Steamy-AIO Wine Dependency Installer" \
+    "v40" "V40 Stock Wine")
 
 if [ -z "$CHOICE" ]; then
     echo "Installation cancelled."

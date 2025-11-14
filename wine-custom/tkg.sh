@@ -17,8 +17,8 @@ if [[ $? -ne 0 ]]; then
     exit 1
 fi
 
-# Build options for BUA menu - filter only tkg-staging builds (limit to first 20 for usability)
-options=""
+# Build options for dialog menu - filter only tkg-staging builds (limit to first 20 for usability)
+menu_args=()
 i=0
 while IFS= read -r line && [ $i -lt 20 ]; do
     name=$(echo "$line" | jq -r '.name')
@@ -26,18 +26,13 @@ while IFS= read -r line && [ $i -lt 20 ]; do
     tkg_staging_assets=$(echo "$line" | jq -c '.assets[] | select(.name | contains("staging-tkg"))')
     if [ -n "$tkg_staging_assets" ]; then
         description="${name} - ${tag}"
-        if [ -z "$options" ]; then
-            options="${tag}:${description}"
-        else
-            options="${options},${tag}:${description}"
-        fi
+        menu_args+=("$tag" "$description")
         ((i++))
     fi
 done < <(echo "$release_data" | jq -c '.[]')
 
-# Show BUA menu for version selection
-echo "__BUA_MENU__ title=\"Select Wine TKG-Staging Version\" options=\"${options}\""
-read choice
+# Show dialog menu for version selection
+choice=$(dialog --stdout --title "Select Wine TKG-Staging Version" --menu "Choose which Wine TKG-Staging version to install:" 20 80 12 "${menu_args[@]}")
 
 if [ -z "$choice" ]; then
     echo "Installation cancelled."

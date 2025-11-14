@@ -75,9 +75,13 @@ elif [ "$total_ram" -gt 4000000 ]; then shm_size="2gb"
 else shm_size="1gb"
 fi
 
-# Step 4: Select base distro using BUA menu
-echo "__BUA_MENU__ title=\"Select Base Distro\" options=\"alpine:Alpine (Fast lightweight),ubuntu:Ubuntu (Popular stable),fedora:Fedora (Modern packages),arch:Arch (Rolling release),debian:Debian (Very stable)\""
-read distro
+# Step 4: Select base distro using dialog menu
+distro=$(dialog --stdout --title "Select Base Distro" --menu "Choose which Linux distribution to use:" 18 70 5 \
+    "alpine" "Alpine (Fast lightweight)" \
+    "ubuntu" "Ubuntu (Popular stable)" \
+    "fedora" "Fedora (Modern packages)" \
+    "arch" "Arch (Rolling release)" \
+    "debian" "Debian (Very stable)")
 
 if [ -z "$distro" ]; then
     echo "Installation cancelled."
@@ -86,12 +90,17 @@ fi
 
 # Show warning for Alpine
 if [ "$distro" = "alpine" ]; then
-    echo "__BUA_DIALOG__ title=\"Warning\" text=\"Alpine does NOT support NVIDIA GPU passthrough. Click OK to continue anyway.\""
+    dialog --msgbox "Alpine does NOT support NVIDIA GPU passthrough. Click OK to continue anyway." 10 60
 fi
 
-# Step 5: Select desktop environment using BUA menu
-echo "__BUA_MENU__ title=\"Select Desktop Environment\" options=\"xfce:XFCE (Lightweight recommended),kde:KDE (Feature-rich),mate:MATE (Traditional),i3:i3 (Tiling WM),openbox:Openbox (Minimal),icewm:IceWM (Very light)\""
-read env
+# Step 5: Select desktop environment using dialog menu
+env=$(dialog --stdout --title "Select Desktop Environment" --menu "Choose which desktop environment to install:" 18 70 6 \
+    "xfce" "XFCE (Lightweight recommended)" \
+    "kde" "KDE (Feature-rich)" \
+    "mate" "MATE (Traditional)" \
+    "i3" "i3 (Tiling WM)" \
+    "openbox" "Openbox (Minimal)" \
+    "icewm" "IceWM (Very light)")
 
 if [ -z "$env" ]; then
     echo "Installation cancelled."
