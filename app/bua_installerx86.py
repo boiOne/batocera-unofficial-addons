@@ -25,9 +25,9 @@ import hashlib
 # This will be shown once to users when they first launch after an update.
 
 CHANGELOG = """
-• Added Cards per Page setting for smaller resolutions.
-• Fixed controller mapping issues on some systems.
-• Added changelog display on first launch after update.
+- Added Cards per Page setting for smaller resolutions.
+- Fixed controller mapping issues on some systems.
+- Added changelog display on first launch after update.
 """.strip()
 
 # ------------------------------
