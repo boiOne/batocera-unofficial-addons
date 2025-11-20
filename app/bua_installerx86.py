@@ -4730,11 +4730,14 @@ def play_splash_and_load():
             except:
                 proc.kill()
 
-            # Give window manager time to refocus and bring pygame window to foreground
+            # Recreate pygame display to bring it to foreground
             import time
             time.sleep(0.1)
+            global screen
+            current_size = screen.get_size()
+            current_flags = screen.get_flags()
+            screen = pygame.display.set_mode(current_size, current_flags)
             pygame.display.flip()
-            pygame.event.pump()
 
         except FileNotFoundError:
             print("[BUA] VLC not found, showing loading screen instead")
