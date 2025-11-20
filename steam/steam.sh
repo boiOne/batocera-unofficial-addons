@@ -130,8 +130,7 @@ mkdir -p /userdata/roms/steam/images
 
 cat <<'EOF' > /userdata/roms/steam/Steam_Big_Picture.sh
 #!/bin/bash
-cd /userdata/system/add-ons/steam
-ulimit -H -n 819200 && ulimit -S -n 819200 && sysctl -w fs.inotify.max_user_watches=8192000 vm.max_map_count=2147483642 fs.file-max=8192000 >/dev/null 2>&1 && ./steam -gamepadui
+/userdata/system/add-ons/steam/Launcher -gamepadui
 EOF
 chmod +x /userdata/roms/steam/Steam_Big_Picture.sh
 
