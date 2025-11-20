@@ -4730,9 +4730,17 @@ def play_splash_and_load():
             except:
                 proc.kill()
 
-            # Recreate pygame display to bring it to foreground
+            # Bring pygame window to foreground using xdotool
             import time
-            time.sleep(0.1)
+            time.sleep(0.2)
+            try:
+                # Try to focus the pygame window using xdotool
+                subprocess.run(["xdotool", "search", "--name", "pygame", "windowactivate"],
+                             check=False, timeout=1, capture_output=True)
+            except:
+                pass
+
+            # Recreate pygame display to bring it to foreground
             global screen
             current_size = screen.get_size()
             current_flags = screen.get_flags()
