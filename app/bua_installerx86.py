@@ -4736,15 +4736,17 @@ def play_splash_and_load():
                         video.set(cv2.CAP_PROP_POS_FRAMES, 0)
                         continue
 
-                    # Convert BGR to RGB
+                    # Convert BGR to RGB and flip for correct orientation
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+                    # Flip horizontally and vertically to fix mirror/upside-down
+                    frame = cv2.flip(frame, -1)
 
                     # Scale frame to screen size
                     frame = cv2.resize(frame, (screen.get_width(), screen.get_height()))
 
-                    # Transpose for pygame (swap width and height axes)
-                    frame = cv2.transpose(frame)
-                    frame = cv2.flip(frame, 0)
+                    # Swap axes for pygame (which expects width on axis 0, height on axis 1)
+                    frame = frame.swapaxes(0, 1)
 
                     # Convert to pygame surface
                     frame_surface = pygame.surfarray.make_surface(frame)
