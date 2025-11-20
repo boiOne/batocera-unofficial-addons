@@ -11,8 +11,8 @@ DESKTOP_ENTRY="/userdata/system/configs/${APPNAME,,}/${APPNAME,,}.desktop"
 DESKTOP_DIR="/usr/share/applications"
 CUSTOM_SCRIPT="/userdata/system/custom.sh"
 
-mkdir -p /userdata/system/add-ons/${APPNAME,,}/extra
-mkdir -p /userdata/system/configs/${APPNAME,,}
+mkdir -p "/userdata/system/add-ons/${APPNAME,,}/extra"
+mkdir -p "/userdata/system/configs/${APPNAME,,}"
 
 # Ensure xmlstarlet is installed
 if ! command -v xmlstarlet &> /dev/null; then
