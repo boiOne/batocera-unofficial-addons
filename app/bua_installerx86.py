@@ -3563,6 +3563,27 @@ class RunListScreen(BaseScreen):
             "export -f batocera-save-overlay; "
         )
 
+        # Wrap whiptail, zenity, and other dialog tools to auto-answer prompts
+        # This prevents installers from opening interactive windows that require manual exit
+        interactive_wrap = (
+            "function whiptail(){ "
+            "echo '[BUA] Auto-answering whiptail dialog'; "
+            "return 0; }; "
+            "export -f whiptail; "
+            "function zenity(){ "
+            "echo '[BUA] Auto-answering zenity dialog'; "
+            "return 0; }; "
+            "export -f zenity; "
+            "function kdialog(){ "
+            "echo '[BUA] Auto-answering kdialog'; "
+            "return 0; }; "
+            "export -f kdialog; "
+            "function xdialog(){ "
+            "echo '[BUA] Auto-answering xdialog'; "
+            "return 0; }; "
+            "export -f xdialog; "
+        )
+
         # Add debug markers to track execution
         debug_start = f"echo '[BUA] Starting installation: {name}'; "
         debug_end = "; echo '[BUA] Installation finished'"
@@ -3574,7 +3595,7 @@ class RunListScreen(BaseScreen):
             parts = cmd.split("|", 1)
             if len(parts) == 2:
                 curl_part = parts[0].strip()
-                wrapper_code = f"{dialog_wrap}{es_wrap}{overlay_wrap}"
+                wrapper_code = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}"
                 cmd = (
                     f"{debug_start}"
                     f"TMPSCRIPT=$(mktemp); "
@@ -3584,9 +3605,9 @@ class RunListScreen(BaseScreen):
                     f"{debug_end}"
                 )
             else:
-                cmd = f"{dialog_wrap}{es_wrap}{overlay_wrap}{debug_start}{cmd}{debug_end}"
+                cmd = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}{debug_start}{cmd}{debug_end}"
         else:
-            cmd = f"{dialog_wrap}{es_wrap}{overlay_wrap}{debug_start}{cmd}{debug_end}"
+            cmd = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}{debug_start}{cmd}{debug_end}"
 
         self.runner.run(cmd)
         self.started = True
