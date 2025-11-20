@@ -4742,11 +4742,19 @@ def play_splash_and_load():
                     # Scale frame to screen size
                     frame = cv2.resize(frame, (screen.get_width(), screen.get_height()))
 
+                    # Transpose for pygame
+                    frame = frame.swapaxes(0, 1)
+
                     # Convert to pygame surface and display
                     frame_surface = pygame.surfarray.make_surface(frame)
 
-                    # Display frame
-                    screen.blit(frame_surface, (0, 0))
+                    # Center the frame on screen
+                    x = (screen.get_width() - frame_surface.get_width()) // 2
+                    y = (screen.get_height() - frame_surface.get_height()) // 2
+
+                    # Display frame centered
+                    screen.fill((0, 0, 0))  # Clear screen with black
+                    screen.blit(frame_surface, (x, y))
                     pygame.display.flip()
 
                     last_frame_time = current_time
