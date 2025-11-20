@@ -3584,6 +3584,24 @@ class RunListScreen(BaseScreen):
             "export -f xdialog; "
         )
 
+        # Wrap dangerous system commands that installers shouldn't call
+        # Prevents killing critical processes or switching to desktop mode
+        system_wrap = (
+            "function killall(){ "
+            "local target=\"$1\"; "
+            "if [[ \"$target\" == \"emulationstation\" ]] || [[ \"$target\" == \"pcmanfm\" ]]; then "
+            "echo '[BUA] Blocked killall for critical process:' \"$target\"; "
+            "return 0; "
+            "else "
+            "command killall \"$@\"; "
+            "fi; }; "
+            "export -f killall; "
+            "function desktop(){ "
+            "echo '[BUA] Blocked desktop mode switch during installation'; "
+            "return 0; }; "
+            "export -f desktop; "
+        )
+
         # Add debug markers to track execution
         debug_start = f"echo '[BUA] Starting installation: {name}'; "
         debug_end = "; echo '[BUA] Installation finished'"
@@ -3595,7 +3613,7 @@ class RunListScreen(BaseScreen):
             parts = cmd.split("|", 1)
             if len(parts) == 2:
                 curl_part = parts[0].strip()
-                wrapper_code = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}"
+                wrapper_code = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}{system_wrap}"
                 cmd = (
                     f"{debug_start}"
                     f"TMPSCRIPT=$(mktemp); "
@@ -3605,9 +3623,9 @@ class RunListScreen(BaseScreen):
                     f"{debug_end}"
                 )
             else:
-                cmd = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}{debug_start}{cmd}{debug_end}"
+                cmd = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}{system_wrap}{debug_start}{cmd}{debug_end}"
         else:
-            cmd = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}{debug_start}{cmd}{debug_end}"
+            cmd = f"{dialog_wrap}{es_wrap}{overlay_wrap}{interactive_wrap}{system_wrap}{debug_start}{cmd}{debug_end}"
 
         self.runner.run(cmd)
         self.started = True
@@ -3970,6 +3988,11 @@ def github_latest_commit_date(owner: str, repo: str, branch: str, path: str) -> 
     return None
 
 
+# Global GitHub cache that persists across UpdaterScreen instances
+# This prevents "unknown API error" when re-entering the updater
+GITHUB_CACHE: Dict[str, tuple] = {}  # {app: (status, needs_update, detail)}
+
+
 class UpdaterScreen(BaseScreen):
     def __init__(self):
         self.items: List[Tuple[str, str, bool, str]] = []  # (app, status_text, needs_update, detail)
@@ -3980,7 +4003,6 @@ class UpdaterScreen(BaseScreen):
         self.needs_rescan = False
         self.uninstalling_app: str | None = None  # Track which app is being uninstalled
         self.runner: Runner | None = None  # Runner for inline uninstall
-        self.github_cache: Dict[str, tuple] = {}  # Cache GitHub API results: {app: (status, needs_update, detail)}
         threading.Thread(target=self._scan, daemon=True).start()
 
     def _scan(self, use_cache=False):
@@ -3998,8 +4020,8 @@ class UpdaterScreen(BaseScreen):
             results = []
             for app in installed_apps:
                 # If using cache and we have cached data for this app, reuse it
-                if use_cache and app in self.github_cache:
-                    status, needs, detail = self.github_cache[app]
+                if use_cache and app in GITHUB_CACHE:
+                    status, needs, detail = GITHUB_CACHE[app]
                     results.append((app, status, needs, detail))
                     continue
 
@@ -4046,8 +4068,8 @@ class UpdaterScreen(BaseScreen):
                     needs = False
                     detail = ""
 
-                # Cache the result
-                self.github_cache[app] = (status, needs, detail)
+                # Cache the result globally
+                GITHUB_CACHE[app] = (status, needs, detail)
                 results.append((app, status, needs, detail))
 
             # Sort: updates first, then by name
@@ -4139,7 +4161,8 @@ class UpdaterScreen(BaseScreen):
     def queue_updates(self):
         if self.loading:
             return
-        selected_apps = [app for app in self.selected if self.selected[app]]
+        # Get all apps that are selected (either auto-selected on load or manually toggled)
+        selected_apps = [app for app in self.selected if self.selected.get(app, False)]
         if not selected_apps:
             push_screen(InfoDialog(t("updater"), [t("nothing_selected_update")]))
             return
