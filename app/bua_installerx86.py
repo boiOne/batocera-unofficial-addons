@@ -349,6 +349,34 @@ def is_installed(app_name: str) -> bool:
         return any(entry['success'] for entry in history[app_name])
     return False
 
+def scan_installed_addons_directory() -> List[str]:
+    """Scan /userdata/system/add-ons directory for installed apps.
+    Returns list of app names found in the directory."""
+    addons_dir = "/userdata/system/add-ons"
+    found_apps = []
+
+    try:
+        if not os.path.exists(addons_dir):
+            return []
+
+        # List all items in add-ons directory
+        items = os.listdir(addons_dir)
+
+        # Match directory/file names against known app names
+        for app_name in APPS.keys():
+            # Check if app name exists as directory or file
+            if app_name in items:
+                found_apps.append(app_name)
+            # Also check with common variations
+            elif app_name.replace(' ', '_') in items:
+                found_apps.append(app_name)
+            elif app_name.replace(' ', '-') in items:
+                found_apps.append(app_name)
+    except Exception:
+        pass
+
+    return found_apps
+
 def get_last_install_date(app_name: str) -> str:
     """Get the last successful installation date"""
     history = load_history()
@@ -1477,18 +1505,6 @@ def detect_pad_style() -> str:
 PAD_STYLE = detect_pad_style()
 update_button_mapping()
 
-# If a saved manual mapping exists, apply it now.
-# If no mapping exists and a controller is connected, ALWAYS prompt for manual mapping.
-_applied_saved = _apply_saved_button_map_if_any()
-if not _applied_saved:
-    try:
-        # Always require manual mapping on first run if controller is connected
-        # (can be disabled with BUA_AUTOMAP_ON_FIRST_RUN=0)
-        _auto = os.environ.get("BUA_AUTOMAP_ON_FIRST_RUN", "1").strip() in ("1","true","yes")
-        if pygame.joystick.get_count() > 0 and _auto:
-            run_manual_button_mapper()
-    except Exception:
-        pass
 def input_style_label() -> str:
     """Return a concise label of the current input device.
     - If a gamepad is connected: show its reported device name (first device).
@@ -3831,7 +3847,16 @@ class UpdaterScreen(BaseScreen):
 
     def _scan(self, use_cache=False):
         try:
-            installed_apps = [k for k in APPS.keys() if is_installed(k)]
+            # Get apps from JSON history
+            json_installed = [k for k in APPS.keys() if is_installed(k)]
+
+            # Scan directory for apps not in JSON
+            dir_installed = scan_installed_addons_directory()
+
+            # Combine both lists, removing duplicates
+            installed_apps = list(set(json_installed + dir_installed))
+            installed_apps.sort()
+
             results = []
             for app in installed_apps:
                 # If using cache and we have cached data for this app, reuse it
@@ -3845,6 +3870,8 @@ class UpdaterScreen(BaseScreen):
                 parsed = parse_github_raw_url(cmd)
                 last_date_str = get_last_install_date(app)
                 last_ts = 0.0
+                is_from_directory_only = (last_date_str is None or last_date_str == "")
+
                 if last_date_str:
                     try:
                         last_ts = datetime.strptime(last_date_str, "%Y-%m-%d %H:%M:%S").timestamp()
@@ -3863,7 +3890,11 @@ class UpdaterScreen(BaseScreen):
                             needs = True
                             detail = time.strftime("%Y-%m-%d %H:%M", time.gmtime(remote_ts))
                         else:
-                            status = t("up_to_date")
+                            # Show special status for directory-only apps
+                            if is_from_directory_only:
+                                status = "Installed (no history)"
+                            else:
+                                status = t("up_to_date")
                             needs = False
                             detail = time.strftime("%Y-%m-%d %H:%M", time.gmtime(remote_ts))
                 else:
@@ -4769,6 +4800,15 @@ def pop_screen():
 
 def main():
     push_screen(MenuScreen(t("main_title"), TOP_LEVEL))
+
+    # Check for controller mapping before showing changelog
+    if not _apply_saved_button_map_if_any():
+        try:
+            _auto = os.environ.get("BUA_AUTOMAP_ON_FIRST_RUN", "1").strip() in ("1","true","yes")
+            if pygame.joystick.get_count() > 0 and _auto:
+                run_manual_button_mapper()
+        except Exception:
+            pass
 
     # Show changelog if there's new content
     if should_show_changelog():
