@@ -4715,7 +4715,7 @@ def play_splash_and_load():
         # Use VLC (available on Batocera) to play video in fullscreen
         try:
             proc = subprocess.Popen(
-                ["cvlc", "--loop", "--fullscreen", "--no-video-title-show", "--quiet", splash_file],
+                ["cvlc", "--play-and-exit", "--repeat", "--fullscreen", "--no-video-title-show", "--quiet", splash_file],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
