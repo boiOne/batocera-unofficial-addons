@@ -4710,43 +4710,62 @@ def play_splash_and_load():
             f.write(splash_data)
             splash_file = f.name
 
-        print(f"[BUA] Playing splash video using VLC...")
+        print(f"[BUA] Playing splash video...")
 
-        # Use VLC (available on Batocera) to play video in fullscreen
+        # Play video in the pygame window using cv2
         try:
-            # Minimize pygame window before starting VLC
-            pygame.display.iconify()
+            import cv2
 
-            proc = subprocess.Popen(
-                ["cvlc", "--play-and-exit", "--fullscreen", "--no-video-title-show", "--no-video-deco", "--no-embedded-video", "--quiet", splash_file],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL
-            )
+            video = cv2.VideoCapture(splash_file)
+            fps = video.get(cv2.CAP_PROP_FPS) or 30
+            frame_delay = 1.0 / fps
 
-            # Wait for loading to complete
-            loading_complete.wait()
-
-            # Kill video player
-            proc.terminate()
-            try:
-                proc.wait(timeout=2)
-            except:
-                proc.kill()
-
-            # Restore and bring pygame window to foreground
-            import time
-            time.sleep(0.1)
-
-            # Restore the pygame window from iconified state
             global screen
-            current_size = screen.get_size()
-            current_flags = screen.get_flags()
-            screen = pygame.display.set_mode(current_size, current_flags)
-            pygame.display.flip()
-            pygame.event.pump()
+            video_running = True
+            last_frame_time = 0
 
-        except FileNotFoundError:
-            print("[BUA] VLC not found, showing loading screen instead")
+            while video_running and not loading_complete.is_set():
+                current_time = pygame.time.get_ticks() / 1000.0
+
+                # Only read next frame if enough time has passed
+                if current_time - last_frame_time >= frame_delay:
+                    ret, frame = video.read()
+
+                    if not ret:
+                        # Loop video
+                        video.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                        continue
+
+                    # Convert BGR to RGB
+                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+                    # Rotate frame 90 degrees and transpose for pygame
+                    frame = cv2.transpose(frame)
+                    frame = cv2.flip(frame, 1)
+
+                    # Scale frame to screen size
+                    frame = cv2.resize(frame, (screen.get_height(), screen.get_width()))
+
+                    # Convert to pygame surface
+                    frame_surface = pygame.surfarray.make_surface(frame)
+
+                    # Display frame
+                    screen.blit(frame_surface, (0, 0))
+                    pygame.display.flip()
+
+                    last_frame_time = current_time
+
+                # Handle events to prevent freezing
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        video_running = False
+
+                pygame.time.Clock().tick(60)
+
+            video.release()
+
+        except (ImportError, Exception) as e:
+            print(f"[BUA] Could not play video with cv2: {e}, showing loading screen instead")
             # Show a simple loading screen if ffplay not available (e.g., on Windows)
             splash_screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
             splash_screen.fill((20, 24, 31))
