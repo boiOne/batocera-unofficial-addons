@@ -130,7 +130,7 @@ mkdir -p /userdata/roms/steam/images
 
 cat <<'EOF' > /userdata/roms/steam/Steam_Big_Picture.sh
 #!/bin/bash
-/userdata/system/add-ons/steam/Launcher -gamepadui
+/userdata/system/add-ons/steam/Launcher "-gamepadui"
 EOF
 chmod +x /userdata/roms/steam/Steam_Big_Picture.sh
 

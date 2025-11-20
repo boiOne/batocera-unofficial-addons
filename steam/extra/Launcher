@@ -3,6 +3,7 @@ export DISPLAY=:0.0
 
 # Check if Big Picture mode is requested
 BIG_PICTURE_MODE="$1"
+echo "Launcher called with parameter: '$BIG_PICTURE_MODE'"
 
 # Path to the steam launcher generator script
 LAUNCHER_SCRIPT="/userdata/system/add-ons/steam/create-steam-launchers.sh"
@@ -18,10 +19,11 @@ fi
 # Launch Steam in background
 ulimit -H -n 819200 && ulimit -S -n 819200 && sysctl -w fs.inotify.max_user_watches=8192000 vm.max_map_count=2147483642 fs.file-max=8192000 >/dev/null 2>&1
 
-if [[ "$BIG_PICTURE_MODE" == "-gamepadui" ]]; then
+if [[ "$BIG_PICTURE_MODE" == *"gamepadui"* ]] || [[ "$BIG_PICTURE_MODE" == "-gamepadui" ]]; then
   echo "Launching Steam in Big Picture Mode..."
   /userdata/system/add-ons/steam/steam -gamepadui &
 else
+  echo "Launching Steam in normal mode..."
   /userdata/system/add-ons/steam/steam &
 fi
 
