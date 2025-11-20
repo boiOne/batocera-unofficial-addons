@@ -48,6 +48,8 @@
   "hint_select": "Select",
   "hint_close_settings": "Close Settings",
   "hint_uninstall": "Uninstall",
+  "hint_cancel": "Cancel",
+  "hint_confirm": "Confirm",
 
   "installation_queue": "Installation Queue",
   "queue_empty": "Queue is empty.",

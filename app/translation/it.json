@@ -48,6 +48,8 @@
   "hint_select": "Seleziona",
   "hint_close_settings": "Chiudi Impostazioni",
   "hint_uninstall": "Disinstalla",
+  "hint_cancel": "Annulla",
+  "hint_confirm": "Conferma",
 
   "installation_queue": "Coda di Installazione",
   "queue_empty": "La coda è vuota.",

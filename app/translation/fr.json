@@ -48,6 +48,8 @@
   "hint_select": "Sélectionner",
   "hint_close_settings": "Fermer Paramètres",
   "hint_uninstall": "Désinstaller",
+  "hint_cancel": "Annuler",
+  "hint_confirm": "Confirmer",
 
   "installation_queue": "File d'Installation",
   "queue_empty": "La file est vide.",
