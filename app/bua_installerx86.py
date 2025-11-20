@@ -1902,7 +1902,8 @@ class Runner:
                         "download", "downloading", "fetching", "getting",
                         "curl", "wget", "github.com", "raw.githubusercontent",
                         "resolving", "connecting", "saving to", "http request sent",
-                        "wohlsoft.ru", "sourceforge.net"
+                        "wohlsoft.ru", "sourceforge.net",
+                        ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico"
                     ]) or ln.strip().startswith("--20")  # Exclude wget timestamps like --2025-11-13
 
                     if is_important and not is_excluded:
