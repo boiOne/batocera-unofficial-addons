@@ -4739,12 +4739,12 @@ def play_splash_and_load():
                     # Convert BGR to RGB
                     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-                    # Rotate frame 90 degrees and transpose for pygame
-                    frame = cv2.transpose(frame)
-                    frame = cv2.flip(frame, 1)
-
                     # Scale frame to screen size
-                    frame = cv2.resize(frame, (screen.get_height(), screen.get_width()))
+                    frame = cv2.resize(frame, (screen.get_width(), screen.get_height()))
+
+                    # Transpose for pygame (swap width and height axes)
+                    frame = cv2.transpose(frame)
+                    frame = cv2.flip(frame, 0)
 
                     # Convert to pygame surface
                     frame_surface = pygame.surfarray.make_surface(frame)
