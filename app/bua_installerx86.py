@@ -4710,12 +4710,12 @@ def play_splash_and_load():
             f.write(splash_data)
             splash_file = f.name
 
-        print(f"[BUA] Playing splash video using ffplay...")
+        print(f"[BUA] Playing splash video using VLC...")
 
-        # Use ffplay (available on Batocera) to play video in fullscreen
+        # Use VLC (available on Batocera) to play video in fullscreen
         try:
             proc = subprocess.Popen(
-                ["ffplay", "-autoexit", "-loop", "0", "-fs", "-noborder", "-loglevel", "quiet", splash_file],
+                ["cvlc", "--play-and-exit", "--loop", "--fullscreen", "--no-video-title-show", "--quiet", splash_file],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL
             )
@@ -4731,7 +4731,7 @@ def play_splash_and_load():
                 proc.kill()
 
         except FileNotFoundError:
-            print("[BUA] ffplay not found, showing loading screen instead")
+            print("[BUA] VLC not found, showing loading screen instead")
             # Show a simple loading screen if ffplay not available (e.g., on Windows)
             splash_screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
             splash_screen.fill((20, 24, 31))
