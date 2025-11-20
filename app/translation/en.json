@@ -133,5 +133,8 @@
   "hold_button_for": "Hold the button for {label}",
 
   "resolution": "Resolution",
-  "resolution_desc": "Change the resolution of the interface"
+  "resolution_desc": "Change the resolution of the interface",
+
+  "cards_per_page": "Cards Per Page",
+  "cards_per_page_desc": "Set how many cards to show in menus (Auto/3/4/5/6/7/8/10)"
 }

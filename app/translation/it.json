@@ -128,5 +128,8 @@
   "hold_button_for": "Tieni premuto il pulsante per {label}",
 
   "resolution": "Risoluzione",
-  "resolution_desc": "Cambia la risoluzione dell'interfaccia"
+  "resolution_desc": "Cambia la risoluzione dell'interfaccia",
+
+  "cards_per_page": "Schede per Pagina",
+  "cards_per_page_desc": "Imposta quante schede mostrare nei menu (Auto/3/4/5/6/7/8/10)"
 }

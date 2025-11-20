@@ -16,6 +16,19 @@ import urllib.request
 import urllib.parse
 import time
 from typing import Dict, List, Tuple
+import hashlib
+
+# ------------------------------
+# Changelog
+# ------------------------------
+# Edit this section to add changelog entries. Leave empty to disable.
+# This will be shown once to users when they first launch after an update.
+
+CHANGELOG = """
+• Added Cards per Page setting for smaller resolutions.
+• Fixed controller mapping issues on some systems.
+• Added changelog display on first launch after update.
+""".strip()
 
 # ------------------------------
 # Translation System
@@ -26,6 +39,12 @@ TRANSLATIONS: Dict[str, Dict[str, str]] = {}
 CURRENT_LANGUAGE = "en"
 LANGUAGE_FILE = "/userdata/system/add-ons/bua_language.txt"
 RESOLUTION_FILE = "/userdata/system/add-ons/bua_resolution.txt"
+CARDS_PER_PAGE_FILE = "/userdata/system/add-ons/bua_cards_per_page.txt"
+CHANGELOG_HASH_FILE = "/userdata/system/add-ons/bua_changelog_hash.txt"
+
+# Default and current cards per page setting
+DEFAULT_CARDS_PER_PAGE = "auto"  # "auto" or a number like "3", "5", "7", etc.
+CARDS_PER_PAGE = DEFAULT_CARDS_PER_PAGE
 
 # Cache for available languages (to avoid checking GitHub every time)
 AVAILABLE_LANGUAGES_CACHE: List[Tuple[str, str, str]] = []
@@ -734,6 +753,74 @@ def save_resolution(width: int, height: int):
     except Exception:
         pass
 
+def load_saved_cards_per_page():
+    """Load saved cards per page preference"""
+    global CARDS_PER_PAGE
+    try:
+        if os.path.exists(CARDS_PER_PAGE_FILE):
+            with open(CARDS_PER_PAGE_FILE, 'r') as f:
+                value = f.read().strip()
+                if value:
+                    CARDS_PER_PAGE = value
+                    return value
+    except Exception:
+        pass
+    return DEFAULT_CARDS_PER_PAGE
+
+def save_cards_per_page(value: str):
+    """Save cards per page preference (e.g., 'auto', '3', '5', '7')"""
+    global CARDS_PER_PAGE
+    try:
+        os.makedirs(os.path.dirname(CARDS_PER_PAGE_FILE), exist_ok=True)
+        with open(CARDS_PER_PAGE_FILE, 'w') as f:
+            f.write(value)
+        CARDS_PER_PAGE = value
+    except Exception:
+        pass
+
+def get_visible_items(list_h: int, item_h: int) -> int:
+    """Calculate number of visible items based on user preference.
+    If CARDS_PER_PAGE is 'auto', calculate based on available space.
+    Otherwise, use the specified number."""
+    global CARDS_PER_PAGE
+    try:
+        if CARDS_PER_PAGE == "auto":
+            return max(1, list_h // item_h)
+        else:
+            return max(1, int(CARDS_PER_PAGE))
+    except Exception:
+        return max(1, list_h // item_h)
+
+def should_show_changelog() -> bool:
+    """Check if changelog should be shown (has content and hasn't been shown for this version)."""
+    if not CHANGELOG or not CHANGELOG.strip():
+        return False
+
+    # Hash the current changelog content
+    current_hash = hashlib.md5(CHANGELOG.encode('utf-8')).hexdigest()
+
+    # Check if we've shown this version before
+    try:
+        if os.path.exists(CHANGELOG_HASH_FILE):
+            with open(CHANGELOG_HASH_FILE, 'r') as f:
+                shown_hash = f.read().strip()
+                if shown_hash == current_hash:
+                    return False  # Already shown this changelog
+    except Exception:
+        pass
+
+    return True
+
+def mark_changelog_shown():
+    """Mark the current changelog as shown by saving its hash."""
+    try:
+        current_hash = hashlib.md5(CHANGELOG.encode('utf-8')).hexdigest()
+        os.makedirs(os.path.dirname(CHANGELOG_HASH_FILE), exist_ok=True)
+        with open(CHANGELOG_HASH_FILE, 'w') as f:
+            f.write(current_hash)
+    except Exception:
+        pass
+
 # Native fullscreen/window to avoid blurry scaling
 def init_display():
     global screen, W, H
@@ -833,125 +920,21 @@ def _env_int(name: str, default: int) -> int:
     except Exception:
         return default
 
-def _detect_ps_profile() -> str:
-    """Differentiate common PlayStation mappings.
-    Returns 'ps_dinput' for older/DirectInput-style pads (PS3/Sixaxis/etc),
-    otherwise 'ps_sdl' for modern SDL-mapped DualShock/DualSense.
-    """
-    try:
-        names = []
-        for i in range(pygame.joystick.get_count()):
-            try:
-                nm = pygame.joystick.Joystick(i).get_name() or ""
-                names.append(nm.lower())
-            except Exception:
-                pass
-        s = " ".join(names)
-        if any(k in s for k in ["ps3", "sixaxis", "dualshock 3", "shanwan", "gasia", "bda ps3", "playstation 3"]):
-            return "ps_dinput"
-    except Exception:
-        pass
-    return "ps_sdl"
-
-def _base_map(style: str) -> Dict[str, int]:
-    # Default Xbox/XInput-style mapping
-    if style == "xbox" or style == "generic" or style == "nintendo":
-        return {
-            "A": 0, "B": 1, "X": 2, "Y": 3,
-            "LB": 4, "RB": 5, "BACK": 6, "START": 7,
-            "L3": 8, "R3": 9,
-        }
-    if style == "playstation":
-        ps_prof = _detect_ps_profile()
-        if ps_prof == "ps_dinput":
-            # Common DirectInput mapping seen on PS3-era controllers
-            return {
-                "A": 0,  # Cross (bottom)
-                "B": 1,  # Circle (right)
-                "X": 2,  # Square (left)
-                "Y": 3,  # Triangle (top)
-                "LB": 4, # L1
-                "RB": 5, # R1
-                # L2/R2 are 6/7 as buttons on many DInput pads
-                "BACK": 8,   # Select
-                "START": 9,  # Start/Options
-                "L3": 10,
-                "R3": 11,
-            }
-        # Modern SDL mapping for DS4/DS5 (Options index 9)
-        return {
-            "A": 0, "B": 1, "X": 3, "Y": 2,
-            "LB": 4, "RB": 5, "BACK": 8, "START": 9,
-            "L3": 11, "R3": 12,
-        }
-    # Fallback
-    return {
-        "A": 0, "B": 1, "X": 2, "Y": 3,
-        "LB": 4, "RB": 5, "BACK": 6, "START": 7,
-        "L3": 8, "R3": 9,
-    }
-
-def _guid_override_map(style: str) -> Dict[str, int] | None:
-    """Return a per-device override mapping when we know a pad's raw
-    button indices differ from our base map.
-
-    Currently handles Nintendo Switch Pro Controller on Linux when it
-    reports GUID '050000007e0500000920000001800000'.
-
-    The mapping below reflects captured Pygame button indices:
-    A=2, B=3, X=5, Y=4, LB=6, RB=7, BACK=10, START=11, L3=12, R3=13.
-    """
-    try:
-        if style != "nintendo":
-            return None
-        # Only apply on Linux where this GUID/ordering occurs.
-        if not sys.platform.startswith("linux"):
-            return None
-        known_overrides: Dict[str, Dict[str, int]] = {
-            # Switch Pro Controller (Linux, Bluetooth), GUID seen in the wild.
-            "050000007e0500000920000001800000": {
-                "A": 2, "B": 3, "X": 5, "Y": 4,
-                "LB": 6, "RB": 7, "BACK": 10, "START": 11,
-                "L3": 12, "R3": 13,
-            },
-        }
-        # Collect connected joystick GUIDs and try to match.
-        detected: List[str] = []
-        try:
-            for i in range(pygame.joystick.get_count()):
-                try:
-                    g = pygame.joystick.Joystick(i).get_guid()  # type: ignore[attr-defined]
-                    if isinstance(g, str) and g:
-                        detected.append(g.lower())
-                except Exception:
-                    pass
-        except Exception:
-            pass
-        for g in detected:
-            if g in known_overrides:
-                return known_overrides[g]
-    except Exception:
-        pass
-    return None
-
 def update_button_mapping():
-    """Update global BTN_* constants based on PAD_STYLE and env overrides."""
+    """Update global BTN_* constants from environment variables only.
+    No default mappings - buttons must be set via manual mapping or env vars."""
     global BTN_A, BTN_B, BTN_X, BTN_Y, BTN_LB, BTN_RB, BTN_BACK, BTN_START, BTN_L3, BTN_R3
-    base = _base_map(PAD_STYLE)
-    # Apply per-GUID override if a known device is connected
-    _ovr = _guid_override_map(PAD_STYLE)
-    if _ovr:
-        base.update(_ovr)
-    BTN_A    = _env_int("BUA_BTN_A",    base.get("A", 0))
-    BTN_B    = _env_int("BUA_BTN_B",    base.get("B", 1))
-    BTN_X    = _env_int("BUA_BTN_X",    base.get("X", 2))
-    BTN_Y    = _env_int("BUA_BTN_Y",    base.get("Y", 3))
-    BTN_LB   = _env_int("BUA_BTN_LB",   base.get("LB", 4))
-    BTN_RB   = _env_int("BUA_BTN_RB",   base.get("RB", 5))
-    BTN_BACK = _env_int("BUA_BTN_BACK", base.get("BACK", 6))
-    BTN_START= _env_int("BUA_BTN_START",base.get("START", 7))
-    BTN_L3   = _env_int("BUA_BTN_L3",   base.get("L3", 8))
-    BTN_R3   = _env_int("BUA_BTN_R3",   base.get("R3", 9))
+    # Only use environment variables, no fallback defaults
+    BTN_A    = _env_int("BUA_BTN_A",    0)
+    BTN_B    = _env_int("BUA_BTN_B",    1)
+    BTN_X    = _env_int("BUA_BTN_X",    2)
+    BTN_Y    = _env_int("BUA_BTN_Y",    3)
+    BTN_LB   = _env_int("BUA_BTN_LB",   4)
+    BTN_RB   = _env_int("BUA_BTN_RB",   5)
+    BTN_BACK = _env_int("BUA_BTN_BACK", 6)
+    BTN_START= _env_int("BUA_BTN_START",7)
+    BTN_L3   = _env_int("BUA_BTN_L3",   8)
+    BTN_R3   = _env_int("BUA_BTN_R3",   9)
 
 # ------------------------------
 # Optional: manual button mapper
@@ -1494,15 +1477,15 @@ def detect_pad_style() -> str:
 PAD_STYLE = detect_pad_style()
 update_button_mapping()
 
-# If a saved manual mapping exists, apply it now. If not, and we seem to have
-# an unknown/keyboard style despite a connected joystick, optionally prompt the
-# user to run the manual mapper once on first run (gated by env var).
+# If a saved manual mapping exists, apply it now.
+# If no mapping exists and a controller is connected, ALWAYS prompt for manual mapping.
 _applied_saved = _apply_saved_button_map_if_any()
 if not _applied_saved:
     try:
-        # Default to auto-mapping on first run (can be disabled with BUA_AUTOMAP_ON_FIRST_RUN=0)
+        # Always require manual mapping on first run if controller is connected
+        # (can be disabled with BUA_AUTOMAP_ON_FIRST_RUN=0)
         _auto = os.environ.get("BUA_AUTOMAP_ON_FIRST_RUN", "1").strip() in ("1","true","yes")
-        if pygame.joystick.get_count() > 0 and (PAD_STYLE == "keyboard" or _auto):
+        if pygame.joystick.get_count() > 0 and _auto:
             run_manual_button_mapper()
     except Exception:
         pass
@@ -2162,7 +2145,7 @@ class MenuScreen(BaseScreen):
         row_h = S(60)
         bottom_pad = S(40)
         avail_h = max(0, H - list_y - bottom_pad)
-        rows = max(1, min(total, avail_h // row_pitch))
+        rows = min(total, get_visible_items(avail_h, row_pitch))
         top = 0 if total <= rows else max(0, min(self.idx - rows // 2, total - rows))
         view = self.items[top:top + rows]
 
@@ -2356,6 +2339,68 @@ class InfoDialog(BaseScreen):
         draw_text(screen, t("ok"), FONT, FG, (btn_rect.x + (btn_w - FONT.size(t("ok"))[0])//2, btn_rect.y + S(10)))
 
 
+class ChangelogDialog(BaseScreen):
+    """Display changelog on first run when content exists"""
+    def __init__(self):
+        pass
+
+    def handle(self, events):
+        for e in events:
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit(0)
+            if e.type == pygame.KEYDOWN:
+                if e.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_KP_ENTER):
+                    mark_changelog_shown()
+                    pop_screen()
+            if e.type == pygame.JOYBUTTONDOWN:
+                if e.button in (BTN_A, BTN_B, BTN_BACK, BTN_START):
+                    mark_changelog_shown()
+                    pop_screen()
+
+    def draw(self):
+        draw_background(screen)
+
+        overlay = pygame.Surface((W, H))
+        overlay.set_alpha(180)
+        overlay.fill(BG)
+        screen.blit(overlay, (0, 0))
+
+        dialog_w = min(W - S(120), S(900))
+        dialog_h = min(H - S(120), S(700))
+        dialog_x = (W - dialog_w) // 2
+        dialog_y = (H - dialog_h) // 2
+        dialog_rect = pygame.Rect(dialog_x, dialog_y, dialog_w, dialog_h)
+        pygame.draw.rect(screen, CARD, dialog_rect, border_radius=15)
+        pygame.draw.rect(screen, ACCENT, dialog_rect, width=3, border_radius=15)
+
+        # Title
+        title_text = "What's New"
+        draw_text(screen, title_text, FONT_BIG, FG, (dialog_x + S(30), dialog_y + S(30)))
+
+        # Changelog content area
+        msg_rect = pygame.Rect(dialog_x + S(30), dialog_y + S(90), dialog_w - S(60), dialog_h - S(160))
+        pygame.draw.rect(screen, (30, 34, 44), msg_rect, border_radius=10)
+
+        # Render changelog text with wrapping
+        y = msg_rect.y + S(15)
+        for raw_line in CHANGELOG.split('\n'):
+            if not raw_line:
+                y += S(8)
+                continue
+            for ln in wrap(raw_line, msg_rect.w - S(20), FONT):
+                if y > msg_rect.bottom - S(20):
+                    break
+                draw_text(screen, ln, FONT, (210, 215, 225), (msg_rect.x + S(10), y))
+                y += S(22)
+
+        # Close button
+        btn_w, btn_h = S(120), S(45)
+        btn_rect = pygame.Rect(dialog_x + (dialog_w - btn_w)//2, dialog_y + dialog_h - S(60), btn_w, btn_h)
+        pygame.draw.rect(screen, ACCENT, btn_rect, border_radius=8)
+        btn_text = t("ok")
+        draw_text(screen, btn_text, FONT, FG, (btn_rect.x + (btn_w - FONT.size(btn_text)[0])//2, btn_rect.y + S(10)))
+
+
 class InteractiveDialog(BaseScreen):
     """Dialog for yes/no questions, menu selections, and checklists from bash scripts"""
     def __init__(self, dialog_type: str, title: str, message: str, items: List[str], resp_file: str):
@@ -2512,7 +2557,7 @@ class InteractiveDialog(BaseScreen):
         item_h = S(50)
 
         # Calculate scrolling
-        visible_items = max(1, list_h // item_h)
+        visible_items = get_visible_items(list_h, item_h)
 
         if self.idx < self.scroll_offset:
             self.scroll_offset = self.idx
@@ -2656,7 +2701,7 @@ class MenuSelectionDialog(BaseScreen):
 
         # Calculate scrolling
         item_h = S(50)
-        visible_items = max(1, list_h // item_h)
+        visible_items = get_visible_items(list_h, item_h)
 
         if self.idx < self.scroll_offset:
             self.scroll_offset = self.idx
@@ -2893,9 +2938,11 @@ class ChecklistScreen(BaseScreen):
         if not self.items:
             draw_text(screen, t("no_addons_category"), FONT, MUTED, (40, base_y))
             return
-        
+
         # scroll logic
-        rows = 10
+        item_pitch = S(55)
+        avail_h = H - base_y - S(40)
+        rows = min(len(self.items), get_visible_items(avail_h, item_pitch))
         top = max(0, min(self.idx - rows//2, len(self.items)-rows))
         view = self.items[top:top+rows]
         
@@ -3082,7 +3129,9 @@ class GlobalSearchScreen(BaseScreen):
             draw_hints_line(screen, f"B={t('hint_return')}", FONT_SMALL, ACCENT, (40, base_y + 55))
             return
 
-        rows = 10
+        item_pitch = S(58)
+        avail_h = H - base_y - S(40)
+        rows = min(len(self.flat), get_visible_items(avail_h, item_pitch))
         top = max(0, min(self.idx - rows//2, len(self.flat)-rows))
         view = self.flat[top:top+rows]
 
@@ -3245,8 +3294,10 @@ class QueueScreen(BaseScreen):
 
             base_y = 110
             # Scrollable queue list including the Start row as the last item
-            rows = 10
+            item_pitch = 55
+            avail_h = H - base_y - 40
             total_rows = len(INSTALL_QUEUE) + 1  # include Start row
+            rows = min(total_rows, get_visible_items(avail_h, item_pitch))
             if total_rows <= rows:
                 top = 0
             else:
@@ -3964,7 +4015,9 @@ class UpdaterScreen(BaseScreen):
             return
 
         base_y = 110
-        rows = 10
+        item_pitch = 55
+        avail_h = H - base_y - 40
+        rows = min(len(self.items), get_visible_items(avail_h, item_pitch))
         top = max(0, min(self.idx - rows//2, max(0, len(self.items)-rows)))
         view = self.items[top:top+rows]
 
@@ -4164,6 +4217,7 @@ class SettingsScreen(BaseScreen):
             (t("configure_buttons"), t("configure_buttons_desc")),
             (t("language"), t("language_desc")),
             (t("resolution"), t("resolution_desc")),
+            (t("cards_per_page"), t("cards_per_page_desc")),
         ]
         self.idx = 0
 
@@ -4204,6 +4258,8 @@ class SettingsScreen(BaseScreen):
             push_screen(LanguageScreen())
         elif name == t("resolution"):
             push_screen(ResolutionScreen())
+        elif name == t("cards_per_page"):
+            push_screen(CardsPerPageScreen())
 
     def draw(self):
         draw_background(screen)
@@ -4338,7 +4394,8 @@ class LanguageScreen(BaseScreen):
     def adjust_scroll(self):
         """Adjust scroll offset to keep selected item visible"""
         item_height = 48
-        visible_items = (H - 180) // item_height  # Approximate visible area
+        list_h = H - 180
+        visible_items = get_visible_items(list_h, item_height)
 
         if self.idx < self.scroll_offset:
             self.scroll_offset = self.idx
@@ -4418,6 +4475,122 @@ class LanguageScreen(BaseScreen):
             display_text = native
             text_surf = FONT.render(display_text, True, FG)
             screen.blit(text_surf, (rect.x + 14, rect.y + 8))
+
+
+class CardsPerPageScreen(BaseScreen):
+    def __init__(self):
+        # Options for number of cards per page
+        self.options = [
+            ("Auto", "auto"),
+            ("3", "3"),
+            ("4", "4"),
+            ("5", "5"),
+            ("6", "6"),
+            ("7", "7"),
+            ("8", "8"),
+            ("9", "9"),
+            ("10", "10"),
+        ]
+        self.idx = 0
+        self.scroll_offset = 0
+        # Find current setting
+        for i, (label, value) in enumerate(self.options):
+            if value == CARDS_PER_PAGE:
+                self.idx = i
+                break
+
+    def handle(self, events):
+        for e in events:
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit(0)
+            if e.type == pygame.KEYDOWN:
+                if e.key in (pygame.K_ESCAPE,):
+                    pop_screen(); return
+                if e.key in (pygame.K_DOWN,):
+                    self.idx = (self.idx + 1) % len(self.options)
+                if e.key in (pygame.K_UP,):
+                    self.idx = (self.idx - 1) % len(self.options)
+                if e.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
+                    self.apply_choice()
+            if e.type == pygame.JOYHATMOTION:
+                _x, y = e.value
+                if y == -1:
+                    self.idx = (self.idx + 1) % len(self.options)
+                elif y == 1:
+                    self.idx = (self.idx - 1) % len(self.options)
+            if e.type == pygame.JOYBUTTONDOWN:
+                if e.button in (BTN_A, BTN_START):
+                    self.apply_choice()
+                if e.button in (BTN_B, BTN_BACK):
+                    pop_screen(); return
+
+    def apply_choice(self):
+        label, value = self.options[self.idx]
+        save_cards_per_page(value)
+        msg = [f"{t('cards_per_page')}: {label}"]
+        push_screen(InfoDialog(t("settings_title"), msg))
+
+    def draw(self):
+        draw_background(screen)
+        draw_text(screen, t("cards_per_page"), FONT_BIG, FG, (40, 30))
+        hint = f"A={t('hint_select')} | B={t('hint_return')} | Back={t('hint_close_settings')}"
+        draw_hints_line(screen, hint, FONT_SMALL, ACCENT, (40, 70))
+
+        base_y = 110
+        card_w = min(W - S(80), S(900))
+        card_x = (W - card_w) // 2
+
+        # Show current setting
+        current_label = CARDS_PER_PAGE
+        for label, value in self.options:
+            if value == CARDS_PER_PAGE:
+                current_label = label
+                break
+
+        status_text = f"{t('current')}: {current_label}"
+        status_img = FONT_SMALL.render(status_text, True, MUTED)
+        screen.blit(status_img, (card_x, base_y))
+
+        # List items with scrolling
+        visible_start_y = base_y + 40
+        visible_end_y = H - 40
+        item_height = 52
+        pad_y = S(10)
+
+        list_h = visible_end_y - visible_start_y
+        visible_items = get_visible_items(list_h, item_height)
+
+        # Auto-scroll to keep selection visible
+        if self.idx < self.scroll_offset:
+            self.scroll_offset = self.idx
+        elif self.idx >= self.scroll_offset + visible_items:
+            self.scroll_offset = self.idx - visible_items + 1
+
+        y = visible_start_y
+        for i in range(self.scroll_offset, min(len(self.options), self.scroll_offset + visible_items)):
+            label, value = self.options[i]
+            is_selected = (i == self.idx)
+            is_current = (value == CARDS_PER_PAGE)
+
+            rect = pygame.Rect(card_x, y, card_w, item_height - 4)
+            pygame.draw.rect(screen, CARD, rect, border_radius=8)
+            if is_selected:
+                pygame.draw.rect(screen, SELECT, rect, width=3, border_radius=8)
+
+            text_x = rect.x + S(14)
+            text_y = rect.y + pad_y
+
+            # Draw label
+            label_img = FONT.render(label, True, FG)
+            screen.blit(label_img, (text_x, text_y))
+
+            # Show checkmark for current setting
+            if is_current:
+                check_img = FONT.render("✓", True, ACCENT)
+                check_x = rect.x + card_w - check_img.get_width() - S(14)
+                screen.blit(check_img, (check_x, text_y))
+
+            y += item_height
 
 
 class ResolutionScreen(BaseScreen):
@@ -4549,7 +4722,8 @@ class ResolutionScreen(BaseScreen):
         item_height = 52
         visible_start_y = base_y
         visible_end_y = H - 40
-        visible_items = max(1, (visible_end_y - visible_start_y) // item_height)
+        list_h = visible_end_y - visible_start_y
+        visible_items = get_visible_items(list_h, item_height)
 
         # Auto-scroll to keep selection visible
         if self.idx < self.scroll_offset:
@@ -4595,6 +4769,11 @@ def pop_screen():
 
 def main():
     push_screen(MenuScreen(t("main_title"), TOP_LEVEL))
+
+    # Show changelog if there's new content
+    if should_show_changelog():
+        push_screen(ChangelogDialog())
+
     while True:
         events = pygame.event.get()
         # Handle window resize for windowed mode
@@ -4685,6 +4864,8 @@ def play_splash_and_load():
         try:
             # Load translations
             load_language()
+            # Load cards per page preference
+            load_saved_cards_per_page()
             # Load assets (images, icons)
             init_assets()
         except Exception as e:
