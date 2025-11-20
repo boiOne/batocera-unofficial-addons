@@ -134,6 +134,17 @@
   "items_lowercase": "items",
   "hold_button_for": "Hold the button for {label}",
 
+  "btn_desc_a": "Press the bottom face button (A/Cross)",
+  "btn_desc_b": "Press the right face button (B/Circle)",
+  "btn_desc_x": "Press the left face button (X/Square)",
+  "btn_desc_y": "Press the top face button (Y/Triangle)",
+  "btn_desc_lb": "Press Left Bumper (L1)",
+  "btn_desc_rb": "Press Right Bumper (R1)",
+  "btn_desc_back": "Press Back/Select",
+  "btn_desc_start": "Press Start/Options",
+  "btn_desc_l3": "Press Left Stick (L3)",
+  "btn_desc_r3": "Press Right Stick (R3)",
+
   "resolution": "Resolution",
   "resolution_desc": "Change the resolution of the interface",
 

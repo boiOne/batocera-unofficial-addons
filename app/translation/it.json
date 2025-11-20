@@ -129,6 +129,17 @@
   "items_lowercase": "oggetti",
   "hold_button_for": "Tieni premuto il pulsante per {label}",
 
+  "btn_desc_a": "Premi il pulsante inferiore (A/Croce)",
+  "btn_desc_b": "Premi il pulsante destro (B/Cerchio)",
+  "btn_desc_x": "Premi il pulsante sinistro (X/Quadrato)",
+  "btn_desc_y": "Premi il pulsante superiore (Y/Triangolo)",
+  "btn_desc_lb": "Premi il Grilletto Sinistro (L1)",
+  "btn_desc_rb": "Premi il Grilletto Destro (R1)",
+  "btn_desc_back": "Premi Indietro/Select",
+  "btn_desc_start": "Premi Start/Opzioni",
+  "btn_desc_l3": "Premi lo Stick Sinistro (L3)",
+  "btn_desc_r3": "Premi lo Stick Destro (R3)",
+
   "resolution": "Risoluzione",
   "resolution_desc": "Cambia la risoluzione dell'interfaccia",
 

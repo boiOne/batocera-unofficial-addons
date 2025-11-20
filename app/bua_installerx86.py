@@ -1031,16 +1031,16 @@ def run_manual_button_mapper() -> bool:
         return False
 
     order = [
-        ("A", "Press the bottom face button (A/Cross)"),
-        ("B", "Press the right face button (B/Circle)"),
-        ("X", "Press the left face button (X/Square)"),
-        ("Y", "Press the top face button (Y/Triangle)"),
-        ("LB","Press Left Bumper (L1)"),
-        ("RB","Press Right Bumper (R1)"),
-        ("BACK","Press Back/Select"),
-        ("START","Press Start/Options"),
-        ("L3","Press Left Stick (L3)"),
-        ("R3","Press Right Stick (R3)"),
+        ("A", t("btn_desc_a")),
+        ("B", t("btn_desc_b")),
+        ("X", t("btn_desc_x")),
+        ("Y", t("btn_desc_y")),
+        ("LB", t("btn_desc_lb")),
+        ("RB", t("btn_desc_rb")),
+        ("BACK", t("btn_desc_back")),
+        ("START", t("btn_desc_start")),
+        ("L3", t("btn_desc_l3")),
+        ("R3", t("btn_desc_r3")),
     ]
     mapping: dict[str,int] = {}
 
@@ -1478,6 +1478,14 @@ for j in JOYS:
     j.init()
 LAST_JOY_COUNT = pygame.joystick.get_count()
 
+# Analog stick support for navigation (for arcade cabinets without dpad)
+ANALOG_DEADZONE = 0.5  # Threshold for detecting stick movement
+ANALOG_REPEAT_DELAY = 0.15  # Seconds between repeated inputs when holding stick
+last_analog_vertical_time = 0.0  # Track timing for vertical stick movement
+last_analog_horizontal_time = 0.0  # Track timing for horizontal stick movement
+last_analog_vertical_state = 0  # -1 (up), 0 (neutral), 1 (down)
+last_analog_horizontal_state = 0  # -1 (left), 0 (neutral), 1 (right)
+
 
 def detect_pad_style() -> str:
     # If user picked a style in Settings, prefer that here
@@ -1531,6 +1539,62 @@ def input_style_label() -> str:
         return name
     except Exception:
         return "Keyboard"
+
+
+def process_analog_navigation(events) -> tuple:
+    """
+    Process analog stick events for navigation (supports arcade cabinets).
+    Returns tuple: (vertical_movement, horizontal_movement)
+    - vertical_movement: -1 (up), 0 (none), 1 (down)
+    - horizontal_movement: -1 (left), 0 (none), 1 (right)
+
+    Uses deadzone and repeat delay to prevent accidental inputs.
+    """
+    global last_analog_vertical_time, last_analog_horizontal_time
+    global last_analog_vertical_state, last_analog_horizontal_state
+
+    vertical = 0
+    horizontal = 0
+    current_time = pygame.time.get_ticks() / 1000.0
+
+    for e in events:
+        if e.type == pygame.JOYAXISMOTION:
+            # Axis 0 = Left stick X (horizontal), Axis 1 = Left stick Y (vertical)
+            if e.axis == 1:  # Vertical axis (left stick Y)
+                if e.value < -ANALOG_DEADZONE:  # Up
+                    new_state = -1
+                elif e.value > ANALOG_DEADZONE:  # Down
+                    new_state = 1
+                else:
+                    new_state = 0
+                    last_analog_vertical_state = 0
+
+                # Only trigger if state changed or enough time passed
+                if new_state != 0:
+                    if (new_state != last_analog_vertical_state or
+                        current_time - last_analog_vertical_time >= ANALOG_REPEAT_DELAY):
+                        vertical = new_state
+                        last_analog_vertical_time = current_time
+                        last_analog_vertical_state = new_state
+
+            elif e.axis == 0:  # Horizontal axis (left stick X)
+                if e.value < -ANALOG_DEADZONE:  # Left
+                    new_state = -1
+                elif e.value > ANALOG_DEADZONE:  # Right
+                    new_state = 1
+                else:
+                    new_state = 0
+                    last_analog_horizontal_state = 0
+
+                # Only trigger if state changed or enough time passed
+                if new_state != 0:
+                    if (new_state != last_analog_horizontal_state or
+                        current_time - last_analog_horizontal_time >= ANALOG_REPEAT_DELAY):
+                        horizontal = new_state
+                        last_analog_horizontal_time = current_time
+                        last_analog_horizontal_state = new_state
+
+    return (vertical, horizontal)
 
 
 def draw_text(surf, text, font, color, pos):
@@ -2031,6 +2095,13 @@ class MenuScreen(BaseScreen):
             # While typing, ignore other inputs
             return
 
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.items)
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.items)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -2217,6 +2288,11 @@ class ConfirmDialog(BaseScreen):
         self.selected = 0  # 0 = Yes, 1 = No
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        _analog_v, analog_h = process_analog_navigation(events)
+        if analog_h != 0:  # Left or Right
+            self.selected = 1 - self.selected
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -2667,6 +2743,13 @@ class MenuSelectionDialog(BaseScreen):
         self.scroll_offset = 0
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.options)
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.options)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -2772,6 +2855,14 @@ class ChecklistScreen(BaseScreen):
     def handle(self, events):
         current_time = pygame.time.get_ticks() / 1000.0
         # Category screens do not support on-screen keyboard search
+
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.items)
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.items)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -3044,6 +3135,14 @@ class GlobalSearchScreen(BaseScreen):
 
     def handle(self, events):
         current_time = pygame.time.get_ticks() / 1000.0
+
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.flat)
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.flat)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -3230,6 +3329,13 @@ class QueueScreen(BaseScreen):
         self.idx = 0
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1 and INSTALL_QUEUE:  # Down
+            self.idx = (self.idx + 1) % (len(INSTALL_QUEUE) + 1)
+        elif analog_v == -1 and INSTALL_QUEUE:  # Up
+            self.idx = (self.idx - 1) % (len(INSTALL_QUEUE) + 1)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -3941,6 +4047,14 @@ class UpdaterScreen(BaseScreen):
         threading.Thread(target=lambda: self._scan(use_cache=use_cache), daemon=True).start()
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if not self.loading and self.items:
+            if analog_v == 1:  # Down
+                self.idx = min(self.idx + 1, len(self.items) - 1)
+            elif analog_v == -1:  # Up
+                self.idx = max(self.idx - 1, 0)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -4269,6 +4383,13 @@ class SettingsScreen(BaseScreen):
         self.idx = 0
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.items)
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.items)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -4351,6 +4472,13 @@ class ControllerLayoutScreen(BaseScreen):
         self.idx = next((i for i, (_n, v) in enumerate(self.options) if v == style), 0)
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.options)
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.options)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -4410,6 +4538,15 @@ class LanguageScreen(BaseScreen):
         self.scroll_offset = 0
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.options)
+            self.adjust_scroll()
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.options)
+            self.adjust_scroll()
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -4547,6 +4684,13 @@ class CardsPerPageScreen(BaseScreen):
                 break
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.options)
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.options)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
@@ -4674,6 +4818,13 @@ class ResolutionScreen(BaseScreen):
                 break
 
     def handle(self, events):
+        # Process analog stick for navigation (arcade cabinet support)
+        analog_v, _analog_h = process_analog_navigation(events)
+        if analog_v == 1:  # Down
+            self.idx = (self.idx + 1) % len(self.options)
+        elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.options)
+
         for e in events:
             if e.type == pygame.QUIT:
                 pygame.quit(); sys.exit(0)
