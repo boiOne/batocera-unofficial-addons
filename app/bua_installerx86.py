@@ -4730,17 +4730,23 @@ def play_splash_and_load():
             except:
                 proc.kill()
 
-            # Bring pygame window to foreground using xdotool
+            # Bring pygame window to foreground
             import time
             time.sleep(0.2)
+
+            # Try multiple methods to bring pygame window to foreground
             try:
-                # Try to focus the pygame window using xdotool
-                subprocess.run(["xdotool", "search", "--name", "pygame", "windowactivate"],
-                             check=False, timeout=1, capture_output=True)
+                # Method 1: Get the active window before VLC started and reactivate it
+                result = subprocess.run(["xdotool", "search", "--class", "python"],
+                                      check=False, timeout=1, capture_output=True)
+                if result.returncode == 0 and result.stdout:
+                    window_id = result.stdout.decode().strip().split('\n')[0]
+                    subprocess.run(["xdotool", "windowactivate", window_id],
+                                 check=False, timeout=1, capture_output=True)
             except:
                 pass
 
-            # Recreate pygame display to bring it to foreground
+            # Method 2: Recreate pygame display to bring it to foreground
             global screen
             current_size = screen.get_size()
             current_flags = screen.get_flags()
