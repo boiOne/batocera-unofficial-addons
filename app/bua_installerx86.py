@@ -4714,6 +4714,9 @@ def play_splash_and_load():
 
         # Use VLC (available on Batocera) to play video in fullscreen
         try:
+            # Minimize pygame window before starting VLC
+            pygame.display.iconify()
+
             proc = subprocess.Popen(
                 ["cvlc", "--play-and-exit", "--fullscreen", "--no-video-title-show", "--no-video-deco", "--no-embedded-video", "--quiet", splash_file],
                 stdout=subprocess.DEVNULL,
@@ -4730,28 +4733,17 @@ def play_splash_and_load():
             except:
                 proc.kill()
 
-            # Bring pygame window to foreground
+            # Restore and bring pygame window to foreground
             import time
-            time.sleep(0.2)
+            time.sleep(0.1)
 
-            # Try multiple methods to bring pygame window to foreground
-            try:
-                # Method 1: Get the active window before VLC started and reactivate it
-                result = subprocess.run(["xdotool", "search", "--class", "python"],
-                                      check=False, timeout=1, capture_output=True)
-                if result.returncode == 0 and result.stdout:
-                    window_id = result.stdout.decode().strip().split('\n')[0]
-                    subprocess.run(["xdotool", "windowactivate", window_id],
-                                 check=False, timeout=1, capture_output=True)
-            except:
-                pass
-
-            # Method 2: Recreate pygame display to bring it to foreground
+            # Restore the pygame window from iconified state
             global screen
             current_size = screen.get_size()
             current_flags = screen.get_flags()
             screen = pygame.display.set_mode(current_size, current_flags)
             pygame.display.flip()
+            pygame.event.pump()
 
         except FileNotFoundError:
             print("[BUA] VLC not found, showing loading screen instead")
