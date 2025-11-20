@@ -36,14 +36,19 @@ echo ""
 
 while true; do
 
-# We'll rebuild the gamelist from all existing/new launchers
-# Start a fresh gamelist
-echo '<?xml version="1.0" encoding="UTF-8"?>' > "$GAMELIST_PATH"
-echo '<gameList>' >> "$GAMELIST_PATH"
+# Ensure gamelist exists with proper structure
+if [[ ! -f "$GAMELIST_PATH" ]]; then
+  echo "Creating initial gamelist.xml..."
+  echo '<?xml version="1.0" encoding="UTF-8"?>' > "$GAMELIST_PATH"
+  echo '<gameList>' >> "$GAMELIST_PATH"
+  echo '</gameList>' >> "$GAMELIST_PATH"
+fi
 
 ########################
-# Generate .txt launchers and gamelist entries
+# Generate .sh launchers and gamelist entries
 ########################
+
+NEW_LAUNCHER_CREATED=false
 
 for manifest in "$STEAM_APPS"/appmanifest_*.acf; do
   [[ -f "$manifest" ]] || continue
