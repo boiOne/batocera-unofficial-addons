@@ -28,6 +28,7 @@ CHANGELOG = """
 - Added Cards per Page setting for smaller resolutions.
 - Fixed controller mapping issues on some systems.
 - Added changelog display on first launch after update.
+- Added support for arcade cabinet analog stick navigation.
 """.strip()
 
 # ------------------------------
