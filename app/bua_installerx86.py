@@ -349,29 +349,38 @@ def is_installed(app_name: str) -> bool:
         return any(entry['success'] for entry in history[app_name])
     return False
 
-def scan_installed_addons_directory() -> List[str]:
+def scan_installed_addons_directory() -> dict:
     """Scan /userdata/system/add-ons directory for installed apps.
-    Returns list of app names found in the directory."""
+    Returns dict mapping app_name -> directory modification timestamp (or None if not found)."""
     addons_dir = "/userdata/system/add-ons"
-    found_apps = []
+    found_apps = {}
 
     try:
         if not os.path.exists(addons_dir):
-            return []
+            return {}
 
         # List all items in add-ons directory
         items = os.listdir(addons_dir)
 
         # Match directory/file names against known app names
         for app_name in APPS.keys():
+            dir_path = None
             # Check if app name exists as directory or file
             if app_name in items:
-                found_apps.append(app_name)
+                dir_path = os.path.join(addons_dir, app_name)
             # Also check with common variations
             elif app_name.replace(' ', '_') in items:
-                found_apps.append(app_name)
+                dir_path = os.path.join(addons_dir, app_name.replace(' ', '_'))
             elif app_name.replace(' ', '-') in items:
-                found_apps.append(app_name)
+                dir_path = os.path.join(addons_dir, app_name.replace(' ', '-'))
+
+            if dir_path and os.path.exists(dir_path):
+                try:
+                    # Get modification time of the directory
+                    mtime = os.path.getmtime(dir_path)
+                    found_apps[app_name] = mtime
+                except Exception:
+                    found_apps[app_name] = None
     except Exception:
         pass
 
@@ -3850,11 +3859,11 @@ class UpdaterScreen(BaseScreen):
             # Get apps from JSON history
             json_installed = [k for k in APPS.keys() if is_installed(k)]
 
-            # Scan directory for apps not in JSON
-            dir_installed = scan_installed_addons_directory()
+            # Scan directory for apps not in JSON (returns dict: app_name -> mtime)
+            dir_installed_dict = scan_installed_addons_directory()
 
             # Combine both lists, removing duplicates
-            installed_apps = list(set(json_installed + dir_installed))
+            installed_apps = list(set(json_installed + list(dir_installed_dict.keys())))
             installed_apps.sort()
 
             results = []
@@ -3890,13 +3899,19 @@ class UpdaterScreen(BaseScreen):
                             needs = True
                             detail = time.strftime("%Y-%m-%d %H:%M", time.gmtime(remote_ts))
                         else:
-                            # Show special status for directory-only apps
+                            # Show special status for directory-only apps with their directory timestamp
                             if is_from_directory_only:
                                 status = "Installed (no history)"
+                                # Use directory modification time if available
+                                dir_mtime = dir_installed_dict.get(app)
+                                if dir_mtime:
+                                    detail = time.strftime("%Y-%m-%d %H:%M", time.localtime(dir_mtime))
+                                else:
+                                    detail = ""
                             else:
                                 status = t("up_to_date")
+                                detail = time.strftime("%Y-%m-%d %H:%M", time.gmtime(remote_ts))
                             needs = False
-                            detail = time.strftime("%Y-%m-%d %H:%M", time.gmtime(remote_ts))
                 else:
                     status = t("unknown_source")
                     needs = False
