@@ -25,11 +25,11 @@ import hashlib
 # This will be shown once to users when they first launch after an update.
 
 CHANGELOG = """
-- Added Cards per Page setting for smaller resolutions.
-- Fixed controller mapping issues on some systems.
-- Added changelog display on first launch after update.
-- Added support for arcade cabinet analog stick navigation.
-- Fixed controller input issues in some environments (namely Updater Menu).
+- Steam has had a big update!
+    Now supports ES launchers with auto scraping.
+    Kill switch wired in to all launchers and Big Picture Mode with hotkey + start
+    Steam removed from ports and added to Steam ES category. Please reinstall and delete the ports launcher!
+    A known issue is that occasionally a webpage will open instead of Big Picture Mode, this is due to Steam changes and is being worked on. Hotkey + start to kill Steam and relaunch Big Picture Mode.
 """.strip()
 
 # ------------------------------
