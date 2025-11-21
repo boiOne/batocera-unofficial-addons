@@ -545,6 +545,7 @@ APPS.update({
     "Modern Modern Chef": bua("windows/mmc.sh"),
     "Sonic Robo Blast 2": bua("windows/srb2.sh"),
     "Super Smash Bros CMC+": bua("windows/cmc+.sh"),
+    "Unreal Tournament": bua("windows/ut.sh"),
 })
 
 # --- Integrated Docker app installers (previously separate bash menu) ---
@@ -671,6 +672,7 @@ DESCRIPTIONS.update({
     "Modern Modern Chef": "Indie title",
     "Sonic Robo Blast 2": "Doom-based Sonic fangame",
     "Super Smash Bros CMC+": "Fan crossover",
+        "Unreal Tournament": "Classic competitive first-person shooter",
 })
 
 # Descriptions for integrated Docker apps
@@ -708,6 +710,7 @@ CATEGORIES: Dict[str, List[str]] = {
         "Modern Modern Chef",
         "Sonic Robo Blast 2",
         "Super Smash Bros CMC+",
+        "Unreal Tournament",
     ],
     "Docker Menu": [
         "CasaOS",
