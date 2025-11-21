@@ -3592,6 +3592,9 @@ class RunListScreen(BaseScreen):
             "local target=\"$1\"; "
             "if [[ \"$target\" == \"emulationstation\" ]] || [[ \"$target\" == \"pcmanfm\" ]]; then "
             "echo '[BUA] Blocked killall for critical process:' \"$target\"; "
+            "if [[ \"$target\" == \"emulationstation\" ]]; then "
+            "touch /tmp/bua_killall_es_deferred; "
+            "fi; "
             "return 0; "
             "else "
             "command killall \"$@\"; "
@@ -5253,13 +5256,26 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         pass
     finally:
-        # Refresh EmulationStation gamelist once when exiting
-        # (instead of after each individual installation)
+        # Check if killall emulationstation was deferred during installation
+        # If so, run it now instead of just refreshing
         try:
             import subprocess
-            print("[BUA] Refreshing EmulationStation gamelists...")
-            subprocess.run(["curl", "http://127.0.0.1:1234/reloadgames"],
-                         check=False, timeout=10, capture_output=True)
+            import os
+
+            if os.path.exists("/tmp/bua_killall_es_deferred"):
+                print("[BUA] Running deferred killall for EmulationStation...")
+                subprocess.run(["killall", "-9", "emulationstation"],
+                             check=False, timeout=10, capture_output=True)
+                # Clean up the flag file
+                try:
+                    os.remove("/tmp/bua_killall_es_deferred")
+                except:
+                    pass
+            else:
+                # Just refresh EmulationStation gamelist
+                print("[BUA] Refreshing EmulationStation gamelists...")
+                subprocess.run(["curl", "http://127.0.0.1:1234/reloadgames"],
+                             check=False, timeout=10, capture_output=True)
         except Exception as e:
             print(f"[BUA] Could not refresh ES: {e}")
 
