@@ -545,6 +545,7 @@ APPS.update({
     "Sonic Triple Trouble 16bit": bua("windows/stt.sh"),
     "Modern Modern Chef": bua("windows/mmc.sh"),
     "Sonic Robo Blast 2": bua("windows/srb2.sh"),
+    "Sonic Time Twisted": bua("windows/sttw.sh"),
     "Super Smash Bros CMC+": bua("windows/cmc+.sh"),
     "Unreal Tournament": bua("windows/ut.sh"),
 })
@@ -673,6 +674,7 @@ DESCRIPTIONS.update({
     "Sonic Triple Trouble 16bit": "Fan remake",
     "Modern Modern Chef": "Indie title",
     "Sonic Robo Blast 2": "Doom-based Sonic fangame",
+    "Sonic Time Twisted": "Time-traveling Sonic fan game",
     "Super Smash Bros CMC+": "Fan crossover",
         "Unreal Tournament": "Classic competitive first-person shooter",
 })
@@ -712,6 +714,7 @@ CATEGORIES: Dict[str, List[str]] = {
         "Sonic Triple Trouble 16bit",
         "Modern Modern Chef",
         "Sonic Robo Blast 2",
+        "Sonic Time Twisted",
         "Super Smash Bros CMC+",
         "Unreal Tournament",
     ],

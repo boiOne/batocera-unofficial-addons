@@ -1,15 +1,16 @@
 
+
 #!/bin/bash
 
 # Define your variables for easy customization
-URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/releases/download/AppImages/UnrealTournament.wsquashfs"
+URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/releases/download/AppImages/sonictimetwisted.wsquashfs"
 KEYS_URL=""  # Leave empty if no keys file is needed
 DEST_DIR="/userdata/roms/windows"
-MESSAGE="Keyboard and Mouse only, no gamepad support"  # Leave empty if no message is needed
+MESSAGE=""  # Leave empty if no message is needed
 GAME_LIST="/userdata/roms/windows/gamelist.xml"
-APP_NAME="UnrealTournament"
-LOGO_URL="https://img.goodfon.com/original/1920x1080/0/73/unreal-tournament-logo-5157.jpg"
-LOGO_PATH="/userdata/roms/windows/images/ut-logo.jpg"
+APP_NAME="Sonic Time Twisted"
+LOGO_URL="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjTFahqekMRrIa05d6nzxtUYtX_5ixPxpRNeE2v9fyM5X3gf8Ps_99GZVoW82ueYayP_wsX8M2x4exNCQ75HzAHeMrurE7VDX6CngJ7pDqhioaFLqdijd6ygbGQLmZCaly9eBCaay15Aj0/s1600/9uGJON6.jpg"
+LOGO_PATH="/userdata/roms/windows/images/sttw-logo.jpg"
 
 # Ensure destination directory exists
 mkdir -p "$DEST_DIR"
@@ -50,9 +51,9 @@ echo "Downloading $APP_NAME logo..."
 curl -L -o "$LOGO_PATH" "$LOGO_URL"
 echo "Adding logo to $APP_NAME entry in gamelist.xml..."
 xmlstarlet ed -s "/gameList" -t elem -n "game" -v "" \
-  -s "/gameList/game[last()]" -t elem -n "path" -v "./UnrealTournament.wsquashfs" \
+  -s "/gameList/game[last()]" -t elem -n "path" -v "./sonictimetwisted.wsquashfs" \
   -s "/gameList/game[last()]" -t elem -n "name" -v "$APP_NAME" \
-  -s "/gameList/game[last()]" -t elem -n "image" -v "./images/ut-logo.jpg" \
+  -s "/gameList/game[last()]" -t elem -n "image" -v "./images/sttw-logo.jpg" \
   "$GAME_LIST" > "$GAME_LIST.tmp" && mv "$GAME_LIST.tmp" "$GAME_LIST"
 curl http://127.0.0.1:1234/reloadgames
   
