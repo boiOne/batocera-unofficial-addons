@@ -89,7 +89,7 @@ echo "[\$(date)] Launching APPID=\$APPID" >> "\$LOG"
 cd "\$STEAM_DIR" || exit 1
 
 # Launch game via Steam
-"\$STEAM_LAUNCHER" fim-exec steam -silent -applaunch "\$APPID" &
+"\$STEAM_LAUNCHER" fim-exec steam -gamepadui -silent -applaunch "\$APPID" &
 STEAM_PID=\$!
 
 echo "[\$(date)] Started Steam PID=\$STEAM_PID for APPID=\$APPID" >> "\$LOG"
