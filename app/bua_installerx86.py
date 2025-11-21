@@ -767,6 +767,7 @@ SPECIAL_TOPLEVEL_RUN: Dict[str, str] = {
 # ------------------------------
 
 pygame.init()
+pygame.mouse.set_visible(False)
 # Window caption will be set after translations load in play_splash_and_load()
 
 # Resolution save/load functions
