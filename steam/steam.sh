@@ -74,6 +74,7 @@ chmod +x /userdata/system/add-ons/steam/create-steam-launchers.sh
 echo "Downloading EmulationStation config..."
 mkdir -p /userdata/system/configs/emulationstation
 wget --show-progress -qO "/userdata/system/configs/emulationstation/es_systems_steam.cfg" "${SCRIPTS_BASE_URL}/es_systems_steam.cfg"
+wget --show-progress -qO "/userdata/system/configs/emulationstation/es_features_steam.cfg" "${SCRIPTS_BASE_URL}/es_features_steam.cfg"
 
 echo "Downloading icon..."
 wget --show-progress -qO "${INSTALL_DIR}/extra/icon.png" "$ICON_URL"

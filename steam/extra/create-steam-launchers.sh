@@ -74,6 +74,8 @@ for manifest in "$STEAM_APPS"/appmanifest_*.acf; do
     # Write launcher script
     cat > "$sh_file" <<LAUNCHER
 #!/bin/bash
+ulimit -H -n 819200 && ulimit -S -n 819200
+#------------------------------------------------
 # Steam Game Launcher
 # Game: ${name}
 # AppID: ${appid}
@@ -81,10 +83,6 @@ for manifest in "$STEAM_APPS"/appmanifest_*.acf; do
 APPID="${appid}"
 STEAM_DIR="/userdata/system/add-ons/steam"
 STEAM_LAUNCHER="\${STEAM_DIR}/steam"
-LOG="/tmp/steam-runner.log"
-
-mkdir -p "\$(dirname "\$LOG")" 2>/dev/null
-echo "[\$(date)] Launching APPID=\$APPID" >> "\$LOG"
 
 cd "\$STEAM_DIR" || exit 1
 
@@ -92,17 +90,13 @@ cd "\$STEAM_DIR" || exit 1
 "\$STEAM_LAUNCHER" fim-exec steam -gamepadui -silent -applaunch "\$APPID" &
 STEAM_PID=\$!
 
-echo "[\$(date)] Started Steam PID=\$STEAM_PID for APPID=\$APPID" >> "\$LOG"
-
-# Wait for Steam process to exit
+# Wait for the game process to finish
 wait \$STEAM_PID
 
-echo "[\$(date)] Killing remaining Steam processes" >> "\$LOG"
+# Kill all remaining Steam processes when game closes
 pkill -f steam 2>/dev/null || true
 pkill -f steamwebhelper 2>/dev/null || true
-
-echo "[\$(date)] Launcher finished for APPID=\$APPID" >> "\$LOG"
-exit 0
+#------------------------------------------------
 LAUNCHER
     chmod +x "$sh_file"
 
