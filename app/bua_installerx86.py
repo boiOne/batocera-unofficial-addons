@@ -29,6 +29,7 @@ CHANGELOG = """
 - Fixed controller mapping issues on some systems.
 - Added changelog display on first launch after update.
 - Added support for arcade cabinet analog stick navigation.
+- Fixed controller input issues in some environments (namely Updater Menu).
 """.strip()
 
 # ------------------------------
@@ -4114,11 +4115,13 @@ class UpdaterScreen(BaseScreen):
                 if e.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
                     if not self.loading and self.items:
                         app = self.items[self.idx][0]
-                        needs = self.items[self.idx][2]
-                        if needs:
+                        needs_update = self.items[self.idx][2]
+                        if needs_update:
+                            # Toggle selection for apps that need updates
                             self.selected[app] = not self.selected.get(app, False)
                 if e.key == pygame.K_SPACE:  # Start on keyboard
-                    self.queue_updates()
+                    if not self.loading:
+                        self.queue_updates()
             if e.type == pygame.JOYHATMOTION:
                 _x, y = e.value
                 if y == -1:
@@ -4131,12 +4134,16 @@ class UpdaterScreen(BaseScreen):
                 if e.button in (BTN_A,):  # A toggle
                     if not self.loading and self.items:
                         app = self.items[self.idx][0]
-                        if self.items[self.idx][2]:
+                        needs_update = self.items[self.idx][2]
+                        if needs_update:
+                            # Toggle selection for apps that need updates
                             self.selected[app] = not self.selected.get(app, False)
-                if e.button in (BTN_START,):  # Start -> queue
-                    self.queue_updates()
-                if e.button in (BTN_Y,):  # Y -> uninstall
-                    self.uninstall_app()
+                if e.button in (BTN_START,):  # Start -> queue updates
+                    if not self.loading:
+                        self.queue_updates()
+                if e.button in (BTN_Y,):  # Y -> uninstall current app
+                    if not self.loading and self.items:
+                        self.uninstall_app()
 
     def uninstall_app(self):
         """Uninstall the currently selected app inline"""

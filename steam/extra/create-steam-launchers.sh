@@ -69,6 +69,8 @@ for manifest in "$STEAM_APPS"/appmanifest_*.acf; do
   # Only create launcher if it doesn't exist
   if [[ ! -f "$sh_file" ]]; then
     echo "Creating launcher for: $name (AppID: $appid)"
+    NEW_LAUNCHER_CREATED=true
+
     # Write launcher script
     cat > "$sh_file" <<LAUNCHER
 #!/bin/bash
@@ -103,43 +105,55 @@ echo "[\$(date)] Launcher finished for APPID=\$APPID" >> "\$LOG"
 exit 0
 LAUNCHER
     chmod +x "$sh_file"
-  fi
 
-  # Image path (you can later drop images with this name here)
-  img_file="${images}/${appid}_${slug}.jpg"
+    # Image path (you can later drop images with this name here)
+    img_file="${images}/${appid}_${slug}.jpg"
 
-  # Download Steam header image if it doesn't exist
-  if [[ ! -f "$img_file" ]]; then
-    echo "Downloading image for: $name (AppID: $appid)"
-    if curl -s -f "https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/header.jpg" -o "$img_file"; then
-      echo "  ✓ Image downloaded successfully"
-    else
-      echo "  ✗ Image not available"
-      rm -f "$img_file"
-      # Fallback to placeholder if available
-      if [[ -n "$PLACEHOLDER_IMAGE" ]] && [[ -f "$PLACEHOLDER_IMAGE" ]]; then
-        cp "$PLACEHOLDER_IMAGE" "$img_file"
+    # Download Steam header image if it doesn't exist
+    if [[ ! -f "$img_file" ]]; then
+      echo "Downloading image for: $name (AppID: $appid)"
+      if curl -s -f "https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/header.jpg" -o "$img_file"; then
+        echo "  ✓ Image downloaded successfully"
+      else
+        echo "  ✗ Image not available"
+        rm -f "$img_file"
+        # Fallback to placeholder if available
+        if [[ -n "$PLACEHOLDER_IMAGE" ]] && [[ -f "$PLACEHOLDER_IMAGE" ]]; then
+          cp "$PLACEHOLDER_IMAGE" "$img_file"
+        fi
       fi
+    fi
+
+    # Check if XML entry already exists for this launcher
+    if ! grep -q "<path>./$(basename "$sh_file")</path>" "$GAMELIST_PATH"; then
+      # Add XML entry for new launcher (insert before closing </gameList>)
+      # Remove closing tag temporarily
+      sed -i '/<\/gameList>/d' "$GAMELIST_PATH"
+
+      # Append new game entry
+      echo "  <game>" >> "$GAMELIST_PATH"
+      echo "    <path>./$(basename "$sh_file")</path>" >> "$GAMELIST_PATH"
+      echo "    <name>${name}</name>" >> "$GAMELIST_PATH"
+
+      if [[ -f "$img_file" ]]; then
+        echo "    <image>./images/$(basename "$img_file")</image>" >> "$GAMELIST_PATH"
+      fi
+
+      echo "    <rating>0</rating>" >> "$GAMELIST_PATH"
+      echo "    <releasedate>19700101T010000</releasedate>" >> "$GAMELIST_PATH"
+      echo "    <lang>en</lang>" >> "$GAMELIST_PATH"
+      echo "  </game>" >> "$GAMELIST_PATH"
+
+      # Add closing tag back
+      echo '</gameList>' >> "$GAMELIST_PATH"
+
+      echo "  ✓ Added to gamelist.xml"
+    else
+      echo "  ✓ Entry already exists in gamelist.xml"
     fi
   fi
 
-  # Build XML entry
-  echo "  <game>" >> "$GAMELIST_PATH"
-  echo "    <path>./$(basename "$sh_file")</path>" >> "$GAMELIST_PATH"
-  echo "    <name>${name}</name>" >> "$GAMELIST_PATH"
-
-  if [[ -f "$img_file" ]]; then
-    echo "    <image>./images/$(basename "$img_file")</image>" >> "$GAMELIST_PATH"
-  fi
-
-  echo "    <rating>0</rating>" >> "$GAMELIST_PATH"
-  echo "    <releasedate>19700101T010000</releasedate>" >> "$GAMELIST_PATH"
-  echo "    <lang>en</lang>" >> "$GAMELIST_PATH"
-  echo "  </game>" >> "$GAMELIST_PATH"
-
 done
-
-echo '</gameList>' >> "$GAMELIST_PATH"
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Scan complete. Sleeping for ${LOOP_DELAY} seconds..."
 sleep "$LOOP_DELAY"
