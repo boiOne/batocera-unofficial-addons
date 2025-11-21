@@ -106,6 +106,22 @@ exit 0
 LAUNCHER
     chmod +x "$sh_file"
 
+    # Create padtokey profile for this launcher (hotkey+start to kill steam)
+    keys_file="${sh_file}.keys"
+    cat > "$keys_file" <<'KEYS'
+{
+    "actions_player1": [
+        {
+            "trigger": ["hotkey", "start"],
+            "type": "exec",
+            "target": "pkill -f steam",
+            "description": "Kill Steam"
+        }
+    ]
+}
+KEYS
+    echo "  ✓ Created padtokey profile"
+
     # Image path (you can later drop images with this name here)
     img_file="${images}/${appid}_${slug}.jpg"
 
