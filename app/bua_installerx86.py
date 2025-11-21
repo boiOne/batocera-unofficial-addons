@@ -522,6 +522,7 @@ APPS: Dict[str, str] = {
     "X11VNC": bua("x11vnc/x11vnc.sh"),
     "QEMU GA": bua("qga/qga.sh"),
     "Bridge": bua("bridge/bridge.sh"),
+    "Sandtrix": bua("sandtrix/sandtrix.sh"),
     "Soar": bua("soar/soar.sh"),
     "Dark Mode": bua("dark/dark.sh"),
     "VClean": bua("vclean/vclean.sh"),
@@ -650,6 +651,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "X11VNC": "Remote control over VNC",
     "QEMU GA": "Guest agent for VMs",
     "Bridge": "Chart downloader for CloneHero/YARG",
+    "Sandtrix": "Falling sand physics puzzle game",
     "Soar": "Soar package manager (integrated with BUA)",
     "Dark Mode": "Toggle F1 dark mode",
     "VClean": "Service to clean the Batocera version string (removes extra flags)",
@@ -693,7 +695,8 @@ CATEGORIES: Dict[str, List[str]] = {
         "Minecraft", "Armagetron", "Clone Hero", "Endless Sky", "CS Portable",
         "Warzone 2100", "Xonotic", "Fightcade", "SuperTuxKart", "OpenRA",
         "Assault Cube", "SuperTux", "Free Droid RPG", "StepMania", "Ambermoon",
-        "YARG", "OpenTTD", "Luanti", "Super Mario X", "Celeste 64", "UltraStar"
+        "YARG", "OpenTTD", "Luanti", "Super Mario X", "Celeste 64", "UltraStar",
+        "Sandtrix"
     ],
     "Windows Freeware": [
         "Maldita Castilla",
