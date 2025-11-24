@@ -529,7 +529,7 @@ APPS: Dict[str, str] = {
     "Dark Mode": bua("dark/dark.sh"),
     "VClean": bua("vclean/vclean.sh"),
     "RGSX": "curl -L bit.ly/rgsx-install | sh",
-    "Balena Etcher": bua("etcher/etcher.sh),
+    "Balena Etcher": bua("etcher/etcher.sh"),
 }
 
 # --- Integrated Windows Freeware installers (previously separate bash menu) ---
