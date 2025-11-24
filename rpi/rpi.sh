@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Variables to update for different apps
-APP_NAME="balena-etcher"
-DISPLAY_NAME="Balena Etcher"
-REPO="balena-io/etcher"
-AMD_SUFFIX="x64.AppImage"
-ARM_SUFFIX=""
-ICON_URL="https://upload.wikimedia.org/wikipedia/commons/2/2d/Etcher-icon.png"
+APP_NAME="rpi"
+DISPLAY_NAME="Raspberry Pi Imager"
+REPO="raspberrypi/rpi-imagerr"
+AMD_SUFFIX="desktop-x86_64.AppImage"
+ARM_SUFFIX="desktop-aarch64.AppImage"
+ICON_URL="https://raw.githubusercontent.com/iiiypuk/rpi-icon/master/raspberry-pi-logo_resized_256.png"
 # Directories
 ADDONS_DIR="/userdata/system/add-ons"
 CONFIGS_DIR="/userdata/system/configs"
@@ -21,52 +21,30 @@ echo "Creating necessary directories..."
 mkdir -p "$APP_CONFIG_DIR" "$ADDONS_DIR/${APP_NAME,,}"
 mkdir -p "$ADDONS_DIR/${APP_NAME,,}/extra"
 
-# ==========================================================
-# Step 1: Detect architecture AND find newest release WITH an AppImage
-# ==========================================================
-
+# Step 1: Detect system architecture and fetch the latest release
 echo "Detecting system architecture..."
 arch=$(uname -m)
 
 if [ "$arch" == "x86_64" ]; then
     echo "Architecture: x86_64 detected."
-    SUFFIX="$AMD_SUFFIX"
-
+    appimage_url=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r ".assets[] | select(.name | endswith(\"$AMD_SUFFIX\")) | .browser_download_url")
 elif [ "$arch" == "aarch64" ]; then
     echo "Architecture: arm64 detected."
-    if [ -z "$ARM_SUFFIX" ]; then
+    if [ -n "$ARM_SUFFIX" ]; then
+        appimage_url=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r ".assets[] | select(.name | endswith(\"$ARM_SUFFIX\")) | .browser_download_url")
+    else
         echo "No ARM64 AppImage suffix provided. Skipping download. Exiting."
         exit 1
     fi
-    SUFFIX="$ARM_SUFFIX"
-
 else
     echo "Unsupported architecture: $arch. Exiting."
     exit 1
 fi
 
-echo "Searching releases for the newest one containing an AppImage ($SUFFIX)..."
-
-appimage_url=$(
-    curl -s "https://api.github.com/repos/$REPO/releases" \
-    | jq -r --arg SUFFIX "$SUFFIX" '
-        [ .[]
-          | select(.draft == false and .prerelease == false)
-          | select(any(.assets[]?; .name | endswith($SUFFIX)))
-        ]
-        | first
-        | .assets[]
-        | select(.name | endswith($SUFFIX))
-        | .browser_download_url
-    '
-)
-
-if [ -z "$appimage_url" ] || [ "$appimage_url" = "null" ]; then
+if [ -z "$appimage_url" ]; then
     echo "No suitable AppImage found for architecture: $arch. Exiting."
     exit 1
 fi
-
-echo "Found AppImage: $appimage_url"
 
 # ==========================================================
 
