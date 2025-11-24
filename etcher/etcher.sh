@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Variables to update for different apps
-APP_NAME="Balena Etcher"
+APP_NAME="balena-etcher"
+DISPLAY_NAME="Balena Etcher"
 REPO="balena-io/etcher"
 AMD_SUFFIX="x64.AppImage"
 ARM_SUFFIX=""
@@ -96,8 +97,8 @@ cat <<EOF > "$PERSISTENT_DESKTOP"
 [Desktop Entry]
 Version=1.0
 Type=Application
-Name=$APP_NAME
-Exec=$ADDONS_DIR/${APP_NAME,,}/${APP_NAME,,}.AppImage
+Name=$DISPLAY_NAME
+Exec=$ADDONS_DIR/${APP_NAME,,}/${APP_NAME,,}.AppImage --no-sandbox
 Icon=$ADDONS_DIR/${APP_NAME,,}/extra/${APP_NAME,,}-icon.png
 Terminal=false
 Categories=Game;batocera.linux;
