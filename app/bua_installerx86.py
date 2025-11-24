@@ -662,7 +662,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "Dark Mode": "Toggle F1 dark mode",
     "VClean": "Service to clean the Batocera version string (removes extra flags)",
     "RGSX": "Retro Game Sets Xtra. A free, user-friendly ROM downloader for Batocera",
-    "Raspberry Pi Imagwer": "Flash OS images to USB and SD cards.",
+    "Raspberry Pi Imager": "Flash OS images to USB and SD cards.",
 }
 
 # Descriptions for integrated Windows Freeware entries
