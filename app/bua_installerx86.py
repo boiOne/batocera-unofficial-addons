@@ -529,7 +529,7 @@ APPS: Dict[str, str] = {
     "Dark Mode": bua("dark/dark.sh"),
     "VClean": bua("vclean/vclean.sh"),
     "RGSX": "curl -L bit.ly/rgsx-install | sh",
-    "Balena Etcher": bua("etcher/etcher.sh"),
+    "Raspberry Pi Imager": bua("rpi/rpi.sh"),
 }
 
 # --- Integrated Windows Freeware installers (previously separate bash menu) ---
@@ -662,7 +662,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "Dark Mode": "Toggle F1 dark mode",
     "VClean": "Service to clean the Batocera version string (removes extra flags)",
     "RGSX": "Retro Game Sets Xtra. A free, user-friendly ROM downloader for Batocera",
-    "Balena Etcher": "Flash OS images to USB and SD cards.",
+    "Raspberry Pi Imagwer": "Flash OS images to USB and SD cards.",
 }
 
 # Descriptions for integrated Windows Freeware entries
@@ -752,7 +752,7 @@ CATEGORIES: Dict[str, List[str]] = {
         "OpenRGB", "OBS", "Stremio", "Disney Plus", "Twitch", "7zip", "qBittorrent",
         "GParted", "Custom Wine", "Plex", "HBO Max", "Prime Video", "Crunchyroll",
         "Mubi", "Tidal", "FreeTube", "FileZilla", "PeaZip", "Desktop", "Flathub",
-        "JDownloader", "Balena Etcher"
+        "JDownloader", "Raspberry Pi Imager"
     ],
     "Developer Tools": [
         "NVIDIA Patcher", "Conty", "CLI Tools", "NVIDIA Clocker", "Docker",
