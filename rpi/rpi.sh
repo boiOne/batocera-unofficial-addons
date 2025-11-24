@@ -3,7 +3,7 @@
 # Variables to update for different apps
 APP_NAME="rpi"
 DISPLAY_NAME="Raspberry Pi Imager"
-REPO="raspberrypi/rpi-imagerr"
+REPO="raspberrypi/rpi-imager"
 AMD_SUFFIX="desktop-x86_64.AppImage"
 ARM_SUFFIX="desktop-aarch64.AppImage"
 ICON_URL="https://raw.githubusercontent.com/iiiypuk/rpi-icon/master/raspberry-pi-logo_resized_256.png"
