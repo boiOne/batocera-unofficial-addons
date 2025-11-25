@@ -636,7 +636,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "Ambermoon": "Ambermoon.net, a port of the classic",
     "Custom Wine": "Download Wine/Proton versions",
     "GParted": "Linux partition manager",
-    "JDownloader": "NEEDS DESKTOP MODE ADDON TO WORK",
+    "JDownloader": "Download manager with background service",
     "YARG": "Yet Another Rhythm Game",
     "Plex": "Plex Media Player",
     "OpenTTD": "Open source clone of Transport Tycoon Deluxe",
