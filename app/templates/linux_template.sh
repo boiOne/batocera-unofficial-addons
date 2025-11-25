@@ -16,15 +16,19 @@ GAME_LIST="/userdata/roms/ports/gamelist.xml"
 if [[ "$FILE_URL" =~ \.tar\.bz2$ ]]; then
     ARCHIVE_EXTENSION="tar.bz2"
     EXTRACT_CMD="tar -xjvf"
+    STRIP_COMPONENTS="--strip-components=1"
 elif [[ "$FILE_URL" =~ \.tar\.gz$ ]] || [[ "$FILE_URL" =~ \.tgz$ ]]; then
     ARCHIVE_EXTENSION="tar.gz"
     EXTRACT_CMD="tar -xzvf"
+    STRIP_COMPONENTS="--strip-components=1"
 elif [[ "$FILE_URL" =~ \.tar\.xz$ ]]; then
     ARCHIVE_EXTENSION="tar.xz"
     EXTRACT_CMD="tar -xJvf"
+    STRIP_COMPONENTS="--strip-components=1"
 elif [[ "$FILE_URL" =~ \.zip$ ]]; then
     ARCHIVE_EXTENSION="zip"
-    EXTRACT_CMD="unzip"
+    EXTRACT_CMD="unzip -j"
+    STRIP_COMPONENTS=""
 else
     echo "Error: Unsupported archive format in FILE_URL"
     exit 1
@@ -60,7 +64,7 @@ fi
 # Step 3: Extract the downloaded file
 echo "Extracting $APP_NAME..."
 cd "$ADDONS_DIR/${APP_NAME,,}"
-$EXTRACT_CMD "$DOWNLOAD_PATH"
+$EXTRACT_CMD "$DOWNLOAD_PATH" $STRIP_COMPONENTS
 
 if [ $? -ne 0 ]; then
     echo "Failed to extract $APP_NAME. Exiting."
