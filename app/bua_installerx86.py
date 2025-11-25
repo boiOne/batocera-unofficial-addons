@@ -535,6 +535,7 @@ APPS: Dict[str, str] = {
 # --- Integrated Windows Freeware installers (previously separate bash menu) ---
 # These run upstream installer scripts directly within the existing runner.
 APPS.update({
+    "AM2R": bua("windows/am2r.sh"),
     "Maldita Castilla": bua("windows/castilla.sh"),
     "Celeste": bua("windows/celeste.sh"),
     "Donkey Kong Advanced": bua("windows/dka.sh"),
@@ -667,6 +668,7 @@ DESCRIPTIONS: Dict[str, str] = {
 
 # Descriptions for integrated Windows Freeware entries
 DESCRIPTIONS.update({
+    "AM2R": "Another Metroid 2 Remake - Fan remake",
     "Maldita Castilla": "Arcade action platformer",
     "Celeste": "Indie platformer classic",
     "Donkey Kong Advanced": "Fan remake/port",
@@ -709,6 +711,7 @@ CATEGORIES: Dict[str, List[str]] = {
         "Sandtrix"
     ],
     "Windows Freeware": [
+        "AM2R",
         "Maldita Castilla",
         "Celeste",
         "Donkey Kong Advanced",
