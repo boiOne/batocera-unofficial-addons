@@ -12,7 +12,7 @@ ROM_DIR="/userdata/roms/heroic"
 ICON_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/heroic/extra/icon.png"
 UMU_TAR_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/heroic/extra/umu.tar.gz"
 
-[ -d "/userdata/system/add-ons/heroic" ] && rm -rf "/userdata/system/add-ons/heroic" && rm -f "/userdata/system/.config/heroic"
+[ -d "/userdata/system/add-ons/heroic" ] && rm -rf "/userdata/system/add-ons/heroic"
 
 mkdir -p "$ROM_DIR"
 mkdir -p "/userdata/system/configs/heroic"
@@ -85,14 +85,21 @@ cat <<'EOL' > "$SETUP_UMU_SCRIPT"
 
 # Handle umu symlink
 umu_target="/userdata/system/.config/heroic/tools/runtimes/umu"
-umu_source="/userdata/system/add-ons/heroic/extra/umu_run_extracted"
+umu_source="/userdata/system/add-ons/heroic/extra/umu"
 
 # Create tools/runtimes directory if needed
 mkdir -p "/userdata/system/.config/heroic/tools/runtimes" 2>/dev/null
 
-# Wait until umu_target exists
-while [[ ! -e "$umu_target" ]]; do
+# Wait until umu_target exists and is fully installed by checking for current_version file
+max_wait=300  # Maximum 5 minutes wait
+waited=0
+while [[ ! -f "$umu_target/current_version" ]]; do
   sleep 1
+  waited=$((waited + 1))
+  if [[ $waited -ge $max_wait ]]; then
+    # Timeout - umu not fully installed, exit without creating symlink
+    exit 1
+  fi
 done
 
 # Check if it's a symlink pointing to the right place
