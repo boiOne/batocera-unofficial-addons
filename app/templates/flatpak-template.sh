@@ -1,18 +1,17 @@
 #!/bin/bash
 
 # Set the application name
-APPNAME="Plex"
+APPNAME="{{APP_NAME}}"
 
 # Define paths
-ADDONS_DIR="/userdata/system/add-ons"
+ADDONS_DIR="/userdata/system/add-ons/{{APP_NAME_LOWER}}"
 PORTS_DIR="/userdata/roms/ports"
 FLATPAK_GAMELIST="/userdata/roms/flatpak/gamelist.xml"
 PORTS_GAMELIST="/userdata/roms/ports/gamelist.xml"
-LOGO_URL="https://static1.howtogeekimages.com/wordpress/wp-content/uploads/2023/03/Plex-logo.jpg"
-LAUNCHER="${PORTS_DIR}/${APPNAME,,}.sh"
+LOGO_URL="{{LOGO_URL}}"
+LAUNCHER="${ADDONS_DIR}/launcher"
 PORTS_IMAGE_PATH="/userdata/roms/ports/images/${APPNAME,,}.png"
-KEYS_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/netflix/extra/Netflix.sh.keys"
-KEYS_PATH="/userdata/roms/ports/plex.sh.keys"
+PORTS_SHORTCUT="${PORTS_DIR}/${APPNAME}.sh"
 
 # Ensure xmlstarlet is installed
 if ! command -v xmlstarlet &> /dev/null; then
@@ -40,91 +39,103 @@ show_progress_bar_from_log() {
     printf "\r[%-50s] 100%%\n" "$(printf '#%.0s' $(seq 1 50))"
 }
 
-# Add Flathub repository and install Plex
-install_plex() {
+# Add Flathub repository and install application
+install_app() {
     echo "Adding Flathub repository..."
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-    echo "Installing Plex..."
-    local LOGFILE=/tmp/plex_install.log
+    echo "Installing ${APPNAME}..."
+    local LOGFILE=/tmp/${APPNAME,,}_install.log
 
     # Run flatpak install in the background and monitor with progress bar
-    flatpak install --system -y flathub tv.plex.PlexHTPC &> "$LOGFILE" &
+    flatpak install --system -y flathub {{FLATPAK_ID}} &> "$LOGFILE" &
     show_progress_bar_from_log "$LOGFILE" $!
 
     echo "Updating Batocera Flatpaks..."
     batocera-flatpak-update &> /dev/null
 
-    echo "Plex installation completed successfully."
+    echo "${APPNAME} installation completed successfully."
 }
 
-# Overwrite the flatpak gamelist.xml with Plex entry
+# Overwrite the flatpak gamelist.xml with application entry
 update_flatpak_gamelist() {
-    echo "Updating flatpak gamelist.xml with Plex entry..."
+    echo "Updating flatpak gamelist.xml with ${APPNAME} entry..."
 
     if [ ! -f "${FLATPAK_GAMELIST}" ]; then
         echo "<gameList />" > "${FLATPAK_GAMELIST}"
     fi
 
     xmlstarlet ed --inplace \
-        -d "/gameList/game[path='./Plex.flatpak']" \
+        -d "/gameList/game[path='./{{FLATPAK_DISPLAY_NAME}}.flatpak']" \
         -s "/gameList" -t elem -n game \
-        -s "/gameList/game[last()]" -t elem -n path -v "./Plex.flatpak" \
-        -s "/gameList/game[last()]" -t elem -n name -v "Plex" \
-        -s "/gameList/game[last()]" -t elem -n image -v "./images/Plex.png" \
+        -s "/gameList/game[last()]" -t elem -n path -v "./{{FLATPAK_DISPLAY_NAME}}.flatpak" \
+        -s "/gameList/game[last()]" -t elem -n name -v "{{FLATPAK_DISPLAY_NAME}}" \
+        -s "/gameList/game[last()]" -t elem -n image -v "./images/{{FLATPAK_DISPLAY_NAME}}.png" \
         -s "/gameList/game[last()]" -t elem -n rating -v "" \
         -s "/gameList/game[last()]" -t elem -n releasedate -v "" \
         -s "/gameList/game[last()]" -t elem -n hidden -v "true" \
         -s "/gameList/game[last()]" -t elem -n lang -v "en" \
         "${FLATPAK_GAMELIST}"
 
-    echo "Flatpak gamelist.xml updated with Plex entry."
+    echo "Flatpak gamelist.xml updated with ${APPNAME} entry."
 }
 
-# Create launcher for Plex
+# Create launcher for application
 create_launcher() {
-    echo "Creating launcher for Plex..."
-    mkdir -p "${PORTS_DIR}"
+    echo "Creating launcher for ${APPNAME}..."
+    mkdir -p "${ADDONS_DIR}"
     cat << EOF > "${LAUNCHER}"
 #!/bin/bash
-flatpak run tv.plex.PlexHTPC --no-sandbox
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+echo "Environment Variables:" > /userdata/system/logs/${APPNAME,,}_env.txt
+env >> /userdata/system/logs/${APPNAME,,}_env.txt
+echo "Launching ${APPNAME}..." >> /userdata/system/logs/${APPNAME,,}_debug.txt
+/usr/bin/flatpak run {{FLATPAK_ID}}
 EOF
     chmod +x "${LAUNCHER}"
     echo "Launcher created at ${LAUNCHER}."
 }
 
-# Add Plex entry to Ports gamelist.xml
-add_plex_to_ports_gamelist() {
-    echo "Adding Plex entry to ports gamelist.xml..."
+create_shortcut() {
+    echo "Creating shortcut for ${APPNAME}..."
+    mkdir -p "${PORTS_DIR}"
+    cat << EOF > "${PORTS_SHORTCUT}"
+#!/bin/bash
+cd /userdata/system/add-ons/{{APP_NAME_LOWER}}
+./launcher
+EOF
+    chmod +x "${PORTS_SHORTCUT}"
+    echo "Shortcut created at ${PORTS_SHORTCUT}."
+}
+
+# Add application entry to Ports gamelist.xml
+add_app_to_ports_gamelist() {
+    echo "Adding ${APPNAME} entry to ports gamelist.xml..."
     mkdir -p "$(dirname "${PORTS_IMAGE_PATH}")"
     curl -fsSL "${LOGO_URL}" -o "${PORTS_IMAGE_PATH}"
 
     if [ ! -f "${PORTS_GAMELIST}" ]; then
-        echo "Ports gamelist.xml not found. Creating a new one."
         echo "<gameList />" > "${PORTS_GAMELIST}"
     fi
 
     xmlstarlet ed --inplace \
         -s "/gameList" -t elem -n game \
-        -s "/gameList/game[last()]" -t elem -n path -v "./${APPNAME,,}.sh" \
+        -s "/gameList/game[last()]" -t elem -n path -v "./${APPNAME}.sh" \
         -s "/gameList/game[last()]" -t elem -n name -v "${APPNAME}" \
-        -s "/gameList/game[last()]" -t elem -n desc -v "Plex Media Player" \
+        -s "/gameList/game[last()]" -t elem -n desc -v "{{APP_DESCRIPTION}}" \
         -s "/gameList/game[last()]" -t elem -n image -v "./images/${APPNAME,,}.png" \
         -s "/gameList/game[last()]" -t elem -n rating -v "0" \
         -s "/gameList/game[last()]" -t elem -n releasedate -v "19700101T010000" \
         -s "/gameList/game[last()]" -t elem -n hidden -v "false" \
         "${PORTS_GAMELIST}"
-    echo "Plex entry added to ports gamelist.xml."
+    echo "${APPNAME} entry added to ports gamelist.xml."
 }
 
 # Run all steps
-install_plex
+install_app
 update_flatpak_gamelist
 create_launcher
-add_plex_to_ports_gamelist
+create_shortcut
+add_app_to_ports_gamelist
 
-# Download the key mapping file
-echo "Downloading key mapping file..."
-curl -L -o "$KEYS_PATH" "$KEYS_URL"
-
-echo "Plex setup completed successfully."
+echo "${APPNAME} setup completed successfully."
