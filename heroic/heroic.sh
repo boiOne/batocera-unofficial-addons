@@ -19,18 +19,40 @@ mkdir -p "/userdata/system/add-ons/heroic/extra"
 
 # Fetch the latest version of Heroic from GitHub API
 echo "Fetching the latest version of Heroic Games Launcher..."
-HEROIC_URL=$(wget -qO- https://api.github.com/repos/Heroic-Games-Launcher/HeroicGamesLauncher/releases/latest | grep "browser_download_url" | grep ".AppImage" | cut -d '"' -f 4)
+
+# First attempt: Try GitHub API
+API_RESPONSE=$(wget -qO- https://api.github.com/repos/Heroic-Games-Launcher/HeroicGamesLauncher/releases/latest 2>&1)
+
+# Check if we hit rate limit or other error
+if echo "$API_RESPONSE" | grep -q "rate limit"; then
+    echo "GitHub API rate limit reached. Fetching from releases page directly..."
+    # Fallback: Scrape the releases page HTML
+    HEROIC_URL=$(wget -qO- https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/latest 2>&1 | grep -o 'https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v[0-9.]*/Heroic-[0-9.]*-linux-x86_64\.AppImage' | head -n 1)
+else
+    # Parse API response normally
+    HEROIC_URL=$(echo "$API_RESPONSE" | grep "browser_download_url" | grep "linux-x86_64\.AppImage\"" | grep -v ".AppImage.zsync" | head -n 1 | cut -d '"' -f 4)
+fi
+
 HEROIC_VERSION=$(basename "$HEROIC_URL" | sed -E 's/Heroic-([^-]+).*/\1/')
 
 if [ -z "$HEROIC_URL" ]; then
     echo "Failed to fetch the latest Heroic version. Please check your internet connection or the GitHub API."
+    echo "You may have hit GitHub's rate limit. Please try again later."
     exit 1
 fi
+
+echo "Found Heroic version: $HEROIC_VERSION"
+echo "Download URL: $HEROIC_URL"
 
 # Download Heroic
 echo "Downloading Heroic Games Launcher version $HEROIC_VERSION..."
 mkdir -p "$INSTALL_DIR"
-wget --show-progress -qO "${INSTALL_DIR}/heroic.AppImage" "$HEROIC_URL"
+wget --show-progress -O "${INSTALL_DIR}/heroic.AppImage" "$HEROIC_URL"
+
+if [ $? -ne 0 ] || [ ! -f "${INSTALL_DIR}/heroic.AppImage" ]; then
+    echo "Failed to download Heroic AppImage from $HEROIC_URL"
+    exit 1
+fi
 
 # Download supporting scripts
 echo "Downloading create_game_launchers.sh..."
