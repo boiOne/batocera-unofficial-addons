@@ -30,9 +30,40 @@ CHANGELOG = """
     Kill switch wired in to all launchers and Big Picture Mode with hotkey + start
     Steam removed from ports and added to Steam ES category. Please reinstall and delete the ports launcher!
     A known issue is that occasionally a webpage will open instead of Big Picture Mode, this is due to Steam changes and is being worked on. Hotkey + start to kill Steam and relaunch Big Picture Mode.
-    
+
 - Removed L3 and R3 from controller mappings due to issues with Steam Deck users.
 """.strip()
+
+# ------------------------------
+# Live Update Block
+# ------------------------------
+# This code runs on EVERY launch before the main app loads.
+# Use this for one-time setup tasks, migrations, or live fixes.
+# Keep it lightweight - heavy operations will slow down app startup.
+
+def live_update_block():
+    """
+    Code block that runs on every app launch.
+
+    Use cases:
+    - Install/update system services (like custom_service_handler)
+    - Perform migrations or one-time fixes
+    - Update configuration files
+    - Check/install dependencies
+
+    IMPORTANT: Keep this fast! It runs on EVERY launch.
+    """
+    try:
+        # Example: Setup custom_service_handler
+        setup_custom_service_handler()
+
+        # Add more live update tasks here as needed
+        # Example:
+        # fix_legacy_configs()
+        # update_system_files()
+
+    except Exception as e:
+        print(f"[BUA] Live update block error: {e}")
 
 # ------------------------------
 # Translation System
@@ -5281,8 +5312,53 @@ def play_splash_and_load():
 
     print("[BUA] Ready!")
 
+def setup_custom_service_handler():
+    """Check if custom_service_handler exists, download if missing, and enable it."""
+    SERVICE_FILE = "/userdata/system/services/custom_service_handler"
+    SERVICE_URL = "https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/app/custom_service_handler"
+
+    try:
+        # Check if service file already exists
+        if os.path.exists(SERVICE_FILE):
+            print("[BUA] custom_service_handler already exists")
+            return
+
+        print("[BUA] Downloading custom_service_handler...")
+
+        # Ensure services directory exists
+        os.makedirs("/userdata/system/services", exist_ok=True)
+
+        # Download the service file
+        req = urllib.request.Request(SERVICE_URL, headers={"User-Agent": "BUA-Installer"})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            service_content = response.read()
+
+        # Write service file
+        with open(SERVICE_FILE, 'wb') as f:
+            f.write(service_content)
+
+        # Make it executable
+        os.chmod(SERVICE_FILE, 0o755)
+
+        print("[BUA] custom_service_handler downloaded successfully")
+
+        # Enable and start the service
+        subprocess.run(["batocera-services", "enable", "custom_service_handler"],
+                      check=False, timeout=10, capture_output=True)
+        subprocess.run(["batocera-services", "start", "custom_service_handler"],
+                      check=False, timeout=10, capture_output=True)
+
+        print("[BUA] custom_service_handler enabled and started")
+
+    except Exception as e:
+        print(f"[BUA] Could not setup custom_service_handler: {e}")
+
+
 if __name__ == "__main__":
     try:
+        # Run live update block before anything else
+        live_update_block()
+
         play_splash_and_load()
         main()
     except KeyboardInterrupt:
