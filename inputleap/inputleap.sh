@@ -29,7 +29,7 @@ fi
 # Install InputLeap Flatpak if not already installed
 if ! flatpak list | grep -q "$APP_ID"; then
     echo "[+] Pulling InputLeap from Flathub..."
-    flatpak install -y flathub "$APP_ID"
+    flatpak install --system -y flathub "$APP_ID"
 else
     echo "[*] InputLeap already installed, skipping download."
 fi
