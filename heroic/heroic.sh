@@ -10,15 +10,13 @@ MONITOR_SCRIPT_URL="https://github.com/batocera-unofficial-addons/batocera-unoff
 WRAPPER_SCRIPT="${INSTALL_DIR}/launch_heroic.sh"
 ROM_DIR="/userdata/roms/heroic"
 ICON_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/heroic/extra/icon.png"
-UMU_RUNTIME_DIR="/userdata/system/.config/heroic/tools/runtimes"
 UMU_TAR_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/heroic/extra/umu.tar.gz"
 
-[ -d "/userdata/system/add-ons/heroic" ] && rm -rf "/userdata/system/add-ons/heroic"
+[ -d "/userdata/system/add-ons/heroic" ] && rm -rf "/userdata/system/add-ons/heroic" && rm -f "/userdata/system/.config/heroic"
 
 mkdir -p "$ROM_DIR"
 mkdir -p "/userdata/system/configs/heroic"
 mkdir -p "/userdata/system/add-ons/heroic/extra"
-mkdir -p "$UMU_RUNTIME_DIR"
 
 # Fetch the latest version of Heroic from GitHub API
 echo "Fetching the latest version of Heroic Games Launcher..."
@@ -69,37 +67,90 @@ wget --show-progress -qO "${INSTALL_DIR}/extra/icon.png" "$ICON_URL"
 
 # Download umu runtime
 echo "Downloading umu runtime..."
-wget --show-progress -O "${UMU_RUNTIME_DIR}/umu.tar.gz" "$UMU_TAR_URL"
+wget --show-progress -O "${INSTALL_DIR}/extra/umu.tar.gz" "$UMU_TAR_URL"
 
 # Extract umu runtime
 echo "Extracting umu runtime..."
-tar -xzf "${UMU_RUNTIME_DIR}/umu.tar.gz" -C "$UMU_RUNTIME_DIR"
-rm "${UMU_RUNTIME_DIR}/umu.tar.gz"
+tar -xzf "${INSTALL_DIR}/extra/umu.tar.gz" -C "${INSTALL_DIR}/extra"
 
 # Make scripts executable
 chmod +x "${INSTALL_DIR}/heroic.AppImage"
 chmod +x "${INSTALL_DIR}/create_game_launchers.sh"
 chmod +x "${INSTALL_DIR}/monitor_heroic.sh"
 
-LAUNCHER="/userdata/system/add-ons/heroic/Launcher"
-cat <<EOL > "$LAUNCHER"
+# Create umu symlink setup script
+SETUP_UMU_SCRIPT="${INSTALL_DIR}/setup_umu_symlink.sh"
+cat <<'EOL' > "$SETUP_UMU_SCRIPT"
 #!/bin/bash
+
+# Handle umu symlink
+umu_target="/userdata/system/.config/heroic/tools/runtimes/umu"
+umu_source="/userdata/system/add-ons/heroic/extra/umu_run_extracted"
+
+# Create tools/runtimes directory if needed
+mkdir -p "/userdata/system/.config/heroic/tools/runtimes" 2>/dev/null
+
+# Wait until umu_target exists
+while [[ ! -e "$umu_target" ]]; do
+  sleep 1
+done
+
+# Check if it's a symlink pointing to the right place
+if [[ -L "$umu_target" ]]; then
+  current_target=$(readlink "$umu_target")
+  if [[ "$current_target" == "$umu_source" ]]; then
+    # Correct symlink, delete this script and exit
+    rm -f "$0"
+    exit 0
+  else
+    # Wrong symlink, replace it
+    rm -f "$umu_target"
+    ln -sf "$umu_source" "$umu_target"
+  fi
+else
+  # Not a symlink, delete and replace
+  rm -rf "$umu_target"
+  ln -sf "$umu_source" "$umu_target"
+fi
+
+# Delete this script when done
+rm -f "$0"
+EOL
+chmod +x "$SETUP_UMU_SCRIPT"
+
+LAUNCHER="/userdata/system/add-ons/heroic/Launcher"
+cat <<'EOL' > "$LAUNCHER"
+#!/bin/bash
+
+# Run umu symlink setup script if it exists
+SETUP_SCRIPT="/userdata/system/add-ons/heroic/setup_umu_symlink.sh"
+if [[ -f "$SETUP_SCRIPT" ]]; then
+  "$SETUP_SCRIPT" &
+fi
+
 /userdata/system/add-ons/heroic/monitor_heroic.sh &
 unclutter-remote -s
-DISPLAY=:0.0 /userdata/system/add-ons/heroic/heroic.AppImage --no-sandbox "\$@"
+DISPLAY=:0.0 /userdata/system/add-ons/heroic/heroic.AppImage --no-sandbox "$@"
 EOL
 chmod a+x "$LAUNCHER"
 
 # Create launch script
 echo "Creating launching script for Heroic..."
 SYSTEM_LAUNCHER="/userdata/system/add-ons/heroic/SystemLauncher"
-cat <<EOL > "$SYSTEM_LAUNCHER"
+cat <<'EOL' > "$SYSTEM_LAUNCHER"
 #!/bin/bash
+
+# Run umu symlink setup script if it exists
+SETUP_SCRIPT="/userdata/system/add-ons/heroic/setup_umu_symlink.sh"
+if [[ -f "$SETUP_SCRIPT" ]]; then
+  "$SETUP_SCRIPT" &
+fi
+
 # Process input file
-ID=\$(cat "\$1" | head -n 1)
+ID=$(cat "$1" | head -n 1)
 # Execute application
 unclutter-remote -s
-DISPLAY=:0.0 /userdata/system/add-ons/heroic/heroic.AppImage --no-sandbox --no-gui --disable-gpu "heroic://launch/\$ID"
+DISPLAY=:0.0 /userdata/system/add-ons/heroic/heroic.AppImage --no-sandbox --no-gui --disable-gpu "heroic://launch/$ID"
 EOL
 chmod a+x "$SYSTEM_LAUNCHER"
 
