@@ -10,9 +10,8 @@ MONITOR_SCRIPT_URL="https://github.com/batocera-unofficial-addons/batocera-unoff
 WRAPPER_SCRIPT="${INSTALL_DIR}/launch_heroic.sh"
 ROM_DIR="/userdata/roms/heroic"
 ICON_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/heroic/extra/icon.png"
-UMU_RUNTIME_DIR="/userdata/system/.config/heroic/tools/runtimes/umu"
-UMU_TAR_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/heroic/extra/umu_run_extracted.tar.gz"
-UMU_PY_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/heroic/extra/umu_run.py"
+UMU_RUNTIME_DIR="/userdata/system/.config/heroic/tools/runtimes"
+UMU_TAR_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/heroic/extra/umu.tar.gz"
 
 [ -d "/userdata/system/add-ons/heroic" ] && rm -rf "/userdata/system/add-ons/heroic"
 
@@ -68,18 +67,14 @@ wget --show-progress -qO "${INSTALL_DIR}/monitor_heroic.sh" "$MONITOR_SCRIPT_URL
 echo "Downloading icon..."
 wget --show-progress -qO "${INSTALL_DIR}/extra/icon.png" "$ICON_URL"
 
-# Download umu runtime files
-echo "Downloading umu runtime files..."
-wget --show-progress -O "${UMU_RUNTIME_DIR}/umu_run_extracted.tar.gz" "$UMU_TAR_URL"
-wget --show-progress -O "${UMU_RUNTIME_DIR}/umu_run.py" "$UMU_PY_URL"
+# Download umu runtime
+echo "Downloading umu runtime..."
+wget --show-progress -O "${UMU_RUNTIME_DIR}/umu.tar.gz" "$UMU_TAR_URL"
 
 # Extract umu runtime
 echo "Extracting umu runtime..."
-tar -xzf "${UMU_RUNTIME_DIR}/umu_run_extracted.tar.gz" -C "$UMU_RUNTIME_DIR"
-rm "${UMU_RUNTIME_DIR}/umu_run_extracted.tar.gz"
-
-# Make umu_run.py executable
-chmod +x "${UMU_RUNTIME_DIR}/umu_run.py"
+tar -xzf "${UMU_RUNTIME_DIR}/umu.tar.gz" -C "$UMU_RUNTIME_DIR"
+rm "${UMU_RUNTIME_DIR}/umu.tar.gz"
 
 # Make scripts executable
 chmod +x "${INSTALL_DIR}/heroic.AppImage"
