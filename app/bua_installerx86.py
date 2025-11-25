@@ -452,6 +452,7 @@ APPS: Dict[str, str] = {
     "Disney Plus": bua("disneyplus/disneyplus.sh"),
     "CLI Tools": bua("docker/cli.sh"),
     "Endless Sky": bua("endlesssky/endlesssky.sh"),
+    "EGGNOGG+": bua("eggnoggplus/eggnoggplus.sh"),
     "Everest": bua("everest/everest.sh"),
     "Firefox": bua("firefox/firefox.sh"),
     "Fightcade": bua("fightcade/fightcade.sh"),
@@ -588,6 +589,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "Stremio": "Stremio video streaming app for Batocera.",
     "Vesktop": "Discord client for Batocera.",
     "Endless Sky": "Space exploration game.",
+    "EGGNOGG+": "Award-winning 2-player sword fighting game.",
     "Chiaki": "PS4/PS5 Remote Play client.",
     "Chrome": "Google Chrome web browser.",
     "Amazon Luna": "Amazon Luna game streaming client.",
@@ -706,7 +708,7 @@ DESCRIPTIONS.update({
 
 CATEGORIES: Dict[str, List[str]] = {
     "Games": [
-        "Minecraft", "Armagetron", "Clone Hero", "Endless Sky", "CS Portable",
+        "Minecraft", "Armagetron", "Clone Hero", "Endless Sky", "EGGNOGG+", "CS Portable",
         "Warzone 2100", "Xonotic", "Fightcade", "SuperTuxKart", "OpenRA",
         "Assault Cube", "SuperTux", "Free Droid RPG", "StepMania", "Ambermoon",
         "YARG", "OpenTTD", "Luanti", "Super Mario X", "Celeste 64", "UltraStar",
