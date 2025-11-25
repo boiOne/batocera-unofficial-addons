@@ -4194,8 +4194,8 @@ class UpdaterScreen(BaseScreen):
                 item = (app, cmd)
                 if item not in INSTALL_QUEUE:
                     INSTALL_QUEUE.append(item)
-        push_screen(QueueScreen())
         pop_screen()  # close updater
+        push_screen(QueueScreen())
 
     def update(self):
         """Check if we need to rescan after returning from uninstall"""
