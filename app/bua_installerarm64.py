@@ -25,8 +25,8 @@ import hashlib
 # This will be shown once to users when they first launch after an update.
 
 CHANGELOG = """
-- Fixed Heroic
-Applied patch to fix latest Umu release not launching games correctly.
+- Brought ARM64 menu in line with x86_64 version.
+- Added new apps: RGSX, Raspberry Pi Imager.
 """.strip()
 
 # ------------------------------
