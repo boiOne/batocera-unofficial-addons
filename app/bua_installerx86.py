@@ -25,13 +25,8 @@ import hashlib
 # This will be shown once to users when they first launch after an update.
 
 CHANGELOG = """
-- Steam has had a big update!
-    Now supports ES launchers with auto scraping.
-    Kill switch wired in to all launchers and Big Picture Mode with hotkey + start
-    Steam removed from ports and added to Steam ES category. Please reinstall and delete the ports launcher!
-    A known issue is that occasionally a webpage will open instead of Big Picture Mode, this is due to Steam changes and is being worked on. Hotkey + start to kill Steam and relaunch Big Picture Mode.
-
-- Removed L3 and R3 from controller mappings due to issues with Steam Deck users.
+- Fixed Heroic
+Applied patch to fix latest Umu release not launching games correctly.
 """.strip()
 
 # ------------------------------
