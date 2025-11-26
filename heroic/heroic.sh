@@ -91,34 +91,26 @@ umu_source="/userdata/system/add-ons/heroic/extra/umu"
 mkdir -p "/userdata/system/.config/heroic/tools/runtimes" 2>/dev/null
 
 # Wait until umu_target exists and is fully installed by checking for current_version file
-max_wait=300  # Maximum 5 minutes wait
-waited=0
 while [[ ! -f "$umu_target/current_version" ]]; do
   sleep 1
-  waited=$((waited + 1))
-  if [[ $waited -ge $max_wait ]]; then
-    # Timeout - umu not fully installed, exit without creating symlink
-    exit 1
-  fi
 done
 
-# Check if it's a symlink pointing to the right place
-if [[ -L "$umu_target" ]]; then
-  current_target=$(readlink "$umu_target")
-  if [[ "$current_target" == "$umu_source" ]]; then
-    # Correct symlink, delete this script and exit
-    rm -f "$0"
-    exit 0
-  else
-    # Wrong symlink, replace it
-    rm -f "$umu_target"
-    ln -sf "$umu_source" "$umu_target"
-  fi
-else
-  # Not a symlink, delete and replace
-  rm -rf "$umu_target"
-  ln -sf "$umu_source" "$umu_target"
+# Give Heroic extra time to finish writing all umu files
+sleep 10
+
+# Check if umu was already replaced with our copy
+if [[ -f "$umu_target/.replaced_by_heroic_installer" ]]; then
+  # Already replaced, delete this script and exit
+  rm -f "$0"
+  exit 0
 fi
+
+# Replace Heroic's umu with our pre-downloaded version
+rm -rf "$umu_target"
+cp -r "$umu_source" "$umu_target"
+
+# Mark that we've replaced it
+touch "$umu_target/.replaced_by_heroic_installer"
 
 # Delete this script when done
 rm -f "$0"
