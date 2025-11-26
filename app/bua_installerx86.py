@@ -3649,24 +3649,25 @@ class RunListScreen(BaseScreen):
         )
 
         # Wrap dangerous system commands that installers shouldn't call
-        # Prevents killing critical processes or switching to desktop mode
+        # Create a small temporary bin directory containing executable
+        # wrappers for `killall` so that exec'd calls (not just shell
+        # function calls) are intercepted. The wrapper defers killing
+        # EmulationStation by creating a flag file; the real `killall`
+        # is invoked for other targets.
         system_wrap = (
-            "function killall(){ "
-            "local target=\"$1\"; "
-            "if [[ \"$target\" == \"emulationstation\" ]] || [[ \"$target\" == \"pcmanfm\" ]]; then "
-            "echo '[BUA] Blocked killall for critical process:' \"$target\"; "
-            "if [[ \"$target\" == \"emulationstation\" ]]; then "
-            "touch /tmp/bua_killall_es_deferred; "
-            "fi; "
-            "return 0; "
-            "else "
-            "command killall \"$@\"; "
-            "fi; }; "
-            "export -f killall; "
-            "function desktop(){ "
-            "echo '[BUA] Blocked desktop mode switch during installation'; "
-            "return 0; }; "
-            "export -f desktop; "
+            "# Create a temporary shim dir and a small killall wrapper; "
+            "REAL_KILLALL=$(command -v killall || echo /usr/bin/killall); "
+            "REAL_PKILL=$(command -v pkill || echo /usr/bin/pkill); "
+            "BUA_TMPBIN=$(mktemp -d /tmp/bua_bin.XXXX); "
+            "printf '%s\n' '#!/bin/sh' \"REAL=\$REAL_KILLALL\" 'echo "$(date --iso-8601=seconds) [BUA-SHIM] killall $$ $PPID: \"$@\" PATH=\"$PATH\"" >> /tmp/bua_killall.log' 'for arg in \"\$@\"; do' \" if [ \"\$arg\" = \"emulationstation\" ] || [ \"\$arg\" = \"pcmanfm\" ]; then\" '  echo "[BUA] Blocked killall for critical process: \"\$arg\""' \"  if [ \"\$arg\" = \"emulationstation\" ]; then touch /tmp/bua_killall_es_deferred; fi\" '  exit 0' ' fi' 'done' 'exec "\$REAL" "\$@"' > \"\$BUA_TMPBIN/killall\"; "
+            "printf '%s\n' '#!/bin/sh' \"REAL=\$REAL_PKILL\" 'echo "$(date --iso-8601=seconds) [BUA-SHIM] pkill $$ $PPID: \"$@\" PATH=\"$PATH\"" >> /tmp/bua_killall.log' 'for arg in \"\$@\"; do' \" if [ \"\$arg\" = \"emulationstation\" ] || [ \"\$arg\" = \"pcmanfm\" ]; then\" '  echo "[BUA] Blocked pkill for critical process: \"\$arg\""' \"  if [ \"\$arg\" = \"emulationstation\" ]; then touch /tmp/bua_killall_es_deferred; fi\" '  exit 0' ' fi' 'done' 'exec "\$REAL" "\$@"' > \"\$BUA_TMPBIN/pkill\"; "
+            "chmod +x \"$BUA_TMPBIN/killall\" \"$BUA_TMPBIN/pkill\"; "
+            "# Ensure we remove the temporary shim dir when the injected subshell exits; "
+            "trap 'rm -rf \"$BUA_TMPBIN\"' EXIT; "
+            "# Prepend our shim to PATH so child processes resolve it first; "
+            "export PATH=\"$BUA_TMPBIN:$PATH\"; "
+            "# Also provide a harmless desktop function for sourced scripts; "
+            "function desktop(){ echo '[BUA] Blocked desktop mode switch during installation'; return 0; }; export -f desktop; "
         )
 
         # Add debug markers to track execution
