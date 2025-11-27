@@ -26,8 +26,8 @@
 | `app/BatoceraUnofficialAddons_ARM64.sh` | 2025-05-22 17:15:31 +0100 |
 | `app/batocera-unofficial-addons-arm64.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/batocera-unofficial-addons.sh` | 2025-11-20 16:56:24 +0000 |
-| `app/bua_installerarm64.py` | 2025-11-27 22:39:18 +0000 |
-| `app/bua_installerx86.py` | 2025-11-27 22:39:18 +0000 |
+| `app/bua_installerarm64.py` | 2025-11-27 22:40:38 +0000 |
+| `app/bua_installerx86.py` | 2025-11-27 22:39:15 +0000 |
 | `app/dep.sh` | 2025-05-22 17:16:35 +0100 |
 | `app/dep_arm64.sh` | 2025-05-22 17:16:49 +0100 |
 | `app/install.sh` | 2025-05-22 17:17:07 +0100 |
