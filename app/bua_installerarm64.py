@@ -550,7 +550,7 @@ APPS: Dict[str, str] = {
     "Chiaki": bua("chiaki/chiaki.sh"),
     "Conty": bua("conty/conty.sh"),
     "Dark Mode": bua("dark/dark.sh"),
-    "Desktop": bua("desktop/desktop.sh"),
+    "Desktop (Docker)": bua("desktop/desktop.sh"),
     "Docker": bua("docker/docker.sh"),
     "RunImage Desktop": bua("desktop/ri-desktop.sh"),
     "F1": bua("f1/f1.sh"),
@@ -632,7 +632,7 @@ CATEGORIES: Dict[str, List[str]] = {
     ],
     "System Utilities": [
         "Tailscale", "Telegraf", "Vesktop", "IPTV Nator", "FreeTube",
-        "F1", "Firefox", "Desktop", "RunImage Desktop", "Raspberry Pi Imager"
+        "F1", "Firefox", "Desktop (Docker)", "RunImage Desktop", "Raspberry Pi Imager"
     ],
     "Developer Tools": [
         "Conty", "Docker", "Soar", "WayVNC", "WayVNC Headless", "Dark Mode"
