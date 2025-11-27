@@ -70,6 +70,8 @@ CURRENT_LANGUAGE = "en"
 LANGUAGE_FILE = "/userdata/system/add-ons/bua_language.txt"
 CARDS_PER_PAGE_FILE = "/userdata/system/add-ons/bua_cards_per_page.txt"
 CHANGELOG_HASH_FILE = "/userdata/system/add-ons/bua_changelog_hash.txt"
+TRANSLATION_CACHE_FILE = "/userdata/system/add-ons/bua_translation_cache.json"
+SPLASH_CACHE_FILE = "/userdata/system/add-ons/bua_splash.mp4"
 
 # Default and current cards per page setting
 DEFAULT_CARDS_PER_PAGE = "auto"  # "auto" or a number like "3", "5", "7", etc.
@@ -92,20 +94,98 @@ TRANSLATION_DIRS = [
 # GitHub URL for translations
 TRANSLATION_BASE_URL = "https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/app/translation"
 
+def fetch_url_with_retry(url: str, headers: dict, timeout: int = 5, retries: int = 2) -> bytes:
+    """
+    Fetch URL with exponential backoff retry logic.
+    Returns the response bytes or raises an exception after all retries fail.
+    """
+    import time
+    import urllib.error
+    last_error = None
+
+    for attempt in range(retries + 1):
+        try:
+            if attempt > 0:
+                wait_time = (2 ** attempt)  # Exponential backoff: 2s, 4s
+                print(f"[BUA] Retry {attempt}/{retries} after {wait_time}s...")
+                time.sleep(wait_time)
+
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                return response.read()
+        except urllib.error.HTTPError as e:
+            last_error = e
+            if attempt < retries:
+                print(f"[BUA] HTTP Error {e.code}: {e.reason} - {url}")
+            continue
+        except urllib.error.URLError as e:
+            last_error = e
+            if attempt < retries:
+                print(f"[BUA] Network error: {e.reason} - {url}")
+            continue
+        except Exception as e:
+            last_error = e
+            if attempt < retries:
+                print(f"[BUA] Error: {e} - {url}")
+            continue
+
+    # All retries failed
+    print(f"[BUA] Failed to fetch after {retries + 1} attempts: {url}")
+    raise last_error
+
+def load_translation_cache() -> Dict[str, Dict[str, str]]:
+    """Load all cached translations from disk"""
+    try:
+        if os.path.exists(TRANSLATION_CACHE_FILE):
+            with open(TRANSLATION_CACHE_FILE, 'r', encoding='utf-8') as f:
+                cache = json.load(f)
+                print(f"[BUA] Loaded translation cache with {len(cache)} languages")
+                return cache
+    except Exception as e:
+        print(f"[BUA] Could not load translation cache: {e}")
+    return {}
+
+def save_translation_cache(cache: Dict[str, Dict[str, str]]):
+    """Save all translations to disk cache"""
+    try:
+        os.makedirs(os.path.dirname(TRANSLATION_CACHE_FILE), exist_ok=True)
+        with open(TRANSLATION_CACHE_FILE, 'w', encoding='utf-8') as f:
+            json.dump(cache, f, ensure_ascii=False)
+        print(f"[BUA] Saved translation cache with {len(cache)} languages")
+    except Exception as e:
+        print(f"[BUA] Could not save translation cache: {e}")
+
 def load_translation_file(lang_code: str) -> Dict[str, str]:
-    """Load a translation JSON file from GitHub only"""
+    """Load a translation JSON file from cache or GitHub with retry logic"""
+    # First, check disk cache
+    cache = load_translation_cache()
+    if lang_code in cache:
+        print(f"[BUA] Using cached translation for {lang_code} ({len(cache[lang_code])} keys)")
+        return cache[lang_code]
+
+    # Not in cache, try downloading from GitHub
     try:
         github_url = f"{TRANSLATION_BASE_URL}/{lang_code}.json"
-        print(f"Attempting to load translation from: {github_url}")
-        import urllib.request
-        req = urllib.request.Request(github_url, headers={"User-Agent": "BUA-Installer"})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            data = json.loads(response.read().decode('utf-8'))
-            print(f"Successfully loaded translation {lang_code} from GitHub ({len(data)} keys)")
-            return data
+        print(f"[BUA] Downloading translation from: {github_url}")
+
+        data_bytes = fetch_url_with_retry(
+            github_url,
+            headers={"User-Agent": "BUA-Installer"},
+            timeout=5,
+            retries=2
+        )
+
+        data = json.loads(data_bytes.decode('utf-8'))
+        print(f"[BUA] Successfully downloaded translation {lang_code} ({len(data)} keys)")
+
+        # Save to cache
+        cache[lang_code] = data
+        save_translation_cache(cache)
+
+        return data
     except Exception as e:
-        print(f"ERROR: Could not load translation {lang_code} from GitHub: {e}")
-        print(f"URL attempted: {github_url}")
+        print(f"[BUA] ERROR: Could not load translation {lang_code} after retries: {e}")
+        print(f"[BUA] Continuing with empty translation (English fallback)")
         return {}
 
 def get_batocera_language() -> str:
@@ -932,11 +1012,16 @@ def _from_url(url: str | None):
     if not url:
         return None
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "BUA-Icons"})
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            data = resp.read()
+        print(f"[BUA] Downloading icon from: {url}")
+        data = fetch_url_with_retry(
+            url,
+            headers={"User-Agent": "BUA-Icons"},
+            timeout=5,
+            retries=2
+        )
         return pygame.image.load(io.BytesIO(data)).convert_alpha()
-    except Exception:
+    except Exception as e:
+        print(f"[BUA] Could not download icon: {e}")
         return None
 
 def init_assets():
@@ -4878,19 +4963,39 @@ def play_splash_and_load():
 
     # Download and play splash video while loading
     splash_url = "https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/app/extra/splash.mp4"
+    splash_file = None
 
     try:
-        print("[BUA] Downloading splash video...")
-        req = urllib.request.Request(splash_url, headers={"User-Agent": "BUA-Splash"})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            splash_data = response.read()
+        # Check if cached splash exists
+        if os.path.exists(SPLASH_CACHE_FILE):
+            print("[BUA] Using cached splash video")
+            splash_file = SPLASH_CACHE_FILE
+        else:
+            # Download splash with retry logic
+            print("[BUA] Downloading splash video...")
+            splash_data = fetch_url_with_retry(
+                splash_url,
+                headers={"User-Agent": "BUA-Splash"},
+                timeout=5,
+                retries=2
+            )
 
-        # Save to temp file
-        with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as f:
-            f.write(splash_data)
-            splash_file = f.name
+            # Save to cache
+            try:
+                os.makedirs(os.path.dirname(SPLASH_CACHE_FILE), exist_ok=True)
+                with open(SPLASH_CACHE_FILE, 'wb') as f:
+                    f.write(splash_data)
+                splash_file = SPLASH_CACHE_FILE
+                print(f"[BUA] Splash video cached to {SPLASH_CACHE_FILE}")
+            except Exception as e:
+                # If caching fails, use temp file
+                print(f"[BUA] Could not cache splash: {e}, using temp file")
+                with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as f:
+                    f.write(splash_data)
+                    splash_file = f.name
 
-        print(f"[BUA] Playing splash video...")
+        if splash_file:
+            print(f"[BUA] Playing splash video...")
 
         # Play video in the pygame window using cv2
         try:
@@ -4963,14 +5068,27 @@ def play_splash_and_load():
 
             loading_complete.wait()
 
-        # Clean up
-        try:
-            os.unlink(splash_file)
-        except:
-            pass
+        # Clean up temp file only (not cached file)
+        if splash_file and splash_file != SPLASH_CACHE_FILE:
+            try:
+                os.unlink(splash_file)
+            except:
+                pass
 
     except Exception as e:
-        print(f"[BUA] Could not play splash video: {e}")
+        print(f"[BUA] Could not download/play splash video: {e}")
+        print(f"[BUA] Showing loading screen fallback")
+        # Show a simple loading screen as fallback
+        try:
+            splash_screen = screen
+            splash_screen.fill((20, 24, 31))
+            font = pygame.font.Font(None, 72)
+            text = font.render("Loading...", True, (235, 242, 247))
+            text_rect = text.get_rect(center=(splash_screen.get_width() // 2, splash_screen.get_height() // 2))
+            splash_screen.blit(text, text_rect)
+            pygame.display.flip()
+        except:
+            pass
         # Just wait for loading without video
         loading_complete.wait()
 
