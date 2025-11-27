@@ -98,10 +98,12 @@ def fetch_url_with_retry(url: str, headers: dict, timeout: int = 5, retries: int
     """
     Fetch URL with exponential backoff retry logic.
     Returns the response bytes or raises an exception after all retries fail.
+    Set retries=0 for a single attempt with no error logging (useful for silent fallbacks).
     """
     import time
     import urllib.error
     last_error = None
+    silent_mode = (retries == 0)  # Silent mode when no retries requested
 
     for attempt in range(retries + 1):
         try:
@@ -115,22 +117,23 @@ def fetch_url_with_retry(url: str, headers: dict, timeout: int = 5, retries: int
                 return response.read()
         except urllib.error.HTTPError as e:
             last_error = e
-            if attempt < retries:
+            if attempt < retries and not silent_mode:
                 print(f"[BUA] HTTP Error {e.code}: {e.reason} - {url}")
             continue
         except urllib.error.URLError as e:
             last_error = e
-            if attempt < retries:
+            if attempt < retries and not silent_mode:
                 print(f"[BUA] Network error: {e.reason} - {url}")
             continue
         except Exception as e:
             last_error = e
-            if attempt < retries:
+            if attempt < retries and not silent_mode:
                 print(f"[BUA] Error: {e} - {url}")
             continue
 
     # All retries failed
-    print(f"[BUA] Failed to fetch after {retries + 1} attempts: {url}")
+    if not silent_mode:
+        print(f"[BUA] Failed to fetch after {retries + 1} attempts: {url}")
     raise last_error
 
 def load_translation_cache() -> Dict[str, Dict[str, str]]:
@@ -1008,20 +1011,26 @@ def _try_load(path: str):
         return None
 
 
-def _from_url(url: str | None):
+def _from_url(url: str | None, verbose: bool = False):
+    """
+    Download image from URL.
+    Set verbose=True to print error messages (useful for critical resources).
+    By default, errors are silent since this is often used with fallback URLs.
+    """
     if not url:
         return None
     try:
-        print(f"[BUA] Downloading icon from: {url}")
         data = fetch_url_with_retry(
             url,
             headers={"User-Agent": "BUA-Icons"},
             timeout=5,
-            retries=2
+            retries=0  # No retries for icons - fail fast and try next fallback
         )
+        if verbose:
+            print(f"[BUA] Successfully downloaded: {url}")
         return pygame.image.load(io.BytesIO(data)).convert_alpha()
-    except Exception as e:
-        print(f"[BUA] Could not download icon: {e}")
+    except Exception:
+        # Silent failure - this is expected when trying multiple fallback URLs
         return None
 
 def init_assets():
@@ -1259,27 +1268,27 @@ def init_assets():
 
     # Load shoulder button icons (LB/RB) if available
     if "LB" not in BUTTON_ICONS or "RB" not in BUTTON_ICONS:
-        lb_names = ["btn_lb.png", "lb.png"]
-        rb_names = ["btn_rb.png", "rb.png"]
-        def try_load_names(names):
-            for n in names:
-                url = DEFAULT_BUTTONS_BASE_URL.rstrip("/") + "/" + n if DEFAULT_BUTTONS_BASE_URL else None
+        def try_load_button(filename: str):
+            # Try remote URL first
+            if DEFAULT_BUTTONS_BASE_URL:
+                url = DEFAULT_BUTTONS_BASE_URL.rstrip("/") + "/" + filename
                 surf = _from_url(url)
                 if surf is not None:
                     return surf
-                # local fallbacks
-                for p in [os.path.join("images", n), os.path.join("assets", n), n]:
-                    if os.path.exists(p):
-                        s = _try_load(p)
-                        if s is not None:
-                            return s
+            # Local fallbacks
+            for p in [os.path.join("images", filename), os.path.join("assets", filename), filename]:
+                if os.path.exists(p):
+                    s = _try_load(p)
+                    if s is not None:
+                        return s
             return None
+
         if "LB" not in BUTTON_ICONS:
-            lb_surf = try_load_names(lb_names)
+            lb_surf = try_load_button("btn_lb.png")
             if lb_surf is not None:
                 BUTTON_ICONS["LB"] = lb_surf
         if "RB" not in BUTTON_ICONS:
-            rb_surf = try_load_names(rb_names)
+            rb_surf = try_load_button("btn_rb.png")
             if rb_surf is not None:
                 BUTTON_ICONS["RB"] = rb_surf
 
