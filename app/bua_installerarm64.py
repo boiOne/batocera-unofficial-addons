@@ -3911,7 +3911,8 @@ def get_script_dates() -> Dict[str, str]:
                     # parts[2] is the date
                     file_path = parts[1].strip("`").strip()
                     date_str = parts[2].strip()
-                    if file_path and date_str and date_str != "N/A":
+                    # Skip header rows and separator rows
+                    if file_path and date_str and date_str != "N/A" and not file_path.startswith("-") and file_path != "File":
                         _SCRIPT_DATES_CACHE[file_path] = date_str
     except Exception:
         pass
@@ -3931,9 +3932,10 @@ def github_latest_commit_date(owner: str, repo: str, branch: str, path: str) -> 
         if not date_str:
             return None
 
-        # Parse YYYY-MM-DD format and convert to epoch timestamp
-        # Assume midnight UTC for consistency
-        dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        # Parse ISO format: "2025-11-27 20:52:39 +0000"
+        # Split to get just the datetime part without timezone
+        date_parts = date_str.rsplit(' ', 1)[0]  # Remove timezone offset
+        dt = datetime.strptime(date_parts, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
         return dt.timestamp()
     except Exception:
         return None
@@ -3946,6 +3948,10 @@ GITHUB_CACHE: Dict[str, tuple] = {}  # {app: (status, needs_update, detail)}
 
 class UpdaterScreen(BaseScreen):
     def __init__(self):
+        global _SCRIPT_DATES_CACHE
+        # Invalidate SCRIPT_DATES cache on each updater screen entry to get fresh data
+        _SCRIPT_DATES_CACHE = None
+
         self.items: List[Tuple[str, str, bool, str]] = []  # (app, status_text, needs_update, detail)
         self.idx = 0
         self.selected: Dict[str, bool] = {}
