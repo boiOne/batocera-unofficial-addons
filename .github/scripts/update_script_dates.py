@@ -26,7 +26,7 @@ def git_last_date(path: str) -> str:
             "git",
             "log",
             "-1",
-            "--date=short",
+            "--date=iso",
             "--pretty=format:%ad",
             "--",
             path,
@@ -37,6 +37,7 @@ def git_last_date(path: str) -> str:
         check=True,
     )
     return result.stdout.strip() or "N/A"
+
 
 
 def main() -> None:
