@@ -515,13 +515,24 @@ def mark_uninstalled(app_name: str):
         del history[app_name]
         save_history(history)
 
-def get_uninstall_command(install_cmd: str) -> str:
+# Custom uninstall commands for apps that don't follow the standard pattern
+CUSTOM_UNINSTALL: Dict[str, str] = {
+    "Desktop For Batocera": "/userdata/system/configs/bat-drl/Remover_Desktop.sh",
+}
+
+def get_uninstall_command(install_cmd: str, app_name: str = None) -> str:
     """Convert an installation command to an uninstall command.
-    Replaces .sh with _uninstall.sh in the URL.
+
+    First checks CUSTOM_UNINSTALL dictionary for app-specific uninstall scripts.
+    Otherwise, replaces .sh with _uninstall.sh in the URL.
 
     Example:
     https://.../ 7zip/7zip.sh -> https://.../7zip/7zip_uninstall.sh
     """
+    # Check for custom uninstall command first
+    if app_name and app_name in CUSTOM_UNINSTALL:
+        return CUSTOM_UNINSTALL[app_name]
+
     import re
     # Find the .sh URL in the curl command
     match = re.search(r'(https://[^\s]+)\.sh', install_cmd)
@@ -3032,7 +3043,6 @@ class WineTypeMenu(BaseScreen):
     def select(self):
         wine_type, _label = self.options[self.idx]
         push_screen(WineSelectionScreen(wine_type))
-        pop_screen()
     
     def draw(self):
         draw_background(screen)
@@ -3232,7 +3242,6 @@ else
 fi'''
 
         push_screen(RunListScreen([(f"{self.title} - {tag}", install_script)], title=self.title))
-        pop_screen()
     
     def draw(self):
         draw_background(screen)
@@ -4630,7 +4639,7 @@ class UpdaterScreen(BaseScreen):
             return
 
         # Generate uninstall command
-        uninstall_cmd = get_uninstall_command(cmd)
+        uninstall_cmd = get_uninstall_command(cmd, app)
         if not uninstall_cmd:
             push_screen(InfoDialog(t("uninstall"), [t("uninstall_error")]))
             return
