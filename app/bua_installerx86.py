@@ -4440,40 +4440,60 @@ def parse_github_raw_url(cmd: str):
     return None
 
 
+# Cache for SCRIPT_DATES.md content
+_SCRIPT_DATES_CACHE: Dict[str, str] | None = None
+
+def get_script_dates() -> Dict[str, str]:
+    """Fetch and parse SCRIPT_DATES.md, returning a dict of {path: date_string}"""
+    global _SCRIPT_DATES_CACHE
+
+    if _SCRIPT_DATES_CACHE is not None:
+        return _SCRIPT_DATES_CACHE
+
+    _SCRIPT_DATES_CACHE = {}
+    try:
+        script_dates_url = "https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/SCRIPT_DATES.md"
+        req = urllib.request.Request(script_dates_url, headers={"User-Agent": "BUA-Updater"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            content = resp.read().decode("utf-8", "ignore")
+            # Parse markdown table format: | `path/to/file.sh` | YYYY-MM-DD |
+            for line in content.splitlines():
+                line = line.strip()
+                if not line.startswith("|") or line.count("|") < 3:
+                    continue
+                parts = [p.strip() for p in line.split("|")]
+                if len(parts) >= 3:
+                    # parts[0] is empty (before first |)
+                    # parts[1] is the path wrapped in backticks
+                    # parts[2] is the date
+                    file_path = parts[1].strip("`").strip()
+                    date_str = parts[2].strip()
+                    if file_path and date_str and date_str != "N/A":
+                        _SCRIPT_DATES_CACHE[file_path] = date_str
+    except Exception:
+        pass
+
+    return _SCRIPT_DATES_CACHE
+
+
 def github_latest_commit_date(owner: str, repo: str, branch: str, path: str) -> float | None:
     """Return epoch seconds of the latest commit date for a file path on a branch.
 
-    Note: Some repos have author.date newer than committer.date (e.g., amended or
-    rebased commits). To be resilient, take the max(author.date, committer.date).
+    Uses SCRIPT_DATES.md instead of GitHub API for better performance and reliability.
     """
     try:
-        api = (
-            f"https://api.github.com/repos/{owner}/{repo}/commits?"
-            + urllib.parse.urlencode({"path": path, "sha": branch})
-        )
-        req = urllib.request.Request(api, headers={"User-Agent": "BUA-Updater"})
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            data = json.loads(resp.read().decode("utf-8", "ignore"))
-            if isinstance(data, list) and data:
-                latest = data[0].get("commit", {})
-                ts: list[float] = []
-                try:
-                    a = latest.get("author", {}).get("date")
-                    if isinstance(a, str):
-                        ts.append(datetime.strptime(a, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp())
-                except Exception:
-                    pass
-                try:
-                    c = latest.get("committer", {}).get("date")
-                    if isinstance(c, str):
-                        ts.append(datetime.strptime(c, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp())
-                except Exception:
-                    pass
-                if ts:
-                    return max(ts)
+        dates_dict = get_script_dates()
+        date_str = dates_dict.get(path)
+
+        if not date_str:
+            return None
+
+        # Parse YYYY-MM-DD format and convert to epoch timestamp
+        # Assume midnight UTC for consistency
+        dt = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        return dt.timestamp()
     except Exception:
         return None
-    return None
 
 
 # Global GitHub cache that persists across UpdaterScreen instances
