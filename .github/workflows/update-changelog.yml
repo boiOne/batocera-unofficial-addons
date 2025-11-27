@@ -2,66 +2,48 @@ name: Update script last-modified dates
 
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 3 * * *"   # daily at 03:00 UTC
   workflow_dispatch: {}
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: write          # needed to push commits
 
 jobs:
   update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout (plain git)
+      - name: Checkout
         run: |
           git init .
           git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
           git fetch origin "${GITHUB_REF}"
           git checkout -qf FETCH_HEAD
 
-      - name: Generate CHANGELOG.md
+      - name: Generate SCRIPT_DATES.md
         run: |
-          OUT="CHANGELOG.md"
+          OUT="SCRIPT_DATES.md"
           echo "# Script Last Modified Dates" > "$OUT"
           echo "" >> "$OUT"
           echo "| File | Last Commit Date |" >> "$OUT"
           echo "|------|------------------|" >> "$OUT"
 
-          # Collect script files (adjust extensions as needed)
-          FILES=$(git ls-files "*.sh" "*.py" "*.js")
-
-          for f in $FILES; do
+          # adjust extensions as needed
+          git ls-files '*.sh' '*.bash' '*.py' '*.js' | while read -r f; do
             DATE=$(git log -1 --date=short --pretty=format:"%ad" -- "$f")
             echo "| $f | $DATE |" >> "$OUT"
           done
 
-      - name: Commit, push branch, open PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit and push if changed
         run: |
           if git diff --quiet; then
-            echo "No updates needed."
+            echo "No changes to commit"
             exit 0
           fi
 
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          BRANCH="chore/script-dates-$(date +'%Y%m%d')"
-          BASE="${GITHUB_REF_NAME}"
-
-          git checkout -b "$BRANCH"
-          git add CHANGELOG.md
-          git commit -m "chore: update script last modified dates"
-
-          git push origin "$BRANCH"
-
-          PR_BODY="Auto-updated dates for all script files."
-
-          curl -sS -X POST \
-            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-            -H "Accept: application/vnd.github+json" \
-            https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls \
-            -d "{\"title\":\"Update script dates\",\"head\":\"${BRANCH}\",\"base\":\"${BASE}\",\"body\":\"${PR_BODY}\"}"
+          git add SCRIPT_DATES.md
+          git commit -m "chore: update script last-modified dates [skip ci]"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
