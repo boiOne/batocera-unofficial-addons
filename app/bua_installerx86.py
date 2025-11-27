@@ -68,6 +68,7 @@ def live_update_block():
 TRANSLATIONS: Dict[str, Dict[str, str]] = {}
 CURRENT_LANGUAGE = "en"
 LANGUAGE_FILE = "/userdata/system/add-ons/bua_language.txt"
+RESOLUTION_FILE = "/userdata/system/add-ons/bua_resolution.txt"
 CARDS_PER_PAGE_FILE = "/userdata/system/add-ons/bua_cards_per_page.txt"
 CHANGELOG_HASH_FILE = "/userdata/system/add-ons/bua_changelog_hash.txt"
 TRANSLATION_CACHE_FILE = "/userdata/system/add-ons/bua_translation_cache.json"
@@ -942,6 +943,28 @@ def save_cards_per_page(value: str):
     except Exception:
         pass
 
+def load_saved_resolution():
+    """Load saved resolution preference"""
+    try:
+        if os.path.exists(RESOLUTION_FILE):
+            with open(RESOLUTION_FILE, 'r') as f:
+                res = f.read().strip()
+                if res and 'x' in res:
+                    parts = res.split('x')
+                    return int(parts[0]), int(parts[1])
+    except Exception:
+        pass
+    return None
+
+def save_resolution(width: int, height: int):
+    """Save resolution preference"""
+    try:
+        os.makedirs(os.path.dirname(RESOLUTION_FILE), exist_ok=True)
+        with open(RESOLUTION_FILE, 'w') as f:
+            f.write(f"{width}x{height}")
+    except Exception:
+        pass
+
 def get_visible_items(list_h: int, item_h: int) -> int:
     """Calculate number of visible items based on user preference.
     If CARDS_PER_PAGE is 'auto', calculate based on available space.
@@ -988,12 +1011,17 @@ def mark_changelog_shown():
 # Borderless fullscreen window that doesn't change video mode
 def init_display():
     global screen, W, H
+    # Try to load saved resolution first
+    saved_res = load_saved_resolution()
 
-    if os.environ.get("BUA_WINDOWED"):
+    if saved_res:
+        # Use saved resolution in fullscreen
+        screen = pygame.display.set_mode(saved_res, pygame.FULLSCREEN)
+    elif os.environ.get("BUA_WINDOWED"):
         # Windowed mode for development/testing
         screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)
     else:
-        # Borderless window at current display size (no video mode change)
+        # Default: Borderless window at current display size (no video mode change)
         info = pygame.display.Info()
         screen = pygame.display.set_mode((info.current_w, info.current_h), pygame.NOFRAME)
 
@@ -4983,21 +5011,37 @@ class CardsPerPageScreen(BaseScreen):
 
 
 class ResolutionScreen(BaseScreen):
-    """
-    UI Scale options - adjusts UI layout without changing video mode.
-    This replaces the old resolution screen to avoid 'Mode Not Supported' errors.
-    """
     def __init__(self):
-        # UI scale presets that affect layout, fonts, and cards per page
-        # These do NOT change the display video mode
+        # Common resolution options (including CRT resolutions)
         self.options = [
-            ("Small (Compact)", 0.7),
-            ("Normal", 1.0),
-            ("Large (TV-friendly)", 1.3),
-            ("Extra Large (CRT)", 1.5),
+            ("Native (Borderless)", 0, 0),
+            ("640x480", 640, 480),
+            ("800x600", 800, 600),
+            ("1024x768", 1024, 768),
+            ("1280x960", 1280, 960),
+            ("1280x1024", 1280, 1024),
+            ("1600x1200", 1600, 1200),
+            ("800x480", 800, 480),
+            ("1024x600", 1024, 600),
+            ("1280x720", 1280, 720),
+            ("1280x800", 1280, 800),
+            ("1366x768", 1366, 768),
+            ("1600x900", 1600, 900),
+            ("1920x1080", 1920, 1080),
+            ("2560x1440", 2560, 1440),
+            ("3840x2160", 3840, 2160),
         ]
-        self.idx = 1  # Default to "Normal"
+        self.idx = 0
         self.scroll_offset = 0
+        # Find current resolution
+        current_w, current_h = W, H
+        for i, (label, w, h) in enumerate(self.options):
+            if label == "Native (Borderless)" and not load_saved_resolution():
+                self.idx = i
+                break
+            elif w == current_w and h == current_h:
+                self.idx = i
+                break
 
     def handle(self, events):
         # Process analog stick for navigation (arcade cabinet support)
@@ -5032,27 +5076,52 @@ class ResolutionScreen(BaseScreen):
                     pop_screen(); return
 
     def apply_choice(self):
-        global UI_SCALE, FONT, FONT_SMALL, FONT_BIG
-        label, scale_multiplier = self.options[self.idx]
+        global screen, W, H, UI_SCALE, FONT, FONT_SMALL, FONT_BIG
+        label, w, h = self.options[self.idx]
 
         try:
-            # Adjust UI_SCALE without changing display mode
-            base_scale = max(1.0, min(W/1280.0, H/720.0))
-            UI_SCALE = base_scale * scale_multiplier
+            if label == "Native (Borderless)":
+                # Remove saved resolution file to use borderless window on next launch
+                try:
+                    if os.path.exists(RESOLUTION_FILE):
+                        os.remove(RESOLUTION_FILE)
+                except Exception:
+                    pass
+                # Use native display resolution in borderless window
+                info = pygame.display.Info()
+                w, h = info.current_w, info.current_h
 
-            # Reload fonts with new scale
+                # Quit and reinitialize pygame display
+                pygame.display.quit()
+                pygame.display.init()
+                pygame.display.set_caption(t('main_title'))
+                screen = pygame.display.set_mode((w, h), pygame.NOFRAME)
+            else:
+                # Save specific resolution and use fullscreen
+                save_resolution(w, h)
+
+                # Quit and reinitialize pygame display
+                pygame.display.quit()
+                pygame.display.init()
+                pygame.display.set_caption(t('main_title'))
+                screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN)
+
+            # Update globals
+            W, H = screen.get_size()
+            UI_SCALE = max(1.0, min(W/1280.0, H/720.0))
             FONT, FONT_SMALL, FONT_BIG = load_fonts()
             init_assets()
 
-            msg = [f"UI Scale: {label}", f"Display: {W}x{H} (unchanged)"]
+            msg = [f"{t('resolution')}: {label} ({W}x{H})"]
             push_screen(InfoDialog(t("settings_title"), msg))
         except Exception as e:
+            # If resolution change fails, show error
             msg = [f"{t('error')}: {str(e)}"]
             push_screen(InfoDialog(t("settings_title"), msg))
 
     def draw(self):
         draw_background(screen)
-        draw_text(screen, "UI Scale", FONT_BIG, FG, (40, 30))
+        draw_text(screen, t("resolution"), FONT_BIG, FG, (40, 30))
         hint = f"A={t('hint_select')} | B={t('hint_return')} | Back={t('hint_close_settings')}"
         draw_hints_line(screen, hint, FONT_SMALL, ACCENT, (40, 70))
 
@@ -5060,18 +5129,38 @@ class ResolutionScreen(BaseScreen):
         card_w = min(W - S(80), S(900))
         card_x = (W - card_w) // 2
 
-        # Show current display info
-        draw_text(screen, f"Display: {W}x{H} (no video mode change)", FONT_SMALL, MUTED, (card_x, base_y))
+        # Show current resolution
+        saved_res = load_saved_resolution()
+        if saved_res:
+            current_label = f"{saved_res[0]}x{saved_res[1]}"
+        else:
+            current_label = "Native (Borderless)"
+
+        draw_text(screen, f"{t('current')}: {current_label} ({W}x{H})", FONT_SMALL, MUTED, (card_x, base_y))
         base_y += 36
 
         # Calculate visible area
         item_height = 52
         visible_start_y = base_y
         visible_end_y = H - 40
+        list_h = visible_end_y - visible_start_y
+        visible_items = get_visible_items(list_h, item_height)
 
-        # Draw UI scale options
-        for i, (label, _scale) in enumerate(self.options):
-            card_y = base_y + i * item_height
+        # Auto-scroll to keep selection visible
+        if self.idx < self.scroll_offset:
+            self.scroll_offset = self.idx
+        elif self.idx >= self.scroll_offset + visible_items:
+            self.scroll_offset = self.idx - visible_items + 1
+
+        # Clamp scroll offset
+        max_scroll = max(0, len(self.options) - visible_items)
+        self.scroll_offset = max(0, min(self.scroll_offset, max_scroll))
+
+        # Draw resolution options (only visible ones)
+        for i in range(self.scroll_offset, min(len(self.options), self.scroll_offset + visible_items)):
+            label, _w, _h = self.options[i]
+            display_index = i - self.scroll_offset
+            card_y = base_y + display_index * item_height
 
             # Skip if outside visible area
             if card_y + 48 < visible_start_y or card_y > visible_end_y:
@@ -5086,7 +5175,7 @@ class ResolutionScreen(BaseScreen):
             else:
                 pygame.draw.rect(screen, CARD, rect, border_radius=10)
 
-            # Show scale label
+            # Show resolution label
             text_surf = FONT.render(label, True, FG)
             screen.blit(text_surf, (rect.x + 14, rect.y + 8))
 
