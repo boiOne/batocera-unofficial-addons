@@ -1,0 +1,47 @@
+name: Update changelog dates
+
+on:
+  schedule:
+    # Every day at 03:00 UTC (adjust as needed)
+    - cron: "0 3 * * *"
+  workflow_dispatch: {}  # allow manual runs too
+
+permissions:
+  contents: write  # needed so the bot can push
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # get full history so git log works
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install deps (if you need any)
+        run: |
+          pip install --upgrade pip
+          # pip install whatever-you-need
+
+      - name: Run changelog update script
+        run: python .github/scripts/update_changelog.py
+
+      - name: Commit and push if changed
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add CHANGELOG.md
+          git commit -m "chore: update changelog dates [skip ci]"
+          git push
