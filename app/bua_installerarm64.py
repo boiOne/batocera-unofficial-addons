@@ -591,7 +591,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "Chiaki": "PS4/PS5 Remote Play client.",
     "Conty": "Standalone Linux distro container.",
     "Dark Mode": "Toggle F1 dark mode",
-    "Desktop": "Desktop mode (Ports)",
+    "Desktop (Docker)": "Desktop mode, requires Docker",
     "Docker": "Docker/Podman/Portainer AIO.",
     "RunImage Desktop": "RunImage-based desktop with overlay support",
     "F1": "Ports shortcut to file manager",
@@ -632,7 +632,7 @@ CATEGORIES: Dict[str, List[str]] = {
     ],
     "System Utilities": [
         "Tailscale", "Telegraf", "Vesktop", "IPTV Nator", "FreeTube",
-        "F1", "Firefox", "Desktop", "Raspberry Pi Imager"
+        "F1", "Firefox", "Desktop", "RunImage Desktop", "Raspberry Pi Imager"
     ],
     "Developer Tools": [
         "Conty", "Docker", "Soar", "WayVNC", "WayVNC Headless", "Dark Mode"
