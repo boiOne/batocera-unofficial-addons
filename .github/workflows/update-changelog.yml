@@ -1,47 +1,67 @@
-name: Update changelog dates
+name: Update script last-modified dates
 
 on:
   schedule:
-    # Every day at 03:00 UTC (adjust as needed)
     - cron: "0 3 * * *"
-  workflow_dispatch: {}  # allow manual runs too
+  workflow_dispatch: {}
 
 permissions:
-  contents: write  # needed so the bot can push
+  contents: write
+  pull-requests: write
 
 jobs:
-  update-changelog:
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # get full history so git log works
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-
-      - name: Install deps (if you need any)
+      - name: Checkout (plain git)
         run: |
-          pip install --upgrade pip
-          # pip install whatever-you-need
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch origin "${GITHUB_REF}"
+          git checkout -qf FETCH_HEAD
 
-      - name: Run changelog update script
-        run: python .github/scripts/update_changelog.py
+      - name: Generate CHANGELOG.md
+        run: |
+          OUT="CHANGELOG.md"
+          echo "# Script Last Modified Dates" > "$OUT"
+          echo "" >> "$OUT"
+          echo "| File | Last Commit Date |" >> "$OUT"
+          echo "|------|------------------|" >> "$OUT"
 
-      - name: Commit and push if changed
+          # Collect script files (adjust extensions as needed)
+          FILES=$(git ls-files "*.sh" "*.py" "*.js")
+
+          for f in $FILES; do
+            DATE=$(git log -1 --date=short --pretty=format:"%ad" -- "$f")
+            echo "| $f | $DATE |" >> "$OUT"
+          done
+
+      - name: Commit, push branch, open PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if git diff --quiet; then
-            echo "No changes to commit"
+            echo "No updates needed."
             exit 0
           fi
 
-          git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name  "github-actions[bot]"
 
+          BRANCH="chore/script-dates-$(date +'%Y%m%d')"
+          BASE="${GITHUB_REF_NAME}"
+
+          git checkout -b "$BRANCH"
           git add CHANGELOG.md
-          git commit -m "chore: update changelog dates [skip ci]"
-          git push
+          git commit -m "chore: update script last modified dates"
+
+          git push origin "$BRANCH"
+
+          PR_BODY="Auto-updated dates for all script files."
+
+          curl -sS -X POST \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls \
+            -d "{\"title\":\"Update script dates\",\"head\":\"${BRANCH}\",\"base\":\"${BASE}\",\"body\":\"${PR_BODY}\"}"
