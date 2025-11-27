@@ -879,7 +879,7 @@ CATEGORIES: Dict[str, List[str]] = {
         "Telegraf", "Wine Manager", "Vesktop", "Chrome", "YouTube", "Netflix",
         "Input Leap", "IPTV Nator", "Firefox", "Spotify", "Arcade Manager", "Brave",
         "OpenRGB", "OBS", "Stremio", "Disney Plus", "Twitch", "7zip", "qBittorrent",
-        "GParted", "Custom Wine", "Plex", "HBO Max", "Prime Video", "Crunchyroll",
+        "GParted", "Plex", "HBO Max", "Prime Video", "Crunchyroll",
         "Mubi", "Tidal", "FreeTube", "FileZilla", "PeaZip", "Desktop", "Flathub",
         "JDownloader", "Raspberry Pi Imager"
     ],
@@ -898,6 +898,7 @@ def get_top_level() -> List[Tuple[str, str]]:
         (t("system_utilities"), t("system_utilities_desc")),
         (t("developer_tools"), t("developer_tools_desc")),
         (t("docker_menu"), t("docker_menu_desc")),
+        (t("custom_wine"), t("custom_wine_desc")),
         (t("updater"), t("updater_desc")),
         (t("settings"), t("settings_desc")),
         (t("exit"), t("exit_desc")),
@@ -2317,6 +2318,9 @@ class MenuScreen(BaseScreen):
             cmd = SPECIAL_TOPLEVEL_RUN[name]
             push_screen(RunListScreen([(name, cmd)], title=name))
             return
+        if name == t("custom_wine"):
+            push_screen(WineTypeMenu())
+            return
         if name == t("settings"):
             push_screen(SettingsScreen())
             return
@@ -2988,6 +2992,303 @@ class MenuSelectionDialog(BaseScreen):
             draw_text(screen, label, FONT, FG, (opt_rect.x + S(15), opt_rect.y + S(12)))
 
 
+class WineTypeMenu(BaseScreen):
+    """Menu for selecting Wine/Proton variant type"""
+    def __init__(self):
+        self.options = [
+            ('vanilla', 'Wine & Proton (Vanilla)'),
+            ('tkg', 'Wine-TKG-Staging'),
+            ('wine-ge', 'Wine-GE Custom'),
+            ('ge-proton', 'Proton-GE Custom'),
+        ]
+        self.idx = 0
+        self.scroll_offset = 0
+    
+    def handle(self, events):
+        for e in events:
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit(0)
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_ESCAPE:
+                    pop_screen(); return
+                if e.key in (pygame.K_DOWN,):
+                    self.idx = (self.idx + 1) % len(self.options)
+                if e.key in (pygame.K_UP,):
+                    self.idx = (self.idx - 1) % len(self.options)
+                if e.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
+                    self.select()
+            if e.type == pygame.JOYHATMOTION:
+                _x, y = e.value
+                if y == -1:
+                    self.idx = (self.idx + 1) % len(self.options)
+                elif y == 1:
+                    self.idx = (self.idx - 1) % len(self.options)
+            if e.type == pygame.JOYBUTTONDOWN:
+                if e.button in (BTN_A, BTN_START):
+                    self.select()
+                if e.button in (BTN_B, BTN_BACK):
+                    pop_screen(); return
+    
+    def select(self):
+        wine_type, _label = self.options[self.idx]
+        push_screen(WineSelectionScreen(wine_type))
+        pop_screen()
+    
+    def draw(self):
+        draw_background(screen)
+        
+        draw_text(screen, "Select Wine/Proton Version", FONT_BIG, FG, (40, 30))
+        draw_hints_line(screen, f"A={t('hint_select')} | B={t('hint_return')}", FONT_SMALL, ACCENT, (40, 70))
+        
+        # List of wine types
+        base_y = 110
+        item_h = 60
+        list_h = H - base_y - 40
+        visible_items = get_visible_items(list_h, item_h)
+        
+        # Auto-scroll to keep selection visible
+        if self.idx < self.scroll_offset:
+            self.scroll_offset = self.idx
+        elif self.idx >= self.scroll_offset + visible_items:
+            self.scroll_offset = self.idx - visible_items + 1
+        
+        max_scroll = max(0, len(self.options) - visible_items)
+        self.scroll_offset = max(0, min(self.scroll_offset, max_scroll))
+        
+        # Draw wine type options
+        for i in range(self.scroll_offset, min(len(self.options), self.scroll_offset + visible_items)):
+            _wine_type, label = self.options[i]
+            display_idx = i - self.scroll_offset
+            y = base_y + display_idx * item_h
+            
+            rect = pygame.Rect(40, y, W - 80, item_h - 5)
+            pygame.draw.rect(screen, CARD, rect, border_radius=10)
+            
+            if i == self.idx:
+                pygame.draw.rect(screen, SELECT, rect, width=3, border_radius=10)
+            
+            draw_text(screen, label, FONT, FG, (rect.x + 14, rect.y + 18))
+
+
+class WineSelectionScreen(BaseScreen):
+    """Screen for selecting Wine/Proton versions from GitHub releases"""
+    def __init__(self, wine_type: str):
+        """
+        wine_type: 'vanilla', 'tkg', 'wine-ge', or 'ge-proton'
+        """
+        self.wine_type = wine_type
+        self.title = {
+            'vanilla': 'Wine & Proton (Vanilla)',
+            'tkg': 'Wine-TKG-Staging',
+            'wine-ge': 'Wine-GE Custom',
+            'ge-proton': 'Proton-GE Custom'
+        }.get(wine_type, wine_type)
+        
+        self.versions = []
+        self.idx = 0
+        self.scroll_offset = 0
+        self.loading = True
+        self.error = None
+        self.selected_version = None
+        
+        # Start background fetch
+        threading.Thread(target=self._fetch_versions, daemon=True).start()
+    
+    def _fetch_versions(self):
+        """Fetch available wine versions from GitHub API"""
+        try:
+            import json
+            
+            repos = {
+                'vanilla': ('Kron4ek/Wine-Builds', None),
+                'tkg': ('Kron4ek/Wine-Builds', 'staging-tkg'),
+                'wine-ge': ('GloriousEggroll/wine-ge-custom', None),
+                'ge-proton': ('GloriousEggroll/proton-ge-custom', None)
+            }
+            
+            owner_repo, filter_str = repos.get(self.wine_type, ('Kron4ek/Wine-Builds', None))
+            
+            api_url = f"https://api.github.com/repos/{owner_repo}/releases?per_page=100"
+            req = urllib.request.Request(api_url, headers={"User-Agent": "BUA"})
+            
+            with urllib.request.urlopen(req, timeout=10) as response:
+                releases = json.loads(response.read().decode('utf-8'))
+            
+            # Filter and sort versions
+            for release in releases:
+                tag = release.get('tag_name', '')
+                name = release.get('name', tag)
+                
+                # Apply filter if needed
+                if filter_str and not any(filter_str in asset.get('name', '') for asset in release.get('assets', [])):
+                    continue
+                
+                # Check for valid assets
+                if any(asset.get('name', '').endswith(('.tar.xz', '.tar.gz')) for asset in release.get('assets', [])):
+                    self.versions.append({'tag': tag, 'name': name})
+            
+            if not self.versions:
+                self.error = "No versions found"
+            
+        except Exception as e:
+            self.error = f"Error fetching versions: {str(e)[:100]}"
+        finally:
+            self.loading = False
+    
+    def handle(self, events):
+        if self.loading or not self.versions:
+            for e in events:
+                if e.type == pygame.QUIT:
+                    pygame.quit(); sys.exit(0)
+                if e.type == pygame.KEYDOWN:
+                    if e.key == pygame.K_ESCAPE:
+                        pop_screen(); return
+                if e.type == pygame.JOYBUTTONDOWN:
+                    if e.button in (BTN_B, BTN_BACK):
+                        pop_screen(); return
+            return
+        
+        for e in events:
+            if e.type == pygame.QUIT:
+                pygame.quit(); sys.exit(0)
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_ESCAPE:
+                    pop_screen(); return
+                if e.key in (pygame.K_DOWN,):
+                    self.idx = (self.idx + 1) % len(self.versions)
+                if e.key in (pygame.K_UP,):
+                    self.idx = (self.idx - 1) % len(self.versions)
+                if e.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
+                    self.select_version()
+            if e.type == pygame.JOYHATMOTION:
+                _x, y = e.value
+                if y == -1:
+                    self.idx = (self.idx + 1) % len(self.versions)
+                elif y == 1:
+                    self.idx = (self.idx - 1) % len(self.versions)
+            if e.type == pygame.JOYBUTTONDOWN:
+                if e.button in (BTN_A, BTN_START):
+                    self.select_version()
+                if e.button in (BTN_B, BTN_BACK):
+                    pop_screen(); return
+    
+    def select_version(self):
+        """Install selected wine version"""
+        version = self.versions[self.idx]
+        tag = version['tag']
+
+        # Build inline installation script based on wine type
+        repos = {
+            'vanilla': ('Kron4ek/Wine-Builds', 'amd64.tar.xz', None),
+            'tkg': ('Kron4ek/Wine-Builds', 'amd64.tar.xz', 'staging-tkg'),
+            'wine-ge': ('GloriousEggroll/wine-ge-custom', 'x86_64.tar.xz', None),
+            'ge-proton': ('GloriousEggroll/proton-ge-custom', 'tar.gz', None)
+        }
+
+        repo, file_ext, filter_str = repos.get(self.wine_type, ('Kron4ek/Wine-Builds', 'amd64.tar.xz', None))
+
+        # Build filter clause for asset selection
+        if filter_str:
+            filter_clause = f'| select(.name | contains("{filter_str}"))'
+        else:
+            filter_clause = ''
+
+        # Create inline installation script
+        # Build the jq filter with proper escaping
+        jq_filter = f'.[] | select(.tag_name == "{tag}") | .assets[] {filter_clause} | select(.name | endswith("{file_ext}")) | .browser_download_url'
+
+        install_script = f'''set -e
+INSTALL_DIR="/userdata/system/wine/custom/"
+VERSION="{tag}"
+REPO="{repo}"
+FILE_EXT="{file_ext}"
+
+echo "Fetching release information for $VERSION..."
+release_data=$(curl -s "https://api.github.com/repos/$REPO/releases?per_page=100")
+
+echo "Finding download URL..."
+url=$(echo "$release_data" | jq -r '{jq_filter}' | head -n1)
+
+if [[ -z "$url" ]]; then
+    echo "No compatible download found for $VERSION"
+    exit 1
+fi
+
+echo "Creating directory..."
+mkdir -p "$INSTALL_DIR/wine-$VERSION"
+cd "$INSTALL_DIR/wine-$VERSION"
+
+echo "Downloading $VERSION from $url..."
+wget -q --tries=10 --no-check-certificate --no-cache --no-cookies --show-progress -O "wine-$VERSION.$FILE_EXT" "$url"
+
+if [ -f "wine-$VERSION.$FILE_EXT" ]; then
+    echo "Unpacking Wine $VERSION..."
+    tar --strip-components=1 -xf "wine-$VERSION.$FILE_EXT"
+    rm "wine-$VERSION.$FILE_EXT"
+    echo "Installation of Wine $VERSION complete!"
+else
+    echo "Failed to download Wine $VERSION"
+    exit 1
+fi'''
+
+        push_screen(RunListScreen([(f"{self.title} - {tag}", install_script)], title=self.title))
+        pop_screen()
+    
+    def draw(self):
+        draw_background(screen)
+        
+        if self.loading:
+            draw_text(screen, f"{self.title} - Loading...", FONT_BIG, FG, (40, 30))
+            draw_text(screen, "Fetching available versions from GitHub...", FONT, MUTED, (40, 100))
+            return
+        
+        if self.error:
+            draw_text(screen, f"{self.title} - Error", FONT_BIG, (255, 120, 120), (40, 30))
+            draw_text(screen, self.error, FONT, MUTED, (40, 100))
+            draw_hints_line(screen, f"B={t('hint_return')}", FONT_SMALL, ACCENT, (40, 70))
+            return
+        
+        draw_text(screen, self.title, FONT_BIG, FG, (40, 30))
+        draw_hints_line(screen, f"A={t('hint_select')} | B={t('hint_return')}", FONT_SMALL, ACCENT, (40, 70))
+        
+        # List of versions
+        base_y = 110
+        item_h = 50
+        list_h = H - base_y - 40
+        visible_items = get_visible_items(list_h, item_h)
+        
+        # Auto-scroll to keep selection visible
+        if self.idx < self.scroll_offset:
+            self.scroll_offset = self.idx
+        elif self.idx >= self.scroll_offset + visible_items:
+            self.scroll_offset = self.idx - visible_items + 1
+        
+        max_scroll = max(0, len(self.versions) - visible_items)
+        self.scroll_offset = max(0, min(self.scroll_offset, max_scroll))
+        
+        # Draw version items
+        for i in range(self.scroll_offset, min(len(self.versions), self.scroll_offset + visible_items)):
+            version = self.versions[i]
+            display_idx = i - self.scroll_offset
+            y = base_y + display_idx * item_h
+            
+            rect = pygame.Rect(40, y, W - 80, item_h - 5)
+            pygame.draw.rect(screen, CARD, rect, border_radius=10)
+            
+            if i == self.idx:
+                pygame.draw.rect(screen, SELECT, rect, width=3, border_radius=10)
+            
+            draw_text(screen, f"{version['name']}", FONT, FG, (rect.x + 14, rect.y + 8))
+            draw_text(screen, f"Tag: {version['tag']}", FONT_SMALL, MUTED, (rect.x + 14, rect.y + 28))
+        
+        # Draw scroll indicators
+        if len(self.versions) > visible_items:
+            if self.scroll_offset > 0:
+                draw_text(screen, "▲ More above", FONT_SMALL, MUTED, (40, base_y - 25))
+            if self.scroll_offset + visible_items < len(self.versions):
+                draw_text(screen, "▼ More below", FONT_SMALL, MUTED, (40, H - 30))
+
+
 class ChecklistScreen(BaseScreen):
     def __init__(self, category: str, app_keys: List[str]):
         self.category = category
@@ -3029,9 +3330,9 @@ class ChecklistScreen(BaseScreen):
                 if e.key in (pygame.K_RETURN, pygame.K_KP_ENTER):
                     if current_time - self.last_action_time > self.action_cooldown:
                         key = self.items[self.idx]
-                        # Special handling for Custom Wine - run directly instead of selecting
+                        # Special handling for Custom Wine - show wine type menu instead
                         if key == "Custom Wine":
-                            push_screen(RunListScreen([(key, APPS[key])], title=key))
+                            push_screen(WineTypeMenu())
                         else:
                             self.selected[key] = not self.selected[key]
                         self.last_action_time = current_time
@@ -3059,9 +3360,9 @@ class ChecklistScreen(BaseScreen):
                 if e.button in (BTN_A,):  # A
                     if current_time - self.last_action_time > self.action_cooldown:
                         key = self.items[self.idx]
-                        # Special handling for Custom Wine - run directly instead of selecting
+                        # Special handling for Custom Wine - show wine type menu instead
                         if key == "Custom Wine":
-                            push_screen(RunListScreen([(key, APPS[key])], title=key))
+                            push_screen(WineTypeMenu())
                         else:
                             self.selected[key] = not self.selected[key]
                         self.last_action_time = current_time
