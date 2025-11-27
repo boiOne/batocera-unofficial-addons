@@ -16,7 +16,7 @@ arch=$(uname -m)
 case "$arch" in
     aarch64|armv8*|arm64)
         echo "    Architecture: ARM64/aarch64 detected"
-        OVERLAY_PACKAGE_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/releases/download/ri-desktop/ri-desktop-overlay-aarch64.tar.xz"
+        OVERLAY_PACKAGE_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/releases/download/AppImages/ri-desktop-arm64.tar.xz"
         ;;
     *)
         echo "[!] Error: This installer currently only supports ARM64/aarch64 architecture"
@@ -225,7 +225,7 @@ chmod +x "${LAUNCHER_PATH}"
 # Create EmulationStation port entry
 echo "[*] Creating EmulationStation port entry..."
 PORTS_DIR="/userdata/roms/ports"
-PORT_SCRIPT="${PORTS_DIR}/RunImage Desktop.sh"
+PORT_SCRIPT="${PORTS_DIR}/RunImageDesktop.sh"
 
 mkdir -p "${PORTS_DIR}"
 
@@ -235,6 +235,81 @@ cat > "${PORT_SCRIPT}" << 'PORT_EOF'
 PORT_EOF
 
 chmod +x "${PORT_SCRIPT}"
+
+# Create pad2key profile
+echo "[*] Creating pad2key profile..."
+PAD2KEY_PROFILE="${PORTS_DIR}/RunImageDesktop.sh.keys"
+
+cat > "${PAD2KEY_PROFILE}" << 'PAD2KEY_EOF'
+{
+    "actions_player1": [
+        {
+            "trigger": "joystick2",
+            "type": "mouse"
+        },
+        {
+            "trigger": "r3",
+            "type": "key",
+            "target": "BTN_LEFT"
+        },
+        {
+            "trigger": "l3",
+            "type": "key",
+            "target": "BTN_RIGHT"
+        },
+        {
+            "trigger": "up",
+            "type": "key",
+            "target": "KEY_UP"
+        },
+        {
+            "trigger": "down",
+            "type": "key",
+            "target": "KEY_DOWN"
+        },
+        {
+            "trigger": "left",
+            "type": "key",
+            "target": "KEY_LEFT"
+        },
+        {
+            "trigger": "right",
+            "type": "key",
+            "target": "KEY_RIGHT"
+        },
+        {
+            "trigger": "joystick1up",
+            "type": "key",
+            "target": "KEY_PAGEUP"
+        },
+        {
+            "trigger": "joystick1down",
+            "type": "key",
+            "target": "KEY_PAGEDOWN"
+        }
+    ]
+}
+PAD2KEY_EOF
+
+# Download images
+echo "[*] Downloading images..."
+mkdir -p "${PORTS_DIR}/images"
+curl -L -o "${PORTS_DIR}/images/desktop-logo.png" \
+  "https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/desktop/extra/desktop-logo.png" 2>/dev/null || true
+curl -L -o "${PORTS_DIR}/images/desktop-marquee.png" \
+  "https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/desktop/extra/desktop-marquee.png" 2>/dev/null || true
+
+# Add entry to gamelist.xml with xmlstarlet
+echo "[*] Adding entry to gamelist.xml..."
+if [ -f /userdata/roms/ports/gamelist.xml ]; then
+    xmlstarlet ed -s "/gameList" -t elem -n "game" -v "" \
+      -s "/gameList/game[last()]" -t elem -n "path" -v "./RunImageDesktop.sh" \
+      -s "/gameList/game[last()]" -t elem -n "name" -v "RunImage Desktop" \
+      -s "/gameList/game[last()]" -t elem -n "image" -v "./images/desktop-logo.png" \
+      -s "/gameList/game[last()]" -t elem -n "marquee" -v "./images/desktop-marquee.png" \
+      /userdata/roms/ports/gamelist.xml > /userdata/roms/ports/gamelist.xml.tmp && \
+      mv /userdata/roms/ports/gamelist.xml.tmp /userdata/roms/ports/gamelist.xml
+fi
 
 # Refresh EmulationStation game list
 echo "[*] Refreshing EmulationStation..."
