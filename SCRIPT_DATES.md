@@ -3,7 +3,7 @@
 | File | Last Commit Date |
 |------|------------------|
 | `.dep/mousemove.sh` | 2025-05-22 18:53:29 +0100 |
-| `.github/scripts/update_script_dates.py` | 2025-11-27 21:15:02 +0000 |
+| `.github/scripts/update_script_dates.py` | 2025-11-27 21:41:35 +0000 |
 | `7zip/7zip.sh` | 2025-05-22 17:09:18 +0100 |
 | `7zip/7zip_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `Android/Install_Android.sh` | 2025-11-13 23:41:52 +0000 |
@@ -26,8 +26,8 @@
 | `app/BatoceraUnofficialAddons_ARM64.sh` | 2025-05-22 17:15:31 +0100 |
 | `app/batocera-unofficial-addons-arm64.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/batocera-unofficial-addons.sh` | 2025-11-20 16:56:24 +0000 |
-| `app/bua_installerarm64.py` | 2025-11-27 20:52:39 +0000 |
-| `app/bua_installerx86.py` | 2025-11-27 20:52:39 +0000 |
+| `app/bua_installerarm64.py` | 2025-11-27 21:36:02 +0000 |
+| `app/bua_installerx86.py` | 2025-11-27 21:36:02 +0000 |
 | `app/dep.sh` | 2025-05-22 17:16:35 +0100 |
 | `app/dep_arm64.sh` | 2025-05-22 17:16:49 +0100 |
 | `app/install.sh` | 2025-05-22 17:17:07 +0100 |
