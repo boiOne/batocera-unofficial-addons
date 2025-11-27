@@ -3303,11 +3303,15 @@ fi'''
 
 class ChecklistScreen(BaseScreen):
     def __init__(self, category: str, app_keys: List[str]):
+        global SELECTED_APPS
         self.category = category
         self.all_items = app_keys
         self.items = app_keys  # Filtered list
         self.idx = 0
-        self.selected: Dict[str, bool] = {k: False for k in self.all_items}
+        # Use global SELECTED_APPS, initialize new keys if needed
+        for k in self.all_items:
+            if k not in SELECTED_APPS:
+                SELECTED_APPS[k] = False
         self.queue_message = ""
         self.queue_message_time = 0
         self.search_mode = False
@@ -3346,16 +3350,16 @@ class ChecklistScreen(BaseScreen):
                         if key == "Custom Wine":
                             push_screen(WineTypeMenu())
                         else:
-                            self.selected[key] = not self.selected[key]
+                            SELECTED_APPS[key] = not SELECTED_APPS[key]
                         self.last_action_time = current_time
                 # A to select all / deselect all (keyboard)
                 if e.key == pygame.K_a:
-                    if all(self.selected.get(k, False) for k in self.items):
+                    if all(SELECTED_APPS.get(k, False) for k in self.items):
                         for key in self.items:
-                            self.selected[key] = False
+                            SELECTED_APPS[key] = False
                     else:
                         for key in self.items:
-                            self.selected[key] = True
+                            SELECTED_APPS[key] = True
                 # Space opens the queue/add action (Start)
                 if e.key == pygame.K_SPACE:
                     if current_time - self.last_action_time > self.action_cooldown:
@@ -3376,7 +3380,7 @@ class ChecklistScreen(BaseScreen):
                         if key == "Custom Wine":
                             push_screen(WineTypeMenu())
                         else:
-                            self.selected[key] = not self.selected[key]
+                            SELECTED_APPS[key] = not SELECTED_APPS[key]
                         self.last_action_time = current_time
                 if e.button in (BTN_START,):  # Start
                     if current_time - self.last_action_time > self.action_cooldown:
@@ -3385,12 +3389,12 @@ class ChecklistScreen(BaseScreen):
                 if e.button in (BTN_B, BTN_BACK):  # B/Back
                     pop_screen(); return
                 if e.button == BTN_Y:  # Y button -> toggle select all
-                    if all(self.selected.get(k, False) for k in self.items):
+                    if all(SELECTED_APPS.get(k, False) for k in self.items):
                         for key in self.items:
-                            self.selected[key] = False
+                            SELECTED_APPS[key] = False
                     else:
                         for key in self.items:
-                            self.selected[key] = True
+                            SELECTED_APPS[key] = True
 
     def filter_items(self):
         """
@@ -3409,8 +3413,8 @@ class ChecklistScreen(BaseScreen):
         self.idx = 0
 
     def install_selected(self):
-        selected_items = [(k, APPS[k]) for k, v in self.selected.items() if v]
-        
+        selected_items = [(k, APPS[k]) for k, v in SELECTED_APPS.items() if v]
+
         if selected_items:
             # Check if any are already installed
             already_installed = [(k, cmd) for k, cmd in selected_items if is_installed(k)]
@@ -3440,8 +3444,8 @@ class ChecklistScreen(BaseScreen):
                     for item in already_installed:
                         if item not in INSTALL_QUEUE:
                             INSTALL_QUEUE.append(item)
-                    for k in self.selected:
-                        self.selected[k] = False
+                    for k in SELECTED_APPS:
+                        SELECTED_APPS[k] = False
                     self.queue_message = f"{t('added')} {len(already_installed)} {t('to_queue')}"
                     self.queue_message_time = pygame.time.get_ticks() / 1000.0
                 
@@ -3467,8 +3471,8 @@ class ChecklistScreen(BaseScreen):
                         for item in selected_items:
                             if item not in INSTALL_QUEUE:
                                 INSTALL_QUEUE.append(item)
-                        for k in self.selected:
-                            self.selected[k] = False
+                        for k in SELECTED_APPS:
+                            SELECTED_APPS[k] = False
                         self.queue_message = f"{t('added')} {len(selected_items)} {t('to_queue')}"
                         self.queue_message_time = pygame.time.get_ticks() / 1000.0
 
@@ -3481,8 +3485,8 @@ class ChecklistScreen(BaseScreen):
                     for item in selected_items:
                         if item not in INSTALL_QUEUE:
                             INSTALL_QUEUE.append(item)
-                    for k in self.selected:
-                        self.selected[k] = False
+                    for k in SELECTED_APPS:
+                        SELECTED_APPS[k] = False
                     self.queue_message = f"{t('added')} {len(selected_items)} {t('to_queue')}"
                     self.queue_message_time = pygame.time.get_ticks() / 1000.0
         else:
@@ -3497,8 +3501,8 @@ class ChecklistScreen(BaseScreen):
         installed_count = sum(1 for k in self.all_items if is_installed(k))
 
         # Normal view (search disabled at category level)
-        any_selected = any(self.selected.get(k, False) for k in self.items) if self.items else False
-        all_selected = all(self.selected.get(k, False) for k in self.items) if self.items else False
+        any_selected = any(SELECTED_APPS.get(k, False) for k in self.items) if self.items else False
+        all_selected = all(SELECTED_APPS.get(k, False) for k in self.items) if self.items else False
         y_label = t("hint_remove_all") if all_selected else t("hint_add_all")
         start_label = t("hint_start") if any_selected else t("queue")
         queue_text = (
@@ -3533,11 +3537,11 @@ class ChecklistScreen(BaseScreen):
             pygame.draw.rect(screen, CARD, rect, border_radius=10)
             if actual_idx == self.idx:
                 pygame.draw.rect(screen, SELECT, rect, width=3, border_radius=10)
-            
+
             # checkbox
             box = pygame.Rect(rect.x + S(14), rect.y + S(12), S(24), S(24))
-            pygame.draw.rect(screen, FG if self.selected[key] else MUTED, box, width=2)
-            if self.selected[key]:
+            pygame.draw.rect(screen, FG if SELECTED_APPS[key] else MUTED, box, width=2)
+            if SELECTED_APPS[key]:
                 pygame.draw.line(screen, FG, (box.x + S(4), box.centery), (box.centerx, box.bottom - S(5)), 3)
                 pygame.draw.line(screen, FG, (box.centerx, box.bottom - S(5)), (box.right - S(4), box.y + S(5)), 3)
             
@@ -3561,11 +3565,15 @@ class ChecklistScreen(BaseScreen):
 
 class GlobalSearchScreen(BaseScreen):
     def __init__(self, query: str, app_keys: List[str]):
+        global SELECTED_APPS
         self.query = query
         self.all_items = app_keys  # flat list of matching keys
         self.items = app_keys
         self.idx = 0
-        self.selected: Dict[str, bool] = {k: False for k in self.all_items}
+        # Use global SELECTED_APPS, initialize new keys if needed
+        for k in self.all_items:
+            if k not in SELECTED_APPS:
+                SELECTED_APPS[k] = False
         self.queue_message = ""
         self.queue_message_time = 0
         self.last_action_time = 0
@@ -3624,18 +3632,18 @@ class GlobalSearchScreen(BaseScreen):
                         item = self.flat[self.idx]
                         if item[0] == "app":
                             key = item[1]
-                            self.selected[key] = not self.selected[key]
+                            SELECTED_APPS[key] = not SELECTED_APPS[key]
                             self.last_action_time = current_time
                 # A toggles select all in current view (keyboard)
                 if e.key == pygame.K_a:
                     # Build list of visible app keys
                     visible_apps = [it[1] for it in self.flat if it[0] == "app"]
-                    if all(self.selected.get(k, False) for k in visible_apps):
+                    if all(SELECTED_APPS.get(k, False) for k in visible_apps):
                         for k in visible_apps:
-                            self.selected[k] = False
+                            SELECTED_APPS[k] = False
                     else:
                         for k in visible_apps:
-                            self.selected[k] = True
+                            SELECTED_APPS[k] = True
                 if e.key == pygame.K_SPACE:
                     if current_time - self.last_action_time > self.action_cooldown:
                         self.install_selected()
@@ -3653,7 +3661,7 @@ class GlobalSearchScreen(BaseScreen):
                         item = self.flat[self.idx]
                         if item[0] == "app":
                             key = item[1]
-                            self.selected[key] = not self.selected[key]
+                            SELECTED_APPS[key] = not SELECTED_APPS[key]
                             self.last_action_time = current_time
                 if e.button == BTN_X:  # X -> collapse/expand category
                     self.toggle_header()
@@ -3682,14 +3690,14 @@ class GlobalSearchScreen(BaseScreen):
                     break
 
     def install_selected(self):
-        selected_items = [(k, APPS[k]) for k, v in self.selected.items() if v]
+        selected_items = [(k, APPS[k]) for k, v in SELECTED_APPS.items() if v]
         if not selected_items:
             push_screen(QueueScreen()); return
         for item in selected_items:
             if item not in INSTALL_QUEUE:
                 INSTALL_QUEUE.append(item)
-        for k in self.selected:
-            self.selected[k] = False
+        for k in SELECTED_APPS:
+            SELECTED_APPS[k] = False
         self.queue_message = f"Added {len(selected_items)} item(s) to queue"
         self.queue_message_time = pygame.time.get_ticks() / 1000.0
 
@@ -3698,7 +3706,7 @@ class GlobalSearchScreen(BaseScreen):
         title = f"{t('search_results')}: '{self.query}'"
         draw_text(screen, title, FONT_BIG, FG, (40, 30))
 
-        any_selected = any(self.selected.values()) if hasattr(self, "selected") else False
+        any_selected = any(SELECTED_APPS.values())
         start_label = t("hint_start") if any_selected else t("queue")
         count_text = (
             f"{t('found')} {len(self.all_items)} add-ons | {t('queue')}: {len(INSTALL_QUEUE)} | "
@@ -3747,8 +3755,8 @@ class GlobalSearchScreen(BaseScreen):
 
             # checkbox
             box = pygame.Rect(rect.x + S(14), rect.y + S(12), S(24), S(24))
-            pygame.draw.rect(screen, FG if self.selected[key] else MUTED, box, width=2)
-            if self.selected[key]:
+            pygame.draw.rect(screen, FG if SELECTED_APPS[key] else MUTED, box, width=2)
+            if SELECTED_APPS[key]:
                 pygame.draw.line(screen, FG, (box.x + S(4), box.centery), (box.centerx, box.bottom - S(5)), 3)
                 pygame.draw.line(screen, FG, (box.centerx, box.bottom - S(5)), (box.right - S(4), box.y + S(5)), 3)
 
@@ -4935,6 +4943,7 @@ class OnScreenKeyboard:
 
 SCREENS: List[BaseScreen] = []
 INSTALL_QUEUE: List[Tuple[str, str]] = []  # Global queue for installs
+SELECTED_APPS: Dict[str, bool] = {}  # Global selections that persist across category navigation
 
 class SettingsScreen(BaseScreen):
     def __init__(self):
