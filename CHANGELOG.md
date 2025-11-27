@@ -1,4 +1,2429 @@
 # Changelog
 
 <!-- AUTO-CHANGELOG:START -->
+
+- 2025-11-27: 90eae18 Rename update-changelog.py to update_changelog.py
+- 2025-11-27: dbfe163 +
+- 2025-11-27: b0d31b9 Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-27: 9b06b46 +
+- 2025-11-27: 62c2377 Rename 'Desktop' to 'Desktop (Docker)' in options
+- 2025-11-27: 2a0775f Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-27: 33039b9 Update bua_installerarm64.py
+- 2025-11-27: ca9f405 Update ri-desktop_uninstall.sh (#128)
+- 2025-11-27: 66ced35 Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-27: 013728e Update ri-desktop.sh
+- 2025-11-27: 5a7272b Fix script path for RunImage Desktop uninstaller
+- 2025-11-27: 96f6e16 +
+- 2025-11-27: ee97d4b Update bua_installerx86.py
+- 2025-11-27: 3330536 /
+- 2025-11-27: 7bd0e00 /
+- 2025-11-27: 070f2ae /
+- 2025-11-27: d397c3c Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-27: 675063a /
+- 2025-11-27: f53fdfd Rename lb.png to btn_lb.png
+- 2025-11-27: 7fe95d6 Rename rb.png to btn_rb.png
+- 2025-11-27: 64db2aa /
+- 2025-11-27: 9b887b6 Update bedrock.sh
+- 2025-11-26: 036490c Update bua_installerarm64.py
+- 2025-11-26: 7b05834 Update bua_installerarm64.py
+- 2025-11-26: 5e9b3ff Refactor command wrapping for killall and pkill
+- 2025-11-26: 3502523 Update bua_installerx86.py
+- 2025-11-26: 9ca5b4c Update bua_installerx86.py
+- 2025-11-26: 35afc09 Add files via upload
+- 2025-11-26: f76c424 Delete heroic/extra/umu.tar.gz
+- 2025-11-26: 5ef9a33 Fix
+- 2025-11-26: 8b4c5e9 Revert
+- 2025-11-26: b08b724 /
+- 2025-11-25: eebec79 /
+- 2025-11-25: 42440b6 Update heroic.sh
+- 2025-11-25: c0c56d0 /
+- 2025-11-25: 31f53a5 /
+- 2025-11-25: a05602e Update heroic.sh
+- 2025-11-25: cc29f42 Update nvidiapatch.sh
+- 2025-11-25: 2efc5e0 +
+- 2025-11-25: 5a1f477 Update bua_installerx86.py
+- 2025-11-25: 3bc86ec Update jdownloader.sh
+- 2025-11-25: c2ce13d Update jdownloader.sh
+- 2025-11-25: ef130ce Create jdownloader.tar.gz
+- 2025-11-25: c40e3db Update inputleap.sh
+- 2025-11-25: 9187652 /
+- 2025-11-25: 69736bd +
+- 2025-11-25: c725ef1 +
+- 2025-11-25: a82ef90 /
+- 2025-11-25: b56ae9b +
+- 2025-11-25: 466b941 +
+- 2025-11-25: 8945445 +
+- 2025-11-25: d62c5a6 Update bua_installerx86.py
+- 2025-11-24: 4ec3eb0 Update rpi.sh
+- 2025-11-24: 872975e Update rpi.sh
+- 2025-11-24: 88a6842 Update rpi.sh
+- 2025-11-24: 3fbacfa Update bua_installerx86.py
+- 2025-11-24: 5912b7a Update bua_installerx86.py
+- 2025-11-24: 872e37b +
+- 2025-11-24: d2b5083 Syntax fix
+- 2025-11-24: ff21b69 Update bua_installerx86.py
+- 2025-11-24: 12bab2a Update etcher.sh
+- 2025-11-24: 7c9eff0 Create etcher/etcher.sh
+- 2025-11-21: cd60ceb Atualização do WinConfig - Windows Game Fix (#127)
+- 2025-11-21: 526a412 Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-21: 8b8b1db Update bua_installerx86.py
+- 2025-11-21: 1ad2f5e Tradução para Português do Brasil  (#126)
+- 2025-11-21: ac4b48d Tradução para Português do Brasil  (#125)
+- 2025-11-21: ddbf2dd +
+- 2025-11-21: eb26ed3 Update bua_installerx86.py
+- 2025-11-21: 481267d Create sorr.sh
+- 2025-11-21: ab46929 update
+- 2025-11-21: 7564841 Update bua_installerx86.py
+- 2025-11-21: c1923a9 Add
+- 2025-11-21: f50154a Update bua_installerx86.py
+- 2025-11-21: fdab38a Create ut.sh
+- 2025-11-21: 3751647 Update bua_installerx86.py
+- 2025-11-21: f9de16c update
+- 2025-11-21: 0ee2494 Update bua_installerx86.py
+- 2025-11-21: 59d28df Update bua_installerx86.py
+- 2025-11-21: 9c85647 Update Steam.sh.keys
+- 2025-11-21: 05e9c34 update
+- 2025-11-21: fe48946 Update create-steam-launchers.sh
+- 2025-11-21: ec3aa0b Update create-steam-launchers.sh
+- 2025-11-21: 4d346b3 update
+- 2025-11-20: 4fb328a Update Launcher
+- 2025-11-20: 568a10e Update Launcher
+- 2025-11-20: 3f1c6d2 Update create-steam-launchers.sh
+- 2025-11-20: 4ea4cbd update
+- 2025-11-20: ab48d66 update
+- 2025-11-20: c2ee61b Update steam.sh
+- 2025-11-20: bad3996 Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-20: b833a37 Update
+- 2025-11-20: aaec4eb Add files via upload
+- 2025-11-20: 29a7e78 Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-20: 805e213 Update bua_installerx86.py
+- 2025-11-20: edac1de Update stremio.sh
+- 2025-11-20: d15d5a4 update
+- 2025-11-20: d46b412 Update bua_installerx86.py
+- 2025-11-20: 51f35da update
+- 2025-11-20: 42fcb2e Update bua_installerx86.py
+- 2025-11-20: 4322f95 Update bottles.sh
+- 2025-11-20: 9fb121e Update bottles.sh
+- 2025-11-20: 4d97eb3 Add directory creation for extra add-ons
+- 2025-11-20: ce5a51f update
+- 2025-11-20: 415fefa update
+- 2025-11-20: 82e1413 Update minecraft.sh
+- 2025-11-20: 315b02d Update bua_installerx86.py
+- 2025-11-20: d280e5f Update bua_installerx86.py
+- 2025-11-20: 65ba173 Update bua_installerx86.py
+- 2025-11-20: f2a3f62 update
+- 2025-11-20: d7d0601 Update push
+- 2025-11-20: 78dbd4f Update push
+- 2025-11-20: c6c1eae Create install_new.sh
+- 2025-11-20: d8c3914 fix
+- 2025-11-20: 4f551a0 Update bua_installerx86.py
+- 2025-11-20: 8a57743 Update bua_installerx86.py
+- 2025-11-20: ba4056a Update bua_installerx86.py
+- 2025-11-20: d20e08f Update bua_installerx86.py
+- 2025-11-20: d89ab10 Update bua_installerx86.py
+- 2025-11-20: 0816de8 Update bua_installerx86.py
+- 2025-11-20: 1da39fd Update bua_installerx86.py
+- 2025-11-20: 0ca04cf Update bua_installerx86.py
+- 2025-11-20: 5305376 Update bua_installerx86.py
+- 2025-11-20: a1e740b Update bua_installerx86.py
+- 2025-11-20: 2fc89ad Update bua_installerx86.py
+- 2025-11-20: b083187 Update bua_installerx86.py
+- 2025-11-20: c3b335c Update bua_installerx86.py
+- 2025-11-20: 438eb71 Update bua_installerx86.py
+- 2025-11-20: 05ecd4e \
+- 2025-11-19: 3aaf6eb Create splash.mp4
+- 2025-11-19: fcbff50 Create ru.json
+- 2025-11-18: ba41765 Add files via upload
+- 2025-11-18: 35b513c Delete x11vnc/extra/x11vnc.tar.gz
+- 2025-11-17: 14ecc9e Add files via upload
+- 2025-11-17: a509dc1 Delete wiki/install.png
+- 2025-11-17: a62de30 Add files via upload
+- 2025-11-17: 9764132 Delete wiki/install.png
+- 2025-11-14: e59fd56 Update arrdownloaders.sh
+- 2025-11-14: ebb7c4f Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-14: 4d6a57a Reupload
+- 2025-11-14: 805a79f Add update timestamp to docker.sh
+- 2025-11-13: 63f0f82 Switch to dialog-based UI for install scripts
+- 2025-11-13: be9c5dd Create test_hello.py
+- 2025-11-13: a8c7695 Create vclean_uninstall.sh
+- 2025-11-13: 307b932 Update vclean.sh
+- 2025-11-13: 2615b27 +
+- 2025-11-13: d8b4dc8 +
+- 2025-11-13: 7e4e9e7 Merge branch 'main' of https://github.com/batocera-unofficial-addons/batocera-unofficial-addons
+- 2025-11-13: 1a47961 Add uninstall scripts for multiple addons
+- 2025-11-13: cb0b375 Update Greenlight AppImage URL to version 2.3.3
+- 2025-11-12: e5fff53 Fix JSON formatting in Italian translation file (#123)
+- 2025-11-12: dc33d3d fix
+- 2025-11-12: 67721a5 Update
+- 2025-11-12: d0902dc Update translation for items_to_queue message (#122)
+- 2025-11-12: cf0ed17 Clarify translation for items_to_queue (#121)
+- 2025-11-12: 61a1541 add translations
+- 2025-11-11: daae0c3 Tidy up
+- 2025-11-11: 1f285f7 Add RGSX addon and update categories
+- 2025-11-11: e65d49d Test
+- 2025-11-11: 1dad316 Migrate
+- 2025-11-11: ca4f6a3 Update script URLs for shadps4plus
+- 2025-11-11: 41d52b3 Update script to download ShadPS4 Plus version
+- 2025-11-11: 4fbb583 Update heroic.sh (#120)
+- 2025-11-11: 91e8afb Add files via upload
+- 2025-11-11: bbf99e1 Add files via upload
+- 2025-11-08: e6d8b07 Add files via upload
+- 2025-11-08: a67dcda Delete app/extra/rb.png
+- 2025-11-08: dbe20a6 Delete app/extra/lb.png
+- 2025-11-08: 0535b2d Add files via upload
+- 2025-11-08: ea462ad Delete app/extra/rb.png (#119)
+- 2025-11-08: 18af692 Delete app/extra/lb.png
+- 2025-11-08: bede71f Add files via upload
+- 2025-11-08: 6ebb66a Add files via upload
+- 2025-11-08: 8c9e447 Delete app/extra/lb.png
+- 2025-11-08: ab2bd4a Delete app/extra/rb.png
+- 2025-11-08: a71f403 Add files via upload
+- 2025-11-08: ed592cd Add files via upload
+- 2025-11-07: cafc2a6 Remove analytics image from README
+- 2025-11-07: c3a9fa4 Update Stargazers links in README.md (#118)
+- 2025-11-06: 0bf1054 Update sunshine.sh
+- 2025-11-06: 4aea77a Update the telegraf service install (#108)
+- 2025-08-26: cee9412 update inputleap (#117)
+- 2025-08-26: 20f50f5 fix inputleap (#116)
+- 2025-08-26: 0d4f1fb adding inputleap (#115)
+- 2025-08-26: a7fb4bb adding inputleap (#114)
+- 2025-08-26: f8bc2a8 update fork (#113)
+- 2025-08-01: bc0d4bb adding jdownloader (#111)
+- 2025-07-29: 4cfeda9 adding flathub kinda (#110)
+- 2025-07-20: 695df3c Update (#109)
+- 2025-07-02: 895fe0e Update (#107)
+- 2025-07-01: 54664d0 Update (#106)
+- 2025-06-30: 1e25e53 Update Apps (#105)
+- 2025-06-30: 2d6ea27 fixing everest (#104)
+- 2025-06-30: 0c1ca81 adding everest (#103)
+- 2025-06-30: 8e9f0d4 adding everest (#102)
+- 2025-06-27: 62f7d8d Update (#101)
+- 2025-06-26: ef79527 Update Android (#100)
+- 2025-06-26: e059164 Update Android  (#99)
+- 2025-06-24: f7d614c Update (#98)
+- 2025-06-24: 40fdb32 Update desktop (#97)
+- 2025-06-23: da3e5a7 Update Desktop (#96)
+- 2025-06-22: 1a73752 up (#95)
+- 2025-06-21: e3b7f8c Update (#94)
+- 2025-06-21: 797fdf4 up (#93)
+- 2025-06-21: 004d0db set (#92)
+- 2025-06-21: 40f2b7c update (#90)
+- 2025-06-21: 7206ad3 up (#89)
+- 2025-06-21: 0d977ce Update f1.sh (#88)
+- 2025-06-21: 1679897 Update (#87)
+- 2025-06-21: 7eec2e3 Update (#86)
+- 2025-06-21: eb74a59 Update Desktop and F1 (#85)
+- 2025-06-14: 635f50e Add basic telegraf add-on (#80)
+- 2025-06-12: 06a3c10 Update (#84)
+- 2025-06-08: 2a5fb12 Update (#83)
+- 2025-06-08: f7cce14 update (#82)
+- 2025-06-08: 2d73908 Implementação de novas funções ao Desktop (#81)
+- 2025-06-08: e4fba3b Update Desktop (#79)
+- 2025-06-07: 4dc68d6 Update de correção  (#78)
+- 2025-06-07: bbe2bc4 Update de correção  (#77)
+- 2025-06-07: fd999f2 Atualização de correção  (#76)
+- 2025-06-07: de3e636 07.06.2025 (#75)
+- 2025-06-07: 9759663 update links (#74)
+- 2025-06-07: f15d0c0 Update desktop (#73)
+- 2025-06-06: 97a86db Atualização da instalação do Itch.io (#72)
+- 2025-06-06: c1da99e Update itch.io (#71)
+- 2025-06-06: 4dabfc4 Update  (#70)
+- 2025-06-06: 8e9b329 Update (#69)
+- 2025-06-05: 2273de9 Update itch.sh (#68)
+- 2025-06-05: 388d984 Update itch.sh (#67)
+- 2025-06-05: 16dfff6 Update itch.sh (#66)
+- 2025-06-05: 0f2515f edit itch (#65)
+- 2025-06-05: ff6a01b add itch.io (#64)
+- 2025-06-04: aa43e8d Update Desktop (#63)
+- 2025-06-02: 5acad13 Update  (#61)
+- 2025-06-01: 5272031 Update (#60)
+- 2025-06-01: 623168f Update (#59)
+- 2025-06-01: 59b4adf Update (#58)
+- 2025-06-01: a1b5381 Update (#57)
+- 2025-05-31: edf0365 UPDATE (#56)
+- 2025-05-31: 9d7dd20 Implementação de novas atualizações e ferramentas (#55)
+- 2025-05-30: 421385a Update patches.sh (#54)
+- 2025-05-29: bf58e8f Update  (#53)
+- 2025-05-27: 4cade0d Update de teste  (#51)
+- 2025-05-27: 813e329 Integração de novo Desktop para o Batocera (#49)
+- 2025-05-22: 8b2dce6 Update f1.sh
+- 2025-05-22: ab2cc9e Update batocera-unofficial-addons-arm64.sh
+- 2025-05-22: a7d6075 Update batocera-unofficial-addons.sh
+- 2025-05-22: d01b770 Update batocera-unofficial-addons-arm64.sh
+- 2025-05-22: f9c5e4e Update batocera-unofficial-addons.sh
+- 2025-05-22: 01e8a67 Update dark_mode
+- 2025-05-22: 94c2d5c Update dark.sh
+- 2025-05-22: d2923cc Update dark_mode
+- 2025-05-22: fca60c6 Add files via upload
+- 2025-05-22: 0a64780 Create dark_mode
+- 2025-05-22: 65f0667 Create dark.sh
+- 2025-05-22: 58887dd Update batocera-unofficial-addons.sh
+- 2025-05-22: e657cfb Update batocera-unofficial-addons-arm64.sh
+- 2025-05-22: 387b1f8 Update batocera-unofficial-addons.sh
+- 2025-05-22: 86c689b Update batocera-unofficial-addons.sh
+- 2025-05-22: 65bcc6e Update batocera-unofficial-addons.sh
+- 2025-05-22: 9b6450e Update symlinks.sh
+- 2025-05-22: cfdcbef Update mousemove.sh
+- 2025-05-22: 31ed172 Update stt.sh
+- 2025-05-22: 26e6bcf Update ssf2.sh
+- 2025-05-22: dae322a Update srb2.sh
+- 2025-05-22: d64893a Update sq3d.sh
+- 2025-05-22: 5d7149e Update spelunky.sh
+- 2025-05-22: 4f86538 Update mmc.sh
+- 2025-05-22: 0bb0853 Update menu.sh
+- 2025-05-22: ff1b458 Update dka.sh
+- 2025-05-22: 7df20a6 Update cmc+.sh
+- 2025-05-22: e0702be Update celeste.sh
+- 2025-05-22: ad0119d Update cbbit.sh
+- 2025-05-22: 93bf1c1 Update castilla.sh
+- 2025-05-22: 620b988 Update wayvnc_headless.sh
+- 2025-05-22: 3f722d2 Update wayvnc.sh
+- 2025-05-22: 81bc8f2 Update warzone2100.sh
+- 2025-05-22: 567408b Update vlc.sh
+- 2025-05-22: e980775 Update vesktop.sh
+- 2025-05-22: 67fb585 Update v40wine.sh
+- 2025-05-22: 2979374 Update twitch.sh
+- 2025-05-22: 827d535 Update supertuxkart.sh
+- 2025-05-22: c1b0ffd Update tmntrp.sh
+- 2025-05-22: a788e11 Update supertux.sh
+- 2025-05-22: 1d60749 Update zelda2.sh
+- 2025-05-22: 6508e04 Update zeldadoi.sh
+- 2025-05-22: ecb74db Update sunshine.sh
+- 2025-05-22: 7f2ae5f Update stremio-arm64.sh
+- 2025-05-22: 5ccde54 Update steamy.sh
+- 2025-05-22: 1612372 Update stremio.sh
+- 2025-05-22: d3d1deb Update stepmania.sh
+- 2025-05-22: e34be43 Update steam.sh
+- 2025-05-22: 0a6d694 Update spotify.sh
+- 2025-05-22: 0a814c8 Update soar.sh
+- 2025-05-22: 6e89c80 Update es_ps4_install.sh
+- 2025-05-22: 4e16a7c Update shadps4.sh
+- 2025-05-22: 27431a4 Update create_game_launchers.sh
+- 2025-05-22: e17fc41 Update qga.sh
+- 2025-05-22: 9464138 Update wine.sh
+- 2025-05-22: c0d9c48 Update prime.sh
+- 2025-05-22: 03580ac Update x11vnc.sh
+- 2025-05-22: ee4b4b6 Update portmaster.sh
+- 2025-05-22: fc40a51 Update plex.sh
+- 2025-05-22: 1f29c27 Update peazip.sh
+- 2025-05-22: 23ba432 Update openttd.sh
+- 2025-05-22: 19d2881 Update openrgb.sh
+- 2025-05-22: 71be4bb Update xonotic.sh
+- 2025-05-22: 84d0e4f Update openra.sh
+- 2025-05-22: 4a8edfe Update obs.sh
+- 2025-05-22: a5a9a01 Update nvidiapatch.sh
+- 2025-05-22: 0eb3775 Update yarg.sh
+- 2025-05-22: 8ae3a13 Update netflix.sh
+- 2025-05-22: db99d2a Update youtubetv.sh
+- 2025-05-22: 7e887d6 Update mubi.sh
+- 2025-05-22: a2be676 Update moonlight.sh
+- 2025-05-22: c491973 Update minecraft_3.sh
+- 2025-05-22: 43e8684 Update minecraft_2.sh
+- 2025-05-22: 6a3cf1a Update zenity.sh
+- 2025-05-22: 136802b Update minecraft.sh
+- 2025-05-22: 8493e02 Update bedrock.sh
+- 2025-05-22: 6699a43 Delete mame40 directory
+- 2025-05-22: fba7e01 Update lutris.sh
+- 2025-05-22: c81d209 Update luanti.sh
+- 2025-05-22: 5dc86f2 Update librewolf.sh
+- 2025-05-22: c754522 Update java-jdk19.sh
+- 2025-05-22: 790c780 Update java.sh
+- 2025-05-22: 5644e9c Update iptvnator.sh
+- 2025-05-22: 3be9348 Update hydra.sh
+- 2025-05-22: 9c355d9 Update heroic.sh
+- 2025-05-22: db72459 Update hbomax.sh
+- 2025-05-22: 1aeb7c1 Update greenlight_arm64.sh
+- 2025-05-22: 878dfbf Update greenlight.sh
+- 2025-05-22: 404f8c9 Update gparted.sh
+- 2025-05-22: cb60633 Update gamescope.sh
+- 2025-05-22: 610140d Update freetube.sh
+- 2025-05-22: 0438ea2 Update freedroidrpg.sh
+- 2025-05-22: a24d86c Update flashbox.sh
+- 2025-05-22: 6f3369b Delete flash directory
+- 2025-05-22: 326c5f0 Update filezilla.sh
+- 2025-05-22: 066df04 Update firefox.sh
+- 2025-05-22: 1fcc40e Update firefox-arm64.sh
+- 2025-05-22: 7f0128d Update firefox.sh
+- 2025-05-22: c81fb5b Update filezilla.sh
+- 2025-05-22: 832cb8c Update extra.sh
+- 2025-05-22: 09ce21d Update f1.sh
+- 2025-05-22: 577766f Update fightcade.sh
+- 2025-05-22: 324d0c9 Update f1.sh
+- 2025-05-22: 165da05 Update endlesssky.sh
+- 2025-05-22: eb9b446 Update umbrelos.sh
+- 2025-05-22: d447c14 Update ubuntumate.sh
+- 2025-05-22: d40fc99 Update menu.sh
+- 2025-05-22: 8196b73 Update jellyfin.sh
+- 2025-05-22: b2d9f5c Update cli.sh
+- 2025-05-22: 894d3f3 Update casaos.sh
+- 2025-05-22: 82e04fe Update arrinone.sh
+- 2025-05-22: 4dd2b83 Update archkde.sh
+- 2025-05-22: 0bd2665 Update alpinexfce.sh
+- 2025-05-22: 17c6115 Update emby.sh
+- 2025-05-22: fa933b6 Update docker.sh
+- 2025-05-22: b88232f Update disneyplus.sh
+- 2025-05-22: 56d06a1 Update desktop.sh
+- 2025-05-22: ed6f4f1 Update csportable.sh
+- 2025-05-22: 9679801 Update crunchyroll.sh
+- 2025-05-22: 773a137 Update clonehero.sh
+- 2025-05-22: 2cb60bd Update chrome.sh
+- 2025-05-22: 45a74fc Update chiaki.sh
+- 2025-05-22: b3c3589 Update brave.sh
+- 2025-05-22: cb705ca Delete blissos directory
+- 2025-05-22: 55f3db6 Update assaultcube.sh
+- 2025-05-22: 9266885 Update armagetron.sh
+- 2025-05-22: 2a820d3 Delete arch directory
+- 2025-05-22: 7288b9d Update arcademanager.sh
+- 2025-05-22: 15dec5d Update updater.sh
+- 2025-05-22: 6c37c05 Delete app/system.dat
+- 2025-05-22: 08743f1 Update install_x86.sh
+- 2025-05-22: f4d8dea Update install_arm64.sh
+- 2025-05-22: d96e669 Update install.sh
+- 2025-05-22: 37fa000 Update dep_arm64.sh
+- 2025-05-22: 6cdef7c Update dep.sh
+- 2025-05-22: aa2cf5f Update batocera-unofficial-addons.sh
+- 2025-05-22: 538cc22 Update batocera-unofficial-addons-arm64.sh
+- 2025-05-22: 4631317 Update BatoceraUnofficialAddons_ARM64.sh
+- 2025-05-22: bd7abd9 Update BatoceraUnofficialAddOns.sh
+- 2025-05-22: 9547b13 Update ambermoon.sh
+- 2025-05-22: ce7b25a Update amazonluna-arm64.sh
+- 2025-05-22: 53b5f1e Update amazonluna.sh
+- 2025-05-22: 848d04c Update 7zip.sh
+- 2025-05-22: 8cdca17 Update README.md
+- 2025-05-22: 128a5f4 Update README.md
+- 2025-05-20: caa3653 Update README.md
+- 2025-05-20: 0240d8f Update batocera-unofficial-addons-arm64.sh
+- 2025-05-20: d2a6990 Update batocera-unofficial-addons.sh
+- 2025-05-19: e0ffed3 Merge pull request #46 from EnriqueWood/hotfix-fix-typo
+- 2025-05-19: 14c534c Update install_arm64.sh
+- 2025-05-19: 014ee4c Update install_x86.sh
+- 2025-05-19: 1a177a8 HOTFIX: fix typo in installation variable name
+- 2025-05-19: 6fe5c92 Merge pull request #44 from EnriqueWood/add-wheel-image-to-bua
+- 2025-05-19: 07862cf Merge branch 'main' into add-wheel-image-to-bua
+- 2025-05-19: daf1755 Merge pull request #45 from DRLEdition19/main
+- 2025-05-18: 9608e90 Merge pull request #43 from EnriqueWood/add-integrity-checks-in-install-scripts
+- 2025-05-18: 2437eff Update README.md
+- 2025-05-14: 01fc7a9 Update batocera-unofficial-addons.sh
+- 2025-05-14: 2c26450 Update
+- 2025-05-14: 3af36f4 Update
+- 2025-05-14: 4fb9c1f Update batocera-unofficial-addons.sh
+- 2025-05-14: 536a4ff Merge branch 'main' of https://github.com/DRLEdition19/batocera-unofficial-addons.add
+- 2025-05-14: 3f78480 Update
+- 2025-05-14: 478050c Add files via upload
+- 2025-05-14: 24ed5bb Update
+- 2025-05-14: f9d15fc Adding the Winconfig - Windows Game Fix
+- 2025-05-13: d5acee4 Update batocera-unofficial-addons.sh
+- 2025-05-12: 6e53b79 Delete Freej2me/extra/extra
+- 2025-05-12: c38f1cb Create extra
+- 2025-04-30: 6cedbf5 Add a custom wheel/marquee image to BUA in the ports menu
+- 2025-04-30: 63da384 Quote logo url to keep up with the code style
+- 2025-04-30: 12d5ddc Add download-integrity checks to installers
+- 2025-04-30: fb712b1 Update flashbox.sh
+- 2025-04-30: fa2fa1f Update flashbox.sh
+- 2025-04-30: f0d839a Delete flashbox/extra/ph
+- 2025-04-30: 4e4231e Update flashbox.sh
+- 2025-04-30: 3b37a3b Add files via upload
+- 2025-04-30: 5aa5921 Create ph
+- 2025-04-30: a680d66 Update flashbox.sh
+- 2025-04-30: 73ac5f4 Create flashbox.sh
+- 2025-04-30: ab02ace Merge pull request #42 from DRLEdition19/main
+- 2025-04-29: e9371eb Update Install_j2me.sh
+- 2025-04-29: 3388e63 Update README.md
+- 2025-04-29: 35ffa4c Update README.md
+- 2025-04-29: 5409669 Update README.md
+- 2025-04-29: 9863885 Update README.md
+- 2025-04-29: 5277ded Update README.md
+- 2025-04-29: 6a7865a Update README.md
+- 2025-04-25: 60cf3ef Update shadps4.sh
+- 2025-04-25: f5b0f0f Update batocera-unofficial-addons.sh
+- 2025-04-25: 34888fb Update batocera-unofficial-addons-arm64.sh
+- 2025-04-25: 1a97daa Delete shadps4/shad2.sh
+- 2025-04-25: 86881f2 Update shadps4.sh
+- 2025-04-25: ab68898 Update and rename shad.sh to shad2.sh
+- 2025-04-25: b421275 Update create_game_launchers.sh
+- 2025-04-25: 1fc6895 Create shad.sh
+- 2025-04-25: dcae327 Add files via upload
+- 2025-04-25: ad78591 Update batocera-unofficial-addons-arm64.sh
+- 2025-04-25: 7381759 Merge pull request #41 from EnriqueWood/fix-wayvnc-not-starting-after-reboots
+- 2025-04-25: bb71c0c Merge pull request #40 from EnriqueWood/add-headless-wayvnc-service
+- 2025-04-24: bd565d9 Fix wayvnc service not starting correctly after a reboot
+- 2025-04-24: ef4b8a6 Add wayvnc_headless service
+- 2025-04-24: aa020e9 Update wayvnc
+- 2025-04-24: e6d4b80 Update wayvnc
+- 2025-04-24: b321aea Update batocera-unofficial-addons-arm64.sh
+- 2025-04-24: 1b1dab3 Update wayvnc.sh
+- 2025-04-24: 8a6530b Create wayvnc
+- 2025-04-24: feb618f Add files via upload
+- 2025-04-24: 5be6c59 Delete wayvnc/wayvnc.tar.gz
+- 2025-04-24: 97b9f4d Add files via upload
+- 2025-04-24: 0f27c71 Create ph
+- 2025-04-24: 32a58d4 Create wayvnc.sh
+- 2025-04-24: 0859e27 Update soar.sh
+- 2025-04-24: 1e1f846 Create arm64_config.toml
+- 2025-04-23: e17e0c0 Update install_arm64.sh
+- 2025-04-23: 1721b10 Update README.md
+- 2025-04-23: 0a3f45d Update README.md
+- 2025-04-23: 05bc439 Update README.md
+- 2025-04-23: 87be607 Update README.md
+- 2025-04-23: 87db22d Update README.md
+- 2025-04-23: 0ae4942 Update README.md
+- 2025-04-23: 0229750 Update README.md
+- 2025-04-23: 9cbdb2c Update README.md
+- 2025-04-23: 6159658 Update README.md
+- 2025-04-23: a70f0cf Update updater.sh
+- 2025-04-23: 95008ec Update batocera-unofficial-addons.sh
+- 2025-04-23: f5bdb78 Update batocera-unofficial-addons-arm64.sh
+- 2025-04-23: 5cb08d4 Update batocera-unofficial-addons-arm64.sh
+- 2025-04-23: d53e8b0 Update batocera-unofficial-addons.sh
+- 2025-04-23: b0ddb54 Update updater.sh
+- 2025-04-23: b75336d Update updater.sh
+- 2025-04-23: 100cde3 Create updater.sh
+- 2025-04-23: fe6964e Update batocera-unofficial-addons-arm64.sh
+- 2025-04-23: 921ca07 Update batocera-unofficial-addons.sh
+- 2025-04-23: 030d430 Update steam.sh
+- 2025-04-23: 203b83f Update steam.sh
+- 2025-04-23: 5a508d6 Delete .dep/arm64/libva.so.2.2200.0
+- 2025-04-23: e2687c1 Delete .dep/arm64/libva-x11.so.2.2200.0
+- 2025-04-23: d63f9d3 Delete .dep/arm64/libva-drm.so.2.1400.0
+- 2025-04-23: d6bd98b Delete .dep/arm64/libgssapi_krb5.so.2.2
+- 2025-04-21: d298463 Update batocera-unofficial-addons.sh
+- 2025-04-21: 6ade66c Create bridge.sh
+- 2025-04-21: 624360d Update youtubetv.sh
+- 2025-04-18: 4ea66a9 Update soar.sh
+- 2025-04-18: 2940152 Add files via upload
+- 2025-04-18: de389c1 Create ph
+- 2025-04-18: d6b8bcf Create soar.sh
+- 2025-04-18: d05fd87 Update batocera-unofficial-addons.sh
+- 2025-04-18: fc07185 Update batocera-unofficial-addons.sh
+- 2025-04-18: 1c01f44 Delete .dep/libbrotlicommon.so.1
+- 2025-04-18: 7a3dceb Add files via upload
+- 2025-04-18: ca3eed8 Delete .dep/libbrotlicommon.so.1
+- 2025-04-18: 92e3d9c Update batocera-unofficial-addons.sh
+- 2025-04-18: 1066140 Update symlinks.sh
+- 2025-04-18: 39d6b53 Update batocera-unofficial-addons.sh
+- 2025-04-18: 567e2b9 Update symlinks.sh
+- 2025-04-17: 6e93e53 Update youtubetv.sh
+- 2025-04-16: ec71885 Update desktop.sh
+- 2025-04-16: 0c21937 Update desktop.sh
+- 2025-04-16: a3c8d6e Update install.sh
+- 2025-04-16: bd26405 Update youtubetv.sh
+- 2025-04-16: 7b6b91b Update youtubetv.sh
+- 2025-04-16: 80c4065 Update desktop.sh
+- 2025-04-16: 820c1aa Update desktop.sh
+- 2025-04-16: 53e63cb Update stremio-arm64.sh
+- 2025-04-16: de1ab88 Update stremio-arm64.sh
+- 2025-04-16: 88a5203 Update stremio-arm64.sh
+- 2025-04-16: 429812d Update stremio-arm64.sh
+- 2025-04-16: 35af574 Create stremio-arm64.sh
+- 2025-04-15: 0c82800 Update batocera-unofficial-addons-arm64.sh
+- 2025-04-15: 9978726 Update amazonluna-arm64.sh
+- 2025-04-15: 8dc7519 Update amazonluna-arm64.sh
+- 2025-04-15: 0baaabf Update amazonluna-arm64.sh
+- 2025-04-15: 018ba22 Create amazonluna-arm64.sh
+- 2025-04-15: c9614d2 Add files via upload
+- 2025-04-15: fcc26a3 Update batocera-unofficial-addons-arm64.sh
+- 2025-04-15: ced55ab Update greenlight_arm64.sh
+- 2025-04-15: 1bc7c3e Update greenlight_arm64.sh
+- 2025-04-15: 33485f6 Update greenlight_arm64.sh
+- 2025-04-15: 2fdcddf Create greenlight_arm64.sh
+- 2025-04-15: ef84279 Update batocera-unofficial-addons-arm64.sh
+- 2025-04-15: 87272cb Delete docker/docker_aarch64.sh
+- 2025-04-15: 9f1acae Update desktop.sh
+- 2025-04-15: 45b8482 Update firefox-arm64.sh
+- 2025-04-15: 696461a Create firefox-arm64.sh
+- 2025-04-15: 5a3f2f0 Update docker.sh
+- 2025-04-14: 7703b90 Update librewolf.sh
+- 2025-04-14: de53529 Update librewolf.sh
+- 2025-04-14: 3825309 Update librewolf.sh
+- 2025-04-14: 051cfc3 Add files via upload
+- 2025-04-14: 16f7655 Add files via upload
+- 2025-04-14: 5f8d707 Create ph
+- 2025-04-14: bf39972 Create librewolf.sh
+- 2025-04-14: 5330c15 Update desktop.sh
+- 2025-04-14: ac5284f Create docker_aarch64.sh
+- 2025-04-14: 0818c86 Add files via upload
+- 2025-04-14: 188b055 Update batocera-unofficial-addons-arm64.sh
+- 2025-04-14: 1cec9ab Update batocera-unofficial-addons-arm64.sh
+- 2025-04-14: 42e9d4a Update batocera-unofficial-addons-arm64.sh
+- 2025-04-14: ad5bd21 Update batocera-unofficial-addons.sh
+- 2025-04-14: 5957bdd Add files via upload
+- 2025-04-14: 097a559 Delete app/extra/icon.png
+- 2025-04-14: 8bc44b7 Add files via upload
+- 2025-04-14: c42e4cb Delete app/extra/icon.png
+- 2025-04-14: f62723b Update desktop.sh
+- 2025-04-14: 0a47218 Update desktop.sh
+- 2025-04-14: cc6a155 Update desktop.sh
+- 2025-04-14: 4d56108 Update desktop.sh
+- 2025-04-14: 115a2fa Update desktop.sh
+- 2025-04-14: 2442827 Update docker
+- 2025-04-14: 347400b Add files via upload
+- 2025-04-14: 8ad6e92 Delete desktop/extra/desktop-marquee.png
+- 2025-04-14: ba66180 Add files via upload
+- 2025-04-14: 2e19046 Delete desktop/extra/desktop-logo.png
+- 2025-04-14: ff20b32 Update desktop.sh
+- 2025-04-14: 12e2354 Update desktop.sh
+- 2025-04-14: 9978d93 Update desktop.sh
+- 2025-04-14: d9621e4 Update desktop.sh
+- 2025-04-14: 63fc994 Update desktop.sh
+- 2025-04-14: 40f56be Update desktop.sh
+- 2025-04-14: 8322a70 Update desktop.sh
+- 2025-04-14: 4ab8853 Update desktop.sh
+- 2025-04-14: bc3acd9 Update desktop.sh
+- 2025-04-14: 936fe73 Update desktop.sh
+- 2025-04-14: 47ac235 Update desktop.sh
+- 2025-04-14: 55834f1 Update desktop.sh
+- 2025-04-14: da5db6b Update batocera-unofficial-addons.sh
+- 2025-04-14: f0aeca8 Update desktop.sh
+- 2025-04-14: 0a100aa Merge pull request #36 from KevoBato/main
+- 2025-04-13: 9efcfbb Update batocera-unofficial-addons.sh
+- 2025-04-13: fe8ce30 Merge branch 'main' of https://github.com/KevoBato/batocera-unofficial-addons
+- 2025-04-13: da0ff1a Update desktop.sh
+- 2025-04-13: a3bdb9d Add files via upload
+- 2025-04-13: 79d6a4e Delete shadps4/extra/PS4_Title_ID_List.csv
+- 2025-04-11: 6298899 Merge branch 'main' of https://github.com/KevoBato/batocera-unofficial-addons
+- 2025-04-11: 965bb9b Adding Desktop
+- 2025-04-11: 1168585 Update qga.sh
+- 2025-04-11: feb8a53 Update qga.sh
+- 2025-04-10: 06365a6 Update qga.sh
+- 2025-04-10: f9e3104 Update qga.sh
+- 2025-04-10: 7e07fdc Update create_game_launchers.sh
+- 2025-04-10: d01cc8d Update sq3d.sh
+- 2025-04-10: 306a245 Add files via upload
+- 2025-04-10: 56b58e5 Update spelunky.sh
+- 2025-04-10: e10cea9 Update dka.sh
+- 2025-04-10: ab5f5a4 Update celeste.sh
+- 2025-04-10: 88fe2fe Update castilla.sh
+- 2025-04-10: d5cd611 Merge pull request #33 from EnriqueWood/make-x11vnc-auto-recover-after-failure
+- 2025-04-09: 649f854 Make the x11vnc server recover after failure until stopped
+- 2025-04-10: 12c1db8 Update x11vnc
+- 2025-04-10: 3324190 Update batocera-unofficial-addons.sh
+- 2025-04-10: 1fd7781 Update install.sh
+- 2025-04-10: 1a7ed52 Merge pull request #32 from EnriqueWood/fix-x11vnc-service-status-reporting
+- 2025-04-09: 86e9dea Fixes x11vnc service status reporting
+- 2025-04-10: 6c4b1d5 Update install.sh
+- 2025-04-10: 3b44f3c Update install.sh
+- 2025-04-10: dd9be24 Update install.sh
+- 2025-04-09: cf415a0 Update qga.sh
+- 2025-04-09: 911610b Update qga.sh
+- 2025-04-09: 7474863 Update keys.txt
+- 2025-04-09: 60701d1 Update install.sh
+- 2025-04-09: 92ca2b0 Update install.sh
+- 2025-04-09: 0628984 Update install.sh
+- 2025-04-09: 67c1663 Update install.sh
+- 2025-04-09: c95a7fe Add files via upload
+- 2025-04-09: 00c0d51 Create ph
+- 2025-04-09: 158ddde Create qga.sh
+- 2025-04-08: 72f5a0b Update docker.sh
+- 2025-04-08: 7564023 Update docker.sh
+- 2025-04-08: 115b520 Update parsec.sh
+- 2025-04-08: 340621e Update parsec.sh
+- 2025-04-08: 9d190a6 Update chrome.sh
+- 2025-04-08: c116437 Update chrome.sh
+- 2025-04-08: c79ed86 Update chrome.sh
+- 2025-04-08: 3aab830 Update chrome.sh
+- 2025-04-08: 18a8e83 Update ubuntumate.sh
+- 2025-04-07: 435a934 Update batocera-unofficial-addons.sh
+- 2025-04-07: 7ef7b81 Update batocera-unofficial-addons.sh
+- 2025-04-07: c324746 Update moonlight.sh
+- 2025-04-07: 6d4527f Update cmc+.sh
+- 2025-04-07: 9e814f6 Update menu.sh
+- 2025-04-07: 7bf814a Update brave.sh
+- 2025-04-07: c183ee2 Update brave.sh
+- 2025-04-07: 6139dab Update batocera-unofficial-addons.sh
+- 2025-04-07: 53117c7 Update batocera-unofficial-addons.sh
+- 2025-04-07: 2f7a662 Add files via upload
+- 2025-04-07: 1dc26f1 Update x11vnc
+- 2025-04-07: d343b94 Update cmc+.sh
+- 2025-04-07: 1e982d2 Rename cmc+.jpg to cmc.jpg
+- 2025-04-07: 1866bce Add files via upload
+- 2025-04-07: 25a725a Update x11vnc
+- 2025-04-07: ef9b458 Create cmc+.sh
+- 2025-04-07: fe331e6 Update x11vnc
+- 2025-04-07: bf37c22 Update zeldadoi.sh
+- 2025-04-07: 360a28f Update crunchyroll.sh
+- 2025-04-07: a40ae7a Update crunchyroll.sh
+- 2025-04-07: 6bee943 Update batocera-unofficial-addons.sh
+- 2025-04-07: 87dd68e Update batocera-unofficial-addons.sh
+- 2025-04-07: 29bf509 Update x11vnc
+- 2025-04-07: 9aaa84f Update x11vnc.sh
+- 2025-04-07: 1d8bd5f Create x11vnc
+- 2025-04-07: 06d2010 Add files via upload
+- 2025-04-07: 70147ed Create ph
+- 2025-04-07: 8747fdd Create x11vnc.sh
+- 2025-04-07: 471fa9f Update brave.sh
+- 2025-04-07: 6250ae3 Add files via upload
+- 2025-04-06: 733089f Merge pull request #31 from DRLEdition19/main
+- 2025-04-06: 98a85e4 Add files via upload
+- 2025-04-06: 09735e2 Delete app/extra/batocera-unofficial-addons.png
+- 2025-04-06: 8254c74 Update Install_j2me.sh
+- 2025-04-03: 7e1a803 Update batocera-unofficial-addons.sh
+- 2025-04-03: bd3223a Update batocera-unofficial-addons.sh
+- 2025-04-03: 945ff35 Update batocera-unofficial-addons.sh
+- 2025-04-03: 45cec87 Update README.md
+- 2025-04-03: ebe8561 Update install_x86.sh
+- 2025-04-03: 539fcfd Update batocera-unofficial-addons.sh
+- 2025-04-03: cebfc33 Update batocera-unofficial-addons.sh
+- 2025-04-03: d83d983 Update batocera-unofficial-addons.sh
+- 2025-04-03: 811e841 Update batocera-unofficial-addons.sh
+- 2025-04-03: 359948b Update install_x86.sh
+- 2025-04-03: 36a3575 Update batocera-unofficial-addons.sh
+- 2025-04-03: 389c3a8 Add files via upload
+- 2025-04-03: 492de97 Create ph
+- 2025-04-03: 185a5e3 Create f1.sh
+- 2025-04-03: 299d930 Update batocera-unofficial-addons.sh
+- 2025-04-03: 06a4513 Update usdeluxe.sh
+- 2025-04-03: 208b538 Create usdeluxe.sh
+- 2025-04-03: a17a72f Update batocera-unofficial-addons.sh
+- 2025-04-03: 05ece6d Create extra.sh
+- 2025-04-02: 1b92dab Update batocera-unofficial-addons.sh
+- 2025-04-02: 5748856 Update batocera-unofficial-addons.sh
+- 2025-04-02: 9526ec0 Update batocera-unofficial-addons.sh
+- 2025-04-01: 7747c0d Update issue templates
+- 2025-04-01: 2daa5c4 Update issue templates
+- 2025-04-01: c588bb1 Update rd.sh
+- 2025-04-01: 1e43dc1 Create rd.sh
+- 2025-04-01: 4b73e91 Update batocera-unofficial-addons.sh
+- 2025-03-31: 429ae7a Update batocera-unofficial-addons.sh
+- 2025-03-31: c7f5901 Update batocera-unofficial-addons.sh
+- 2025-03-31: 416a291 Update batocera-unofficial-addons.sh
+- 2025-03-31: 90e2a4d Add files via upload
+- 2025-03-31: cf9e8a1 Update batocera-unofficial-addons.sh
+- 2025-03-31: 6bc59c4 Update es_features_ps4.cfg
+- 2025-03-31: 1acb686 Update tailscale.sh
+- 2025-03-31: 73aa493 Update README.md
+- 2025-03-31: 3316b7c Update README.md
+- 2025-03-31: 68a72ed Update README.md
+- 2025-03-31: 87092f9 Update README.md
+- 2025-03-31: a7049cb Update README.md
+- 2025-03-31: 87d5125 Update README.md
+- 2025-03-31: 4561f2e Update README.md
+- 2025-03-31: f97ed71 Update README.md
+- 2025-03-31: f25bb52 Update README.md
+- 2025-03-31: b340e5d Update README.md
+- 2025-03-31: d17b40a Update README.md
+- 2025-03-31: a8b6b55 Update README.md
+- 2025-03-31: b80b28f Update batocera-unofficial-addons-arm64.sh
+- 2025-03-31: 144e14b Update batocera-unofficial-addons.sh
+- 2025-03-30: 5e50d0e Update README.md
+- 2025-03-30: c1ae591 Rename README - KEYMAP.md to README.md
+- 2025-03-30: 9b1ecf8 Merge pull request #28 from DRLEdition19/main
+- 2025-03-29: e6310da Atualizar o README - KEYMAP.md
+- 2025-03-29: f8cb7e0 Atualizar o README - KEYMAP.md
+- 2025-03-29: 013208e Atualizar o README - KEYMAP.md
+- 2025-03-29: 2d085c8 Atualizar o README - KEYMAP.md
+- 2025-03-29: 5d97082 Update README - KEYMAP.md
+- 2025-03-29: 2351beb Update README - KEYMAP.md
+- 2025-03-29: 3ce3764 Update README - KEYMAP.md
+- 2025-03-29: e2edb74 Update Install_j2me.sh
+- 2025-03-29: a26bee7 Update README - KEYMAP.md
+- 2025-03-29: 5914225 Update README - KEYMAP.md
+- 2025-03-29: 93eee32 Update README - KEYMAP.md
+- 2025-03-29: 1255f2e Add files via upload
+- 2025-03-29: 32e4c71 Add files via upload
+- 2025-03-29: fb2e53d Update Install_j2me.sh
+- 2025-03-29: 792be31 Update Install_j2me.sh
+- 2025-03-29: 7f4af88 Add files via upload
+- 2025-03-29: a1144f5 Update Install_j2me.sh
+- 2025-03-28: 52afcb0 Merge branch 'DTJW92:main' into main
+- 2025-03-27: e695156 Update batocera-unofficial-addons.sh
+- 2025-03-27: 1a5337b Add files via upload
+- 2025-03-27: d17b264 Update batocera-unofficial-addons.sh
+- 2025-03-27: 9971a20 Update batocera-unofficial-addons.sh
+- 2025-03-27: 8cf5f0b Update batocera-unofficial-addons.sh
+- 2025-03-27: fc3ac55 Update install_arm64.sh
+- 2025-03-27: 91ec9e6 Update install_x86.sh
+- 2025-03-27: aa48900 Update install.sh
+- 2025-03-27: bf4bd46 Update docker
+- 2025-03-27: 07d72c4 Update switch.sh
+- 2025-03-27: b5ff53e Update switch.sh
+- 2025-03-27: 58adf74 Update shadps4.sh
+- 2025-03-27: 7d7d814 Merge branch 'DTJW92:main' into main
+- 2025-03-27: 95dbef3 Update batocera-unofficial-addons.sh
+- 2025-03-27: 80f3049 Update bottles.sh
+- 2025-03-27: 9bedb1b Update bottles.sh
+- 2025-03-27: 055a081 Update bottles.sh
+- 2025-03-27: 868a015 Update bottles.sh
+- 2025-03-27: 9a7b69b Update bottles.sh
+- 2025-03-27: abe47e1 Update bottles.sh
+- 2025-03-27: 50669d8 Update bottles.sh
+- 2025-03-27: 7479b47 Update bottles.sh
+- 2025-03-26: 8a3e8d4 Merge branch 'DTJW92:main' into main
+- 2025-03-27: f76881f Create bottles.sh
+- 2025-03-27: b78cb81 Update arcademanager.sh
+- 2025-03-26: 5f58f13 Update batocera-unofficial-addons.sh
+- 2025-03-26: b212d0e Update sunshine.sh
+- 2025-03-26: d79ae96 Update sunshine.sh
+- 2025-03-26: c9916c3 Update sunshine.sh
+- 2025-03-26: 215994b Delete docker/sonarr.sh
+- 2025-03-26: 725881c Delete docker/prowlarr.sh
+- 2025-03-26: 20ab523 Update menu.sh
+- 2025-03-26: 637ad37 Update arrdownloaders.sh
+- 2025-03-26: 7178626 Update arrdownloaders.sh
+- 2025-03-25: 1690f41 Update and rename arrinone3.sh to arrinone.sh
+- 2025-03-25: 481fd1a Update and rename arrinone.sh to arrinone3.sh
+- 2025-03-25: 42f226a Update and rename arrinone2.sh to arrinone.sh
+- 2025-03-25: a99e56f Update and rename arrinone.sh to arrinone2.sh
+- 2025-03-25: e6d81e9 Create arrdownloaders.sh
+- 2025-03-25: 2a32ec3 Update arrinone.sh
+- 2025-03-25: 7266ef6 Update arrinone.sh
+- 2025-03-25: a4cc847 Create arrinone.sh
+- 2025-03-25: 4bd5493 Create prowlarr.sh
+- 2025-03-25: 45e2834 Delete docker/sabnzbd.sh
+- 2025-03-25: 9226e08 Update emby.sh
+- 2025-03-25: f6882e0 Update jellyfin.sh
+- 2025-03-25: 968c9d4 Create sabnzbd.sh
+- 2025-03-25: 29082e6 Update sonarr.sh
+- 2025-03-25: 2ea1619 Update sonarr.sh
+- 2025-03-25: 139ccdf Create sonarr.sh
+- 2025-03-25: b9f4d6a Delete test/test.sh
+- 2025-03-25: dff58a1 Update test.sh
+- 2025-03-25: e0b8dcd Update docker
+- 2025-03-25: fb01fb6 Update menu.sh
+- 2025-03-25: 83a42e8 Update emby.sh
+- 2025-03-25: ca3a08a Update jellyfin.sh
+- 2025-03-25: 51ef1d7 Create emby.sh
+- 2025-03-25: e718f73 Update jellyfin.sh
+- 2025-03-25: 6d1de7e Update jellyfin.sh
+- 2025-03-25: 73bc9bb Update menu.sh
+- 2025-03-25: dcc82f0 Update alpinexfce.sh
+- 2025-03-25: f499ec8 Update archkde.sh
+- 2025-03-25: 9ec813c Update ubuntumate.sh
+- 2025-03-25: bcb909f Create jellyfin.sh
+- 2025-03-25: b46cd24 Update ubuntumate.sh
+- 2025-03-25: b60b4de Update archkde.sh
+- 2025-03-25: 27a1623 Update alpinexfce.sh
+- 2025-03-25: 7efffc5 Update alpinexfce.sh
+- 2025-03-25: aad10f4 Update archkde.sh
+- 2025-03-25: 50d645a Update alpinexfce.sh
+- 2025-03-25: ffb1fe2 Update ubuntumate.sh
+- 2025-03-25: b94d230 Update alpinexfce.sh
+- 2025-03-25: 854f11d Update menu.sh
+- 2025-03-25: 6e8bd42 Update menu.sh
+- 2025-03-25: f800927 Update batocera-unofficial-addons.sh
+- 2025-03-25: cce2610 Update ubuntumate.sh
+- 2025-03-25: 5010ead Update alpinexfce.sh
+- 2025-03-25: 3d2a3c6 Update archkde.sh
+- 2025-03-25: 3ba9102 Update ubuntumate.sh
+- 2025-03-25: 77cc7d0 Create menu.sh
+- 2025-03-25: f94ba77 Update ubuntumate.sh
+- 2025-03-25: 2f5a1d2 Update and rename ubuntuxfce.sh to ubuntumate.sh
+- 2025-03-25: 34ab657 Rename alpine.sh to alpinexfce.sh
+- 2025-03-25: 4ad35e5 Update alpine.sh
+- 2025-03-25: 5c2eda0 Create alpine.sh
+- 2025-03-25: 7a2815b Create ubuntuxfce.sh
+- 2025-03-25: 99c2776 Update archkde.sh
+- 2025-03-25: 5a075bc Update archkde.sh
+- 2025-03-25: ec7e42c Create archkde.sh
+- 2025-03-25: 1c0cc41 Update umbrelos.sh
+- 2025-03-25: 61741de Update casaos.sh
+- 2025-03-25: bfeeafe Update docker.sh
+- 2025-03-25: 5d57904 Update docker
+- 2025-03-25: 9ef3bda Create umbrelos.sh
+- 2025-03-25: 439df95 Create casaos.sh
+- 2025-03-25: 2614ccb Update batocera-unofficial-addons.sh
+- 2025-03-25: b3723a6 Update batocera-unofficial-addons.sh
+- 2025-03-25: ac750a7 Update cli.sh
+- 2025-03-25: a068e23 Update docker.sh
+- 2025-03-25: c033565 Update cli.sh
+- 2025-03-25: db21b48 Create docker.sh
+- 2025-03-24: 272287a Update stremio.sh
+- 2025-03-24: 481f639 Merge pull request #26 from KevoBato/main
+- 2025-03-24: 266f0fd Merge branch 'DTJW92:main' into main
+- 2025-03-24: 905e605 Update stremio.sh
+- 2025-03-24: 4a55f63 Merge branch 'main' of https://github.com/KevoBato/batocera-unofficial-addons
+- 2025-03-24: 411b30e Update stremio.sh
+- 2025-03-24: 85cabd0 Update batocera-unofficial-addons.sh
+- 2025-03-24: bd10a76 Update batocera-unofficial-addons.sh
+- 2025-03-24: 1ac66da Merge branch 'DTJW92:main' into main
+- 2025-03-24: 2d3afd4 Update batocera-unofficial-addons.sh
+- 2025-03-24: 6343bd1 Update batocera-unofficial-addons.sh
+- 2025-03-23: 60352e1 Update stremio.sh
+- 2025-03-23: b6d6aa1 fixing my messed up fork
+- 2025-03-23: 488f02b Merge branch 'main' of https://github.com/KevoBato/batocera-unofficial-addons
+- 2025-03-23: f21e033 Create stremio.sh
+- 2025-03-21: 2385a2b Delete .dep/zenity
+- 2025-03-21: a52862e Update batocera-unofficial-addons.sh
+- 2025-03-21: 5b8e420 Update batocera-unofficial-addons.sh
+- 2025-03-21: 9316d69 Update zenity.sh
+- 2025-03-21: 4e74cab Create zenity.sh
+- 2025-03-21: 16f078d +
+- 2025-03-21: a3e372b Update batocera-unofficial-addons.sh
+- 2025-03-20: f63259d Update chiaki.sh
+- 2025-03-19: ff4ef91 Merge branch 'DTJW92:main' into main
+- 2025-03-18: 6404bca Update switch.sh
+- 2025-03-13: ae18e1d Update batocera-unofficial-addons.sh
+- 2025-03-11: e990202 ss
+- 2025-03-10: dcf78cb Update switch.sh
+- 2025-03-10: 04b5e3d Update switch.sh
+- 2025-03-10: f4b9ab5 Update switch.sh
+- 2025-03-09: a99fd69 Update batocera-unofficial-addons.sh
+- 2025-03-09: 13cffd8 Update batocera-unofficial-addons.sh
+- 2025-03-09: bf8a848 Add files via upload
+- 2025-03-09: 3693794 Update vlc.sh
+- 2025-03-09: 457f8a7 Update vlc.sh
+- 2025-03-09: 94e8c9c Add files via upload
+- 2025-03-09: a244995 Create ph
+- 2025-03-09: ce4a963 Create vlc.sh
+- 2025-03-06: 992d7f4 Update mame40.sh
+- 2025-03-06: bcdab6f +
+- 2025-03-06: ed24486 Update batocera-unofficial-addons.sh
+- 2025-03-06: 9b10d8f Update batocera-unofficial-addons.sh
+- 2025-03-06: c555aca Create mame40.sh
+- 2025-03-06: 235d21e Update clonehero.sh
+- 2025-03-06: 4bdce2f Update clonehero.sh
+- 2025-03-06: cd22bdb Update clonehero.sh
+- 2025-03-06: a944fc6 Update clonehero.sh
+- 2025-03-06: 47efb2a Update clonehero.sh
+- 2025-03-06: a05ea6f Update clonehero.sh
+- 2025-03-06: f167940 Update clonehero.sh
+- 2025-03-06: 8b78f92 Update srb2.sh
+- 2025-03-06: 5dbdf4b Update menu.sh
+- 2025-03-06: ba43203 Add files via upload
+- 2025-03-06: cea4905 Create srb2.sh
+- 2025-03-05: 72547f0 Update batocera-unofficial-addons.sh
+- 2025-03-05: 508bb31 Add files via upload
+- 2025-03-05: 22c93d2 Update batocera-unofficial-addons.sh
+- 2025-03-05: d636ce0 Update .gitignore
+- 2025-03-05: 5df9857 Merge pull request #22 from DRLEdition19/main
+- 2025-03-05: 77dddd6 Update switch.sh
+- 2025-03-05: fc3ce58 Update batocera-unofficial-addons.sh
+- 2025-03-04: 193dec3 Update Install_j2me.sh
+- 2025-03-03: 8a69dd1 Update peazip.sh
+- 2025-03-03: 80167b2 Update peazip.sh
+- 2025-03-02: 01b3783 Update README.md
+- 2025-03-02: cdf460c Update peazip.sh
+- 2025-03-02: 2745299 Add files via upload
+- 2025-03-02: 47a6c09 Create ph
+- 2025-03-02: a54a982 Create peazip.sh
+- 2025-03-02: d1ae051 Update switch.sh
+- 2025-03-01: 72f1224 up
+- 2025-02-28: 7320781 Update batocera-unofficial-addons.sh
+- 2025-02-28: 67a4e3c Update batocera-unofficial-addons.sh
+- 2025-02-24: 417bf85 Update clonehero.sh
+- 2025-02-24: 510437f Update clonehero.sh
+- 2025-02-21: 7213311 Update flash.sh
+- 2025-02-21: 8448038 +
+- 2025-02-21: ef6647d Delete filezilla/extra/icon.png
+- 2025-02-21: 9dd6623 Update flash.sh
+- 2025-02-21: 83ac574 Delete flash/extra/start-flashpoint.sh
+- 2025-02-21: 4ef5fe8 Add files via upload
+- 2025-02-21: d3fcd78 Add files via upload
+- 2025-02-21: bae3f9a Create ph
+- 2025-02-21: 54feb6f Update flash.sh
+- 2025-02-21: 40bd396 Create flash.sh
+- 2025-02-21: dd06d16 Delete filezilla/extra/ph
+- 2025-02-21: 6616131 Add files via upload
+- 2025-02-21: e22e116 Update filezilla.sh
+- 2025-02-21: 5d1acdb Add files via upload
+- 2025-02-21: 086f692 Create ph
+- 2025-02-21: 92345fd Create filezilla.sh
+- 2025-02-21: d3f7927 Update sunshine.sh
+- 2025-02-20: 1021fcb Add files via upload
+- 2025-02-20: 2986637 Add files via upload
+- 2025-02-20: 2de8945 Update steam.sh
+- 2025-02-20: a23dd17 Update lutris.sh
+- 2025-02-20: 522c655 Add files via upload
+- 2025-02-20: 56b5496 Add files via upload
+- 2025-02-20: f12397a Create ph
+- 2025-02-20: cfb1d30 Create lutris.sh
+- 2025-02-19: fbf731e Update steam.sh
+- 2025-02-19: 61c0cc8 Update steam.sh
+- 2025-02-19: 69d10ff Update steam.sh
+- 2025-02-19: e225402 Update steam.sh
+- 2025-02-19: b31296e Update steam.sh
+- 2025-02-19: dac0cfa Update steam.sh
+- 2025-02-19: ad39886 Update steam.sh
+- 2025-02-19: 68b7f41 Update steam.sh
+- 2025-02-19: 3e9861c Add files via upload
+- 2025-02-19: ccbc4a4 Update steam.sh
+- 2025-02-19: c2dda45 Add files via upload
+- 2025-02-19: 70cdb14 Update steam.sh
+- 2025-02-19: 1ee84dd Add files via upload
+- 2025-02-19: 8d274ef Rename Steam_icon_logo.svg.png to icon.png
+- 2025-02-19: 73ba67b Add files via upload
+- 2025-02-19: 26ccdac Delete steam/extra/icon.png
+- 2025-02-19: dead1c4 Add files via upload
+- 2025-02-19: 9d56b00 Create ph
+- 2025-02-19: 9008a35 Create steam.sh
+- 2025-02-18: 70518ae Merge pull request #21 from DRLEdition19/main
+- 2025-02-18: 5eadf95 Update freej2me.zip
+- 2025-02-18: c367470 Merge pull request #20 from DRLEdition19/patch-4
+- 2025-02-18: da51f19 Merge pull request #19 from DRLEdition19/main
+- 2025-02-17: d5d29f7 Update Install_j2me.sh
+- 2025-02-17: 209e27a Update Install_j2me.sh
+- 2025-02-18: a678e50 dd
+- 2025-02-17: 54800f2 Update Freej2me
+- 2025-02-18: 0012bf8 Merge pull request #18 from DRLEdition19/main
+- 2025-02-17: 575c96c Merge pull request #17 from DRLEdition19/patch-3
+- 2025-02-17: b21ff68 Merge pull request #16 from DRLEdition19/patch-2
+- 2025-02-17: 1dda1f8 Update java-jdk19.sh
+- 2025-02-17: 57360c8 Update Install_j2me.sh
+- 2025-02-13: f6e5a04 Update batocera-unofficial-addons-arm64.sh
+- 2025-02-13: d037f3c Update stepmania.sh
+- 2025-02-13: 8bf7b43 Update vesktop.sh
+- 2025-02-13: 0f19e8a Update batocera-unofficial-addons-arm64.sh
+- 2025-02-13: 43283aa Update supertuxkart.sh
+- 2025-02-13: 715ddaf Update celeste64.sh
+- 2025-02-13: 722c21e Update batocera-unofficial-addons.sh
+- 2025-02-13: 489db9c Update batocera-unofficial-addons-arm64.sh
+- 2025-02-13: bf0dd65 Update batocera-unofficial-addons-arm64.sh
+- 2025-02-13: ed64679 Update celeste64.sh
+- 2025-02-13: c0643d8 Update celeste64.sh
+- 2025-02-13: 823bbde Create celeste64.sh
+- 2025-02-12: 70da39a Update batocera-unofficial-addons-arm64.sh
+- 2025-02-12: adc296c Update supertuxkart.sh
+- 2025-02-12: e2e2c70 Update mmc.sh
+- 2025-02-12: 3bc8c07 +
+- 2025-02-12: 4fd1fe5 Update menu.sh
+- 2025-02-12: da6485e Create mmc.jpg
+- 2025-02-11: 1e2af9f Create mmc.sh
+- 2025-02-11: ca1303d Update vesktop.sh
+- 2025-02-11: 57d2742 Update menu.sh
+- 2025-02-11: ddc1570 Update stt.sh
+- 2025-02-11: ad889b3 Create sonic.jpg
+- 2025-02-11: e0d1186 Update cbbit.sh
+- 2025-02-11: c939bab Create stt.sh
+- 2025-02-11: fd29e53 Update openrgb.sh
+- 2025-02-11: 7a4267e Create icon.png
+- 2025-02-11: aabf929 Update openrgb.sh
+- 2025-02-11: 3360d61 Update greenlight.sh
+- 2025-02-11: ef97b16 Create icon.png
+- 2025-02-11: 320218a Update icon.png
+- 2025-02-11: a625ab8 Update icon.png
+- 2025-02-11: 1bd1843 Update icon.png
+- 2025-02-11: 1ed2592 Update install_x86.sh
+- 2025-02-11: cf85274 +
+- 2025-02-11: b77e9e9 Create file.png
+- 2025-02-11: a63aef8 Update firefox.sh
+- 2025-02-11: dac2499 Update desktopbase.sh
+- 2025-02-11: a0a9c96 Update firefox.sh
+- 2025-02-11: dbcddb1 Update firefox.sh
+- 2025-02-11: e840ad8 Create icon.png
+- 2025-02-11: bd3bab0 Update chrome.sh
+- 2025-02-11: e4147e2 Update chrome.sh
+- 2025-02-11: f376f94 Update chrome.sh
+- 2025-02-11: a696a2d Update desktopbase.sh
+- 2025-02-11: dd2e07a Update desktopbase.sh
+- 2025-02-11: 4d90d3f Update desktopbase.sh
+- 2025-02-11: 509bce5 Update chrome.sh
+- 2025-02-11: 60fa04f Update chrome.sh
+- 2025-02-11: 4485c83 Update chrome.sh
+- 2025-02-11: 958759b Create icon.png
+- 2025-02-11: 8423c78 Create desktopbase.sh
+- 2025-02-11: 0e77b35 Update install_arm64.sh
+- 2025-02-10: 9150c8c +
+- 2025-02-10: 49d95d6 Update customwine.png
+- 2025-02-10: 1378f85 Update bua.png
+- 2025-02-10: 0100b52 Update menu.sh
+- 2025-02-10: bc7febd Create cbbit.sh
+- 2025-02-10: a2ac7cb Add files via upload
+- 2025-02-10: 5343d00 Update menu.sh
+- 2025-02-10: 6620c1d Update tmntrp.sh
+- 2025-02-10: fc78d2f Update tmntrp.sh
+- 2025-02-10: b6af435 Add files via upload
+- 2025-02-10: 8ea6d16 Update tmntrp.sh
+- 2025-02-10: cf1ef38 Create tmntrp.sh
+- 2025-02-10: 346bba5 Update zeldadoi.sh
+- 2025-02-10: 37fb834 Update zeldadoi.sh
+- 2025-02-10: d422087 Update install_arm64.sh
+- 2025-02-10: c9dddc3 Update install_x86.sh
+- 2025-02-10: 6bd010a Update BatoceraUnofficialAddons_ARM64.sh
+- 2025-02-10: 1114240 Update install_arm64.sh
+- 2025-02-10: 5b0945a Update BatoceraUnofficialAddOns.sh
+- 2025-02-10: a1b8f9b Update install_x86.sh
+- 2025-02-10: 8c893e4 Create .dialogrc
+- 2025-02-10: 83863c7 Update dka.sh
+- 2025-02-10: 7f5377e Update menu.sh
+- 2025-02-10: 1360879 Update menu.sh
+- 2025-02-10: e398c15 Update menu.sh
+- 2025-02-10: 6117dee Update ssf2.sh
+- 2025-02-10: b8ad1aa Add files via upload
+- 2025-02-10: 0f55189 Delete app/menu2.sh.enc
+- 2025-02-10: e18f2ed Update ssf2.sh
+- 2025-02-10: 6d7a80e Create ssf2.sh
+- 2025-02-10: c67bb1a Create customwine.png
+- 2025-02-10: fd8c8a8 Create install.png
+- 2025-02-10: dc5d982 Create bua.png
+- 2025-02-09: 4da0195 Update batocera-unofficial-addons.sh
+- 2025-02-09: 7906904 Update install_arm64.sh
+- 2025-02-09: defafa2 Update test.sh
+- 2025-02-09: ae63008 Update test.sh
+- 2025-02-09: 7a8e1ab Update test.sh
+- 2025-02-09: d505381 Update test.sh
+- 2025-02-09: 0be268b Update test.sh
+- 2025-02-09: 69fc397 Update test.sh
+- 2025-02-09: a65d9e9 Update test.sh
+- 2025-02-09: d19f071 Update test.sh
+- 2025-02-09: 8d73887 Update test.sh
+- 2025-02-09: 78115ca Create test.sh
+- 2025-02-09: fd08a6a Update batocera-unofficial-addons-arm64.sh
+- 2025-02-09: a7c7bd5 Update supermariox.sh
+- 2025-02-09: 48d38c6 Update supermariox.sh
+- 2025-02-09: 5a0bf98 Update batocera-unofficial-addons.sh
+- 2025-02-09: b3ca31c Update supermariox.sh
+- 2025-02-09: 82fec72 Create supermariox.sh
+- 2025-02-08: 8fb9246 Update batocera-unofficial-addons.sh
+- 2025-02-08: deccffb Update batocera-unofficial-addons-arm64.sh
+- 2025-02-08: c2bcbea Update install_arm64.sh
+- 2025-02-08: 7e05efb Update chiaki.sh
+- 2025-02-08: 991d5d2 Update vesktop.sh
+- 2025-02-08: 7c1677a Update chiaki.sh
+- 2025-02-08: cfd8f3e Update chiaki.sh
+- 2025-02-08: c853eb8 Update vesktop.sh
+- 2025-02-08: 645168d Update install_arm64.sh
+- 2025-02-08: 2c929d6 Update install_arm64.sh
+- 2025-02-08: 63ec3ad +
+- 2025-02-08: ef47859 -
+- 2025-02-08: 71f996c fix
+- 2025-02-08: ebb5cb5 Update batocera-unofficial-addons-arm64.sh
+- 2025-02-08: 1491db2 Update batocera-unofficial-addons.sh
+- 2025-02-08: 008a401 Update freetube.sh
+- 2025-02-08: 28976d3 Update freetube.sh
+- 2025-02-08: d5a5ad4 Update freetube.sh
+- 2025-02-08: 7e50576 Create freetube-logo.png
+- 2025-02-08: 5648791 Create freetube.sh
+- 2025-02-07: 8d41f74 Update install_arm64.sh
+- 2025-02-07: 4ef1bf3 Update install.sh
+- 2025-02-07: f6f5331 Update README.md
+- 2025-02-07: bbaa352 Update batocera-unofficial-addons.sh
+- 2025-02-07: 56ddca8 Update vesktop.sh
+- 2025-02-07: 17ba3f6 Update vesktop.sh
+- 2025-02-07: edf6c02 Create icon.png
+- 2025-02-07: cc34ba5 Update vesktop.sh
+- 2025-02-06: e37ed88 Merge pull request #13 from DRLEdition19/patch-1
+- 2025-02-06: 95f4fab Update sq3d.sh
+- 2025-02-06: 671a6e5 Update system.dat
+- 2025-02-06: 53dcf06 Update batocera-unofficial-addons.sh
+- 2025-02-06: 4407530 Update batocera-unofficial-addons.sh
+- 2025-02-06: d2da63a Update system.dat
+- 2025-02-06: e877103 Update batocera-unofficial-addons.sh
+- 2025-02-06: 9a4f897 Update batocera-unofficial-addons.sh
+- 2025-02-06: 0c634cb Update batocera-unofficial-addons.sh
+- 2025-02-06: e8acbb9 Create system.dat
+- 2025-02-06: 1a2760c Update batocera-unofficial-addons.sh
+- 2025-02-06: f945234 Update batocera-unofficial-addons-arm64.sh
+- 2025-02-06: ca4ba4f Create bedrock.sh
+- 2025-02-06: 4da6450 Update menu.sh
+- 2025-02-06: 604cd7c Update menu.sh
+- 2025-02-06: 68c987c Update zeldadoi.sh
+- 2025-02-06: b873950 Update menu.sh
+- 2025-02-06: aa3f8a9 Rename s13d.sh to sq3d.sh
+- 2025-02-06: dccc6a6 Update zelda2.sh
+- 2025-02-06: 27f2f11 Add files via upload
+- 2025-02-06: 6e448d4 Create s13d.sh
+- 2025-02-06: fcb36c3 Update batocera-unofficial-addons.sh
+- 2025-02-06: aeaf9e8 Create menu.sh
+- 2025-02-06: adbf293 Update spelunky.sh
+- 2025-02-06: 259b6d4 Add files via upload
+- 2025-02-06: 77942e8 Update batocera-unofficial-addons.sh
+- 2025-02-06: 2fd1e58 Update tidal.sh
+- 2025-02-06: e3882be Create tidal.sh
+- 2025-02-06: 8fc8061 Update mubi.sh
+- 2025-02-06: 470d478 Create mubi-logo.jpg
+- 2025-02-06: 2f35c98 Create mubi.sh
+- 2025-02-06: 2aef81f Rename crunchroll-logo.png to crunchyroll-logo.png
+- 2025-02-06: 1908f93 Update prime.sh
+- 2025-02-06: 2abc8d6 Create crunchroll-logo.png
+- 2025-02-06: e28e64b Create crunchyroll.sh
+- 2025-02-06: 40a0a10 Update gamescope.sh
+- 2025-02-06: 4dbdc61 Update gamescope.sh
+- 2025-02-06: a399caf Create gamescope.sh
+- 2025-02-06: fd2068f Create gamescope.tar
+- 2025-02-05: ca99035 Update vesktop.sh
+- 2025-02-05: 65b99ca Delete vesktop/lib/libcups.so.2
+- 2025-02-05: 4d22bb6 Update install_arm64.sh
+- 2025-02-05: edb4432 +
+- 2025-02-05: bcb1f33 +
+- 2025-02-04: adece81 Update cli.sh
+- 2025-02-04: 73286d9 Update batocera-unofficial-addons.sh
+- 2025-02-04: 91a2815 Rename docker.sh to cli.sh
+- 2025-02-04: 505b255 Update and rename cli.sh to docker.sh
+- 2025-02-04: a8f1f0f Update and rename docker.sh to cli.sh
+- 2025-02-04: c407a1a Update docker.sh
+- 2025-02-04: 8c2482b Update docker.sh
+- 2025-02-04: 7c1d693 Update batocera-unofficial-addons.sh
+- 2025-02-04: be0d365 Update batocera-unofficial-addons.sh
+- 2025-02-04: 2aaaca6 Update java.sh
+- 2025-02-04: d2633ed Update Install_j2me.sh
+- 2025-02-04: e355587 Update Install_j2me.sh
+- 2025-02-04: b160a72 Update Install_j2me.sh
+- 2025-02-04: e5cb516 Update and rename install_java.sh to java.sh
+- 2025-02-04: 630cd07 Update install_java.sh
+- 2025-02-04: 2b05f3d Rename java.sh to install_java.sh
+- 2025-02-04: 344584e Update java.sh
+- 2025-02-04: d3c789d Update java.sh
+- 2025-02-04: bffc006 Update java.sh
+- 2025-02-04: 5678278 Update java.sh
+- 2025-02-04: fe56d96 Update java.sh
+- 2025-02-04: b1c6d3e Update java.sh
+- 2025-02-04: 5b321e6 Update java.sh
+- 2025-02-04: f3ef795 Update batocera-unofficial-addons.sh
+- 2025-02-04: 625e00f Update batocera-unofficial-addons.sh
+- 2025-02-04: 874453b Update batocera-unofficial-addons.sh
+- 2025-02-04: 3566235 Update java.sh
+- 2025-02-04: 67eca9f Update Install_j2me.sh
+- 2025-02-04: 6dae661 Update java.sh
+- 2025-02-04: c65df48 Update Install_j2me.sh
+- 2025-02-04: 01634c5 Merge pull request #9 from DRLEdition19/main
+- 2025-02-04: b38e9c7 Merge branch 'main' into main
+- 2025-02-04: e46cfc2 -
+- 2025-02-04: f84edf6 Update and rename test.sh to freej2me.sh
+- 2025-02-04: 4e61ede Create freej2me.zip
+- 2025-02-04: d2ebda6 Update test.sh
+- 2025-02-03: afbd8fa Update test.sh
+- 2025-02-03: 0f5192c Rename fj2me.sh to test.sh
+- 2025-02-03: 3c2ba83 Update and rename freej2me.sh to fj2me.sh
+- 2025-02-03: 9d2cb8b Rename fj2me.sh to freej2me.sh
+- 2025-02-03: 34dbb4d Rename freej2me.sh to fj2me.sh
+- 2025-02-03: c15d018 Update freej2me.sh
+- 2025-02-03: 078457e Update and rename fj2me.sh to freej2me.sh
+- 2025-02-03: 9370b1b Rename freej2me.sh to fj2me.sh
+- 2025-02-03: beb3aad Update freej2me.sh
+- 2025-02-03: c0ff541 Update and rename fj2me.sh to freej2me.sh
+- 2025-02-03: 06fb608 Update and rename freej2me.sh to fj2me.sh
+- 2025-02-03: 4100550 Update freej2me.sh
+- 2025-02-03: 18b38f0 Update and rename fj2me.sh to freej2me.sh
+- 2025-02-03: 04ffa70 Rename freej2me.sh to fj2me.sh
+- 2025-02-03: 96a4e65 Update freej2me.sh
+- 2025-02-03: 7795de6 +
+- 2025-02-03: 1f582e5 Rename java/icon.png to java/extra/icon.png
+- 2025-02-03: 0be5c84 Add files via upload
+- 2025-02-03: cb24130 Create java.sh
+- 2025-02-03: 6dd4af3 Update freej2me.sh
+- 2025-02-03: 290db82 Update and rename test.sh to freej2me.sh
+- 2025-02-03: 2d95297 Update batocera-unofficial-addons.sh
+- 2025-02-03: 5f29785 Update prime.sh
+- 2025-02-03: 000f9cc Delete prime/extra/prime-logo.jpg
+- 2025-02-03: e72d1a6 Add files via upload
+- 2025-02-03: a5ea22e Add files via upload
+- 2025-02-03: 5d8ba9f Rename prime/prime-logo.jpg to prime/extra/prime-logo.jpg
+- 2025-02-03: 65d2feb Add files via upload
+- 2025-02-03: b0fbc35 Create prime.sh
+- 2025-02-03: 39862b1 Update docker.sh
+- 2025-02-03: be1439f Rename hbomax/hbo-logo.jpg to hbomax/extra/hbo-logo.jpg
+- 2025-02-03: 6978834 Add files via upload
+- 2025-02-03: 31e0abf Update hbomax.sh
+- 2025-02-03: e245e9c Create hbomax.sh
+- 2025-02-03: 376f565 Update batocera-unofficial-addons-arm64.sh
+- 2025-02-03: 73b11d0 +-
+- 2025-02-03: 65d6bdf Update batocera-unofficial-addons-arm64.sh
+- 2025-02-03: 4d53d96 Create test.sh
+- 2025-02-03: e92e492 -
+- 2025-01-31: b508e84 Update menu2.sh.enc
+- 2025-01-31: ce8b921 Update install_arm64.sh
+- 2025-01-31: 08dedb3 Create dep_arm64.sh
+- 2025-01-31: ef92463 +
+- 2025-01-31: c2f9414 Create .dep
+- 2025-01-31: 21c40ea Update batocera-unofficial-addons-arm64.sh
+- 2025-01-31: d0d9326 Update batocera-unofficial-addons-arm64.sh
+- 2025-01-30: e9a6445 Create FUNDING.yml
+- 2025-01-30: 5fd3fe5 Update batocera-unofficial-addons-arm64.sh
+- 2025-01-30: 9fcdbb5 Update batocera-unofficial-addons-arm64.sh
+- 2025-01-30: ce74597 Rename batocera-unofficial-addons-arm.sh to batocera-unofficial-addons-arm64.sh
+- 2025-01-30: e9f91f6 Create batocera-unofficial-addons-arm.sh
+- 2025-01-30: 522d789 Update install_arm64.sh
+- 2025-01-30: a7aea13 Add files via upload
+- 2025-01-30: 59b29ed Create BatoceraUnofficialAddons_ARM64.sh
+- 2025-01-30: 0a45878 Update install_arm64.sh
+- 2025-01-30: ee2ab8a Update install_x86.sh
+- 2025-01-30: ac4369b Create install_arm64.sh
+- 2025-01-30: 53de117 Create install_x86.sh
+- 2025-01-30: baae084 Merge pull request #10 from anthony0030/main
+- 2025-01-29: fb526ed fix flatpack installs for NAS Batoceras
+- 2025-01-20: 2850d6e Create spelunky.sh
+- 2025-01-20: 630a94f Create castilla.sh
+- 2025-01-20: a356a93 Add files via upload
+- 2025-01-20: a89790b Create dka.sh
+- 2025-01-20: d6a4bf3 Add files via upload
+- 2025-01-20: 68a4dbb Create celeste.sh
+- 2025-01-20: 8bedb2e Create zeldadoi.sh
+- 2025-01-20: b33a40c Delete windows/extra/placeholder.txt
+- 2025-01-20: 7846d79 Add files via upload
+- 2025-01-20: 6a9616a Update zelda2.sh
+- 2025-01-20: 31ffcba Rename zelda2remake.sh to zelda2.sh
+- 2025-01-20: 66eaf6f Rename zelda2.sh to zelda2remake.sh
+- 2025-01-20: 5813d88 Update zelda2.sh
+- 2025-01-20: 8ce7c03 Update zelda2.sh
+- 2025-01-20: 41b271b Update zelda2.sh
+- 2025-01-19: fdab1eb Delete app/windowsmenu.sh
+- 2025-01-19: c7a4816 Update zelda2.sh
+- 2025-01-19: 4e5b9bb Update windowsmenu.sh
+- 2025-01-19: 279fd41 Update windowsmenu.sh
+- 2025-01-19: 4c2a058 Update windowsmenu.sh
+- 2025-01-19: d2f2598 Update windowsmenu.sh
+- 2025-01-19: c1c0f50 Update zelda2.sh
+- 2025-01-19: f28fb2f Add files via upload
+- 2025-01-19: ccc2962 Create placeholder.txt
+- 2025-01-19: d14b8c2 Create zelda2.sh
+- 2025-01-19: 0190093 Update README.md
+- 2025-01-19: a3f4aee Create windowsmenu.sh
+- 2025-01-16: e864c9a Update test6.sh
+- 2025-01-16: 19325da Create test6.sh
+- 2025-01-16: c82df06 Create test5.sh
+- 2025-01-16: 44eb766 Create test4.sh
+- 2025-01-16: 7521bae Update test3.sh
+- 2025-01-16: 6406b98 Update test2.sh
+- 2025-01-16: 550d5a1 Update parsec.sh
+- 2025-01-16: 5afa0df Update test1.sh
+- 2025-01-16: 6a54f23 Create test3.sh
+- 2025-01-16: a7e7629 Create test2.sh
+- 2025-01-16: 65d0624 Create test1.sh
+- 2025-01-16: a56a152 Delete test/test5.sh
+- 2025-01-15: 9579be1 Update menu2.sh.enc
+- 2025-01-15: 97cf7f8 Update symlinks.sh
+- 2025-01-15: e273e6d Update install.sh
+- 2025-01-15: 5b83183 Create dep.sh
+- 2025-01-15: 1097ade Delete .dep/tar
+- 2025-01-15: b81e7a6 +
+- 2025-01-14: b3dc57a Merge pull request #8 from trashbus99/main
+- 2025-01-14: cc2d7dd Update +UPDATE-LUTRIS-SHORTCUTS.sh
+- 2025-01-14: 57d0b43 Merge pull request #7 from trashbus99/main
+- 2025-01-14: eff6d24 Update update-shortcuts.sh
+- 2025-01-14: 5ab826e Add files via upload
+- 2025-01-14: 156ffe6 Update update-shortcuts.sh
+- 2025-01-14: 71b6c5b Update WineGUI.sh
+- 2025-01-14: 74d5274 Update Steam Big Picture Mode.sh
+- 2025-01-14: 3668280 Update Smplayer.sh
+- 2025-01-14: 2b1801a Update Peazip.sh
+- 2025-01-14: ee466ac Delete arch/shortcuts/OBS Studio.sh
+- 2025-01-14: f311d75 Update Minecraft-Bedrock.sh
+- 2025-01-14: e692f53 Update Microsoft-Edge.sh
+- 2025-01-14: a97532f Update Filezilla.sh
+- 2025-01-14: 7f07bd2 Update Bottles.sh
+- 2025-01-14: 3eb7338 Update Lutris.sh
+- 2025-01-14: af7c7b4 Merge pull request #6 from trashbus99/main
+- 2025-01-14: d8ae8c1 Update update-shortcuts.sh
+- 2025-01-14: 04c92ec Update install.sh
+- 2025-01-14: 0f28621 Update update-shortcuts.sh
+- 2025-01-14: b0d3b35 Update install.sh
+- 2025-01-14: 817382e Update batocera-unofficial-addons.sh
+- 2025-01-14: 7dfa494 Create parsec.sh
+- 2025-01-14: a6de315 Update test5.sh
+- 2025-01-14: eddce73 Update update-shortcuts.sh
+- 2025-01-14: e490bf3 Update test5.sh
+- 2025-01-14: 4c81ee3 Update arcademanager.sh
+- 2025-01-14: 19364a1 Update arcademanager.sh
+- 2025-01-14: f1c6f42 Update arch.sh
+- 2025-01-14: 592a81d Create arch.sh
+- 2025-01-14: 6506e47 Merge pull request #5 from trashbus99/main
+- 2025-01-13: b46082f Update +UPDATE-STEAM-SHORTCUTS.sh
+- 2025-01-13: 5e308ce Update update-shortcuts.sh
+- 2025-01-13: 872ae86 Create +UPDATE-STEAM-SHORTCUTS.sh
+- 2025-01-13: b3c646b Create uninstall.sh
+- 2025-01-13: e37eaf9 Update install.sh
+- 2025-01-13: a8072e4 Create install.sh
+- 2025-01-13: 712fe63 Create update-shortcuts.sh
+- 2025-01-13: 2eea7d6 Add files via upload
+- 2025-01-13: 1718ed4 Create readme.MD
+- 2025-01-13: 88a2844 Update plex.sh
+- 2025-01-13: c8ca92b Update batocera-unofficial-addons.sh
+- 2025-01-13: 7887552 Update sym_wine.sh
+- 2025-01-13: 1452fa0 Update fightcade.sh
+- 2025-01-13: b39d6f1 Update fightcade.sh
+- 2025-01-13: 80a2313 Update sym_wine.sh
+- 2025-01-12: 0f6548f Update and rename test4.sh to test5.sh
+- 2025-01-12: 1397e15 Rename test3.sh to test4.sh
+- 2025-01-12: a06f296 Update test3.sh
+- 2025-01-12: 881297a Update and rename test2.sh to test3.sh
+- 2025-01-12: 4cd334c Create test2.sh
+- 2025-01-12: ba27fa7 Update batocera-unofficial-addons.sh
+- 2025-01-12: 6418261 Delete app/menu2.sh
+- 2025-01-12: f47ab4f Create menu2.sh
+- 2025-01-12: 5c80563 Update and rename menu2.sh to menu2.sh.enc
+- 2025-01-12: 617c633 Update batocera-unofficial-addons.sh
+- 2025-01-12: 69dfa45 Update menu2.sh
+- 2025-01-12: f251e0f Update menu2.sh
+- 2025-01-12: 363ca86 Update menu2.sh
+- 2025-01-12: 0effe99 Update menu2.sh
+- 2025-01-12: 479c1fa Update batocera-unofficial-addons.sh
+- 2025-01-12: 6c08501 Update batocera-unofficial-addons.sh
+- 2025-01-12: f06a4cd Update luanti.sh
+- 2025-01-12: 11da9d8 Create luanti-logo.jpg
+- 2025-01-12: 7fa8035 Create luanti.sh
+- 2025-01-12: fe4cd24 Update batocera-unofficial-addons.sh
+- 2025-01-12: 5af0864 Update openttd.sh
+- 2025-01-12: add20ec Create openttd-logo.png
+- 2025-01-12: 82de361 Create openttd.sh
+- 2025-01-12: 4d77a05 Create openttd.AppImage
+- 2025-01-12: 90efbd6 Update batocera-unofficial-addons.sh
+- 2025-01-12: babf03c Update fightcade.sh
+- 2025-01-12: adbb972 Update fightcade.sh
+- 2025-01-12: 9f29a6c Update warzone2100.sh
+- 2025-01-12: ac0c8fd +
+- 2025-01-12: 31060e6 Update obs.sh
+- 2025-01-12: f0f88c9 Update yarg.sh
+- 2025-01-12: 00a85d0 Update fightcade.sh
+- 2025-01-12: 6f299b8 Update fightcade.sh
+- 2025-01-11: 37af3a4 Update batocera-unofficial-addons.sh
+- 2025-01-11: ef2b6dc Update menu2.sh
+- 2025-01-11: 693086d Update menu2.sh
+- 2025-01-11: fd2d4e9 Update menu2.sh
+- 2025-01-11: 4ea6fba Update menu2.sh
+- 2025-01-11: 9f0a48b Update menu2.sh
+- 2025-01-11: dd079d0 Update menu2.sh
+- 2025-01-11: c0703f2 Update menu2.sh
+- 2025-01-11: cfa4280 Update menu2.sh
+- 2025-01-11: 240e956 Update menu2.sh
+- 2025-01-11: c1ebe9e Update menu2.sh
+- 2025-01-11: 238f6e5 Update menu2.sh
+- 2025-01-11: 23ac573 Update menu2.sh
+- 2025-01-11: ea14e04 Update menu2.sh
+- 2025-01-11: 25bc5b6 Update README.md
+- 2025-01-11: 51f5c7a Update batocera-unofficial-addons.sh
+- 2025-01-11: 053e003 Rename test10.sh to plex.sh
+- 2025-01-11: d18a2c9 Update and rename test9.sh to test10.sh
+- 2025-01-11: 0cc11a6 Update and rename test8.sh to test9.sh
+- 2025-01-11: 98b9ee7 Update and rename test7.sh to test8.sh
+- 2025-01-11: c4f41ba Rename test6.sh to test7.sh
+- 2025-01-11: 454ae1a Update test6.sh
+- 2025-01-11: 15995a6 Rename test5.sh to test6.sh
+- 2025-01-11: 9aa1628 Update test5.sh
+- 2025-01-11: 1505578 Update and rename test4.sh to test5.sh
+- 2025-01-11: 8bf99a4 Update test4.sh
+- 2025-01-11: 071af5d Update and rename test3.sh to test4.sh
+- 2025-01-11: ba50986 Update test3.sh
+- 2025-01-11: 0d72fd1 Rename test2.sh to test3.sh
+- 2025-01-11: 55094f1 Update test2.sh
+- 2025-01-11: 2330b75 Update and rename test.sh to test2.sh
+- 2025-01-11: e1a793d Update test.sh
+- 2025-01-11: 87a81d8 Create test.sh
+- 2025-01-11: 845e59f Update README.md
+- 2025-01-11: e474611 Update batocera-unofficial-addons.sh
+- 2025-01-11: 129a9fc Rename yarg.sh to yarg.sh
+- 2025-01-11: 60d412f Update yarg.sh
+- 2025-01-11: bbff94e Create yarg.sh
+- 2025-01-11: c8260bd Delete test/test6.sh
+- 2025-01-11: 6842103 Delete test/test5.sh
+- 2025-01-11: 6e6a184 Delete test/test4.sh
+- 2025-01-11: 98ed863 Delete test/imagetest.sh
+- 2025-01-11: 16cc858 Delete test/test3.sh
+- 2025-01-11: e910b0d Delete test/test.sh
+- 2025-01-11: 528d5af Update steamy.sh
+- 2025-01-11: 9d71540 Update steamy.sh
+- 2025-01-11: 561f1d7 Update steamy.sh
+- 2025-01-11: 49ff442 Update steamy.sh
+- 2025-01-11: c33f631 Update steamy.sh
+- 2025-01-11: 31499fa Update wine.sh
+- 2025-01-11: 7bfcdbb Update wine.sh
+- 2025-01-11: d6669d0 Update batocera-unofficial-addons.sh
+- 2025-01-11: 9d9e994 Update batocera-unofficial-addons.sh
+- 2025-01-11: 05c15f6 Update steamy.sh
+- 2025-01-11: bf0363d Rename aria2c to aria2c
+- 2025-01-11: 5ccebb8 Update wine.sh
+- 2025-01-11: 6a22131 +
+- 2025-01-11: ae2561e Update icon.png
+- 2025-01-11: 8f48bc9 Update gparted.sh
+- 2025-01-11: 25197ec Update gparted.sh
+- 2025-01-11: af6f07b Create gparted.sh
+- 2025-01-11: e128d3c +
+- 2025-01-11: e179fbd Update test6.sh
+- 2025-01-10: 02f6717 Update v40wine.sh
+- 2025-01-10: 6e78f5b Update v40wine.sh
+- 2025-01-10: 205d8f9 Update v40wine.sh
+- 2025-01-10: fbad362 Update v40wine.sh
+- 2025-01-10: 7511114 Update v40wine.sh
+- 2025-01-10: aaefcec Update v40wine.sh
+- 2025-01-10: 51edff8 Update batocera-unofficial-addons.sh
+- 2025-01-10: 1e50ef7 Create v40wine.sh
+- 2025-01-10: d77d4f5 +-
+- 2025-01-10: a3f7d40 +
+- 2025-01-10: 1245c70 Update menu2.sh
+- 2025-01-10: b990bd1 Update batocera-unofficial-addons.sh
+- 2025-01-10: c15d27c Delete test/test2.sh
+- 2025-01-10: 4b88c90 Update batocera-unofficial-addons.sh
+- 2025-01-10: 4b015af Create ambermoon-logo.png
+- 2025-01-10: be8da01 Create ambermoon.sh
+- 2025-01-10: 181132c Update test2.sh
+- 2025-01-10: eaa578a Update test2.sh
+- 2025-01-10: be3dd05 Update test2.sh
+- 2025-01-10: 839526c Update test2.sh
+- 2025-01-09: f048c11 Create test6.sh
+- 2025-01-09: 329c917 Update imagetest.sh
+- 2025-01-09: 6b65af6 Update imagetest.sh
+- 2025-01-09: 89ee2d3 Update imagetest.sh
+- 2025-01-09: 4f0836b Update imagetest.sh
+- 2025-01-09: a617383 Update imagetest.sh
+- 2025-01-09: 77dde40 Update imagetest.sh
+- 2025-01-09: 56b0b46 Create imagetest.sh
+- 2025-01-09: ad19f9f Update heroic.sh
+- 2025-01-08: ab2c83f Update test
+- 2025-01-08: 5f87b1e Create test4.sh
+- 2025-01-08: 752ff2f Create test3.sh
+- 2025-01-08: 2009e35 Create test2.sh
+- 2025-01-08: 5af71da Update test.sh
+- 2025-01-08: c61aaab Create README.md
+- 2025-01-08: 400365b Create test.sh
+- 2025-01-08: d65500f Update README.md
+- 2025-01-08: a8666bb Update README.md
+- 2025-01-08: 198629b Update README.md
+- 2025-01-08: 040f91c Update README.md
+- 2025-01-08: 88e82e8 Update README.md
+- 2025-01-08: a119e65 Update README.md
+- 2025-01-08: 23e0ea5 Update README.md
+- 2025-01-08: 58e9d11 Update README.md
+- 2025-01-08: 97ddaf1 Update batocera-unofficial-addons.sh
+- 2025-01-08: d1541c4 Update batocera-unofficial-addons.sh
+- 2025-01-08: 840b105 Update README.md
+- 2025-01-08: 4f3d30d Update batocera-unofficial-addons.sh
+- 2025-01-08: 6bc5d5e Rename test2.sh to qbittorrent.sh
+- 2025-01-08: b01ae7b Update test2.sh
+- 2025-01-08: deb7f6f Update test2.sh
+- 2025-01-08: a0645bf Rename test.sh to test2.sh
+- 2025-01-08: 24e7156 Update test.sh
+- 2025-01-08: a627d0d Update test.sh
+- 2025-01-08: d0810f3 Update test.sh
+- 2025-01-08: 16ee9db Update test.sh
+- 2025-01-08: 3de9905 Create test.sh
+- 2025-01-07: 8c37225 adding parsec
+- 2025-01-08: 93dcbf8 Delete app/templates/test.sh
+- 2025-01-08: f4c4ae7 Update test.sh
+- 2025-01-08: aa55666 Update test.sh
+- 2025-01-08: 2129534 Create test.sh
+- 2025-01-08: b99f052 Update 7zip.sh
+- 2025-01-07: 32e915f Merge branch 'DTJW92:main' into main
+- 2025-01-08: 33f9617 Update batocera-unofficial-addons.sh
+- 2025-01-08: bbb6290 Update 7zip.sh
+- 2025-01-08: 7fdc54b Update create_game_launchers.sh
+- 2025-01-08: 8c7920b Update 7zip.sh
+- 2025-01-08: 3db4f54 Update 7zip.sh
+- 2025-01-08: 4cc8a96 Update 7zip.sh
+- 2025-01-08: 0c93e6e Update 7zip.sh
+- 2025-01-08: e675b94 Update 7zip.sh
+- 2025-01-08: 7e3205f Update 7zip.sh
+- 2025-01-08: 41cefe1 Update 7zip.sh
+- 2025-01-08: a990ebb Update 7zip.sh
+- 2025-01-08: 5119142 Update 7zip.sh
+- 2025-01-08: bd1fe93 Update 7zip.sh
+- 2025-01-08: b75eccd Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2025-01-08: 326c3d6 +
+- 2025-01-08: 49fc651 Update 7zip.sh
+- 2025-01-08: c894c12 Update 7zip.sh
+- 2025-01-08: 3ab2938 Update batocera-unofficial-addons.sh
+- 2025-01-08: 1f822bb Update install.sh
+- 2025-01-08: 392f85d Update 7zip.sh
+- 2025-01-08: 51e5a9a Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2025-01-08: 98b9a88 Update hydra.sh
+- 2025-01-08: 1c5f3cf +
+- 2025-01-08: a4a3186 Create 7zip.sh
+- 2025-01-08: 81f7420 Update hydra.sh
+- 2025-01-08: dadbe95 Update hydra
+- 2025-01-07: 14eb2f0 Update
+- 2025-01-07: 1852add Update batocera-unofficial-addons.sh
+- 2025-01-07: 2d7bf38 Updates
+- 2025-01-08: e60e00b Update hydra.sh
+- 2025-01-07: fdc5b4c Update hydra.sh
+- 2025-01-07: d6bd620 Update hydra.sh
+- 2025-01-07: 62d9c14 Rename hyda-logo.png to hydra-logo.png
+- 2025-01-07: 75084f9 Update hydra.sh
+- 2025-01-07: e99ad76 Update hydra
+- 2025-01-07: 06da2b5 Update hydra.sh
+- 2025-01-07: a121ef5 Update hydra.sh
+- 2025-01-07: 3e24725 Update hydra.sh
+- 2025-01-07: 1986a9d Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2025-01-07: 94bf442 Update hydra.sh
+- 2025-01-07: b1b0a5d Create hydra
+- 2025-01-07: a7925ad Update README.md
+- 2025-01-07: c740e88 Update README.md
+- 2025-01-07: 38206e9 +
+- 2025-01-07: 1c2502e Update monitor-hydra.sh
+- 2025-01-07: b162847 Update aria2-sync.sh
+- 2025-01-07: 7a77bd6 Update README.md
+- 2025-01-07: 8fb3509 Update aria2-sync.sh
+- 2025-01-07: 510ae9a Update monitor-hydra.sh
+- 2025-01-07: fb5dab7 Update hydra.sh
+- 2025-01-07: eb39e5d Update aria2-sync.sh
+- 2025-01-07: 0b2c461 Rename monitor-hyrda.sh to monitor-hydra.sh
+- 2025-01-07: d9ff551 Update hydra.sh
+- 2025-01-07: 2007038 Update hydra.sh
+- 2025-01-07: c28bcea +
+- 2025-01-07: eb7c9e2 Update monitor-hyrda.sh
+- 2025-01-07: 8b2d59e Create monitor-hyrda.sh
+- 2025-01-07: 4a8a706 Create aria2-sync.sh
+- 2025-01-07: 08505f7 Update fightcade.sh
+- 2025-01-07: 25026f8 Update README.md
+- 2025-01-07: 731b96a Update README.md
+- 2025-01-07: 0d32094 Update README.md
+- 2025-01-07: ccf6cc5 Update README.md
+- 2025-01-07: 83575d5 Update README.md
+- 2025-01-07: 2f71ef1 Update README.md
+- 2025-01-07: ffb5e61 Update README.md
+- 2025-01-07: 6576dae +
+- 2025-01-07: 787d995 Update batocera-unofficial-addons.sh
+- 2025-01-07: 5a944e1 Update iptvnator.sh
+- 2025-01-07: c06b6e3 Update Netflix.sh.keys
+- 2025-01-07: b32b57e Update Netflix.sh.keys
+- 2025-01-07: 8faf153 Update disneyplus.sh
+- 2025-01-07: 7fdf687 Update twitch.sh
+- 2025-01-07: 69fbd8d Update README.md
+- 2025-01-07: c9a3c64 Update batocera-unofficial-addons.sh
+- 2025-01-07: ba58fd7 +
+- 2025-01-07: 451d9d5 Update batocera-unofficial-addons.sh
+- 2025-01-07: 04b6276 Rename disneyplus/disneyplus-logo.png to disneyplus/extra/disneyplus-logo.png
+- 2025-01-07: 58c9ca8 Add files via upload
+- 2025-01-07: d72f4b4 Update disneyplus.sh
+- 2025-01-07: 6abdd26 Update disneyplus.sh
+- 2025-01-07: 40da9c7 Create disneyplus.sh
+- 2025-01-07: 88cd73a Update batocera-unofficial-addons.sh
+- 2025-01-07: b5f5569 Update freedroidrpg.sh
+- 2025-01-07: 51e77a1 Update freedroidrpg.sh
+- 2025-01-07: 0e0ff0a Rename freedroidrpg/freedroidrpg-logo.jpg to freedroidrpg/extra/freedroidrpg-logo.jpg
+- 2025-01-07: 6348ebd Add files via upload
+- 2025-01-07: ff2556f Update freedroidrpg.sh
+- 2025-01-07: 9372b0f Create freedroidrpg.sh
+- 2025-01-07: e76bac2 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2025-01-07: ad2ffd4 Update README.md
+- 2025-01-07: dd429cc Update README.md
+- 2025-01-07: 9d0436f Update assaultcube.sh
+- 2025-01-07: 39169d0 Update assaultcube.sh
+- 2025-01-07: 9c49d07 Update assaultcube.sh
+- 2025-01-07: b01075c Update batocera-unofficial-addons.sh
+- 2025-01-07: f1e287c Update batocera-unofficial-addons.sh
+- 2025-01-07: c99facc Update BatoceraUnofficialAddOns.sh
+- 2025-01-07: 5b53f05 Update menu2.sh
+- 2025-01-07: ac695d9 Update menu2.sh
+- 2025-01-07: 0239bfd Update menu2.sh
+- 2025-01-07: 328dde1 Update menu2.sh
+- 2025-01-07: d8d2808 Update menu2.sh
+- 2025-01-07: 84ff121 Update openra.sh
+- 2025-01-07: c00df02 Create menu2.sh
+- 2025-01-07: b5a2503 Update batocera-unofficial-addons.sh
+- 2025-01-07: cfd681c Update batocera-unofficial-addons.sh
+- 2025-01-07: a62113c Update batocera-unofficial-addons.sh
+- 2025-01-07: 3a5fb63 Update batocera-unofficial-addons.sh
+- 2025-01-07: 0d79831 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2025-01-07: f2667eb Update batocera-unofficial-addons.sh
+- 2025-01-07: 345b369 Update batocera-unofficial-addons.sh
+- 2025-01-07: 9804b4c Rename assaultcube/assaultcube-logo.png to assaultcube/extra/assaultcube-logo.png
+- 2025-01-07: 5e2a799 Add files via upload
+- 2025-01-07: 2bb3dda Create assaultcube.sh
+- 2025-01-07: 05fe251 Rename supertux/supertux-logo.png to supertux/extra/supertux-logo.png
+- 2025-01-07: 66aa1bc Add files via upload
+- 2025-01-07: dc71130 Update supertux.sh
+- 2025-01-07: 8fb547e Create supertux.sh
+- 2025-01-07: e3d38e2 Delete etcher.sh
+- 2025-01-07: 4063d52 Update batocera-unofficial-addons.sh
+- 2025-01-07: 14e6ed8 Update batocera-unofficial-addons.sh
+- 2025-01-07: 7d1fcc4 Update batocera-unofficial-addons.sh
+- 2025-01-07: e3e8933 Update batocera-unofficial-addons.sh
+- 2025-01-07: fc4a34b Update batocera-unofficial-addons.sh
+- 2025-01-07: 2fadbe6 Update batocera-unofficial-addons.sh
+- 2025-01-07: b816335 Update batocera-unofficial-addons.sh
+- 2025-01-07: 80bd63d Update batocera-unofficial-addons.sh
+- 2025-01-07: e256175 Update batocera-unofficial-addons.sh
+- 2025-01-07: 853b233 Update batocera-unofficial-addons.sh
+- 2025-01-07: 4dd15c9 Update batocera-unofficial-addons.sh
+- 2025-01-07: 8ff85d6 Update batocera-unofficial-addons.sh
+- 2025-01-07: 865d558 Update batocera-unofficial-addons.sh
+- 2025-01-07: c09aa72 Update batocera-unofficial-addons.sh
+- 2025-01-07: dc5271b Update batocera-unofficial-addons.sh
+- 2025-01-07: 6fa5414 Update batocera-unofficial-addons.sh
+- 2025-01-07: 565a67f Update install.sh
+- 2025-01-07: d09920f Delete .dep/watch
+- 2025-01-07: e897ead Update install.sh
+- 2025-01-07: 457f081 Update install.sh
+- 2025-01-07: 687ebfb Update install.sh
+- 2025-01-06: 78124fe Update batocera-unofficial-addons.sh
+- 2025-01-06: 04023a1 Update install.sh
+- 2025-01-06: 5c0291d Rename app/templates/.dep/watch to .dep/watch
+- 2025-01-06: 0b7c60e Rename watch.sh to watch
+- 2025-01-06: 64a0620 Rename app/templates/test/.test/test/.test/.test/.ignore/watch.sh to app/templates/.ignore/watch.sh
+- 2025-01-06: 91ac886 Create watch.sh
+- 2025-01-06: 9808d31 Delete app/watch
+- 2025-01-06: cab3d3f Create watch
+- 2025-01-06: 8467773 Remove konami_code.sh from tracking
+- 2025-01-06: 7e52140 Create konami_code.sh
+- 2025-01-06: 3bd1a6c Create .gitignore
+- 2025-01-06: 2ceb190 Create etcher.sh
+- 2025-01-06: 92248e9 Update README.md
+- 2025-01-06: f544238 Update batocera-unofficial-addons.sh
+- 2025-01-06: 88fee51 Update batocera-unofficial-addons.sh
+- 2025-01-06: 9ea6650 Update batocera-unofficial-addons.sh
+- 2025-01-06: ba2369f Create openra-logo.png
+- 2025-01-06: f7e1a95 Create openra.sh
+- 2025-01-06: 3c93bcb Update batocera-unofficial-addons.sh
+- 2025-01-06: c8d6e52 Update README.md
+- 2025-01-06: f2851c9 Update supertuxkart.sh
+- 2025-01-06: e52d360 Rename supertuxkart/supertuxkart-logo.png to supertuxkart/extra/supertuxkart-logo.png
+- 2025-01-06: 33cdec6 Add files via upload
+- 2025-01-06: 56f4a7d Create supertuxkart.sh
+- 2025-01-06: cee50b8 -
+- 2025-01-06: cc219ce Update stremio.sh
+- 2025-01-06: 1ac8d2a Delete stremio/.gitattributes
+- 2025-01-06: aa971c3 Delete stremio/Stremio+4.4.20.AppImage
+- 2025-01-06: 51c8d7d Update README.md
+- 2025-01-06: 099e82b Update batocera-unofficial-addons.sh
+- 2025-01-06: 9c611e8 Update fightcade.sh
+- 2025-01-06: 5fe18ac Create sym_wine.sh
+- 2025-01-06: 0966101 Delete fightcade/README.md
+- 2025-01-06: 1373800 Delete fightcade/LICENSE
+- 2025-01-06: d208802 Delete fightcade/installer directory
+- 2025-01-06: 94948e3 Delete fightcade/package directory
+- 2025-01-06: 60314ce Update fightcade.sh
+- 2025-01-06: 70b3929 Update heroic.sh
+- 2025-01-06: ebe9785 Delete fightcade/extra/fightcade-logo_.png
+- 2025-01-06: 7f28500 Add files via upload
+- 2025-01-06: b5d4462 Update and rename fightcade-logo.png to fightcade-logo_.png
+- 2025-01-06: 7192f78 Rename fightcade/fightcade-logo.png to fightcade/extra/fightcade-logo.png
+- 2025-01-06: 6b12ffa Add files via upload
+- 2025-01-06: 723df21 Update heroic.sh
+- 2025-01-06: 98f72f4 Update fightcade.sh
+- 2025-01-06: d9a0254 Update fightcade.sh
+- 2025-01-06: abb3dae Update fightcade.sh
+- 2025-01-06: 60cd8fe Create fightcade.sh
+- 2025-01-06: d212f12 Delete hydralauncher.sh
+- 2025-01-06: c7e1ae3 Create hydralauncher.sh
+- 2025-01-06: b8eb025 Update obs.sh
+- 2025-01-06: 5783e03 Rename obs/obs-logo.jpg to obs/extra/obs-logo.jpg
+- 2025-01-06: 4e1b90d Add files via upload
+- 2025-01-06: 7549a6d Update obs.sh
+- 2025-01-06: 3a39f77 Create obs.sh
+- 2025-01-06: 93cc585 Update create_game_launchers.sh
+- 2025-01-06: 43d5536 Update batocera-unofficial-addons.sh
+- 2025-01-06: 40e74da Update README.md
+- 2025-01-06: e396155 Update batocera-unofficial-addons.sh
+- 2025-01-06: 79ff725 Update batocera-unofficial-addons.sh
+- 2025-01-06: e622bbc Merge pull request #2 from KevoBato/main
+- 2025-01-06: 4624409 Update openrgb-logo.png
+- 2025-01-06: 13ea88e Merge branch 'DTJW92:main' into main
+- 2025-01-06: 1051ef5 delete viber
+- 2025-01-06: d2f0a0c Update warzone2100.sh
+- 2025-01-06: baca846 Update viber.sh
+- 2025-01-06: 53d101a Update warzone2100.sh
+- 2025-01-06: 8039977 Merge branch 'DTJW92:main' into main
+- 2025-01-06: ce565e2 adding viber
+- 2025-01-05: 915aa7c Update openrgb.sh
+- 2025-01-06: 75f0ede Update xonotic.sh
+- 2025-01-06: fd9ddcc Update xonotic.sh
+- 2025-01-05: 54d9692 Merge branch 'DTJW92:main' into main
+- 2025-01-06: 847d7b0 Update xonotic.sh
+- 2025-01-06: 06677db +
+- 2025-01-06: c9d1c29 Add files via upload
+- 2025-01-06: d0c9956 Update warzone2100.sh
+- 2025-01-06: d10c269 Rename warzone2100/warzone-logo.png to warzone2100/extra/warzone-logo.png
+- 2025-01-06: bd6ffa1 Add files via upload
+- 2025-01-06: 1292ca0 Update warzone2100.sh
+- 2025-01-06: 8e18513 Create warzone2100.sh
+- 2025-01-06: c1a434e Update xonotic.sh
+- 2025-01-06: a74c97c Create xonotic.sh
+- 2025-01-05: 8ab8fad Merge branch 'DTJW92:main' into main
+- 2025-01-06: a38cf0c Update local_template.sh
+- 2025-01-06: a721af1 Update template.sh
+- 2025-01-05: b265488 Update openrgb.sh
+- 2025-01-05: 2c04ba2 Merge branch 'DTJW92:main' into main
+- 2025-01-06: 9f65b93 -
+- 2025-01-06: 53fcf30 Update local_template.sh
+- 2025-01-06: 9870b49 Update gparted.sh
+- 2025-01-06: d29f049 Update desktop_template.sh
+- 2025-01-06: e988036 Update gparted.sh
+- 2025-01-05: 97a8f2c Update openrgb.sh
+- 2025-01-06: 6a82d97 Update gparted.sh
+- 2025-01-06: 94763b5 Update template.sh
+- 2025-01-06: b9d8a3e Update brave.sh
+- 2025-01-06: c0e3646 Update template.sh
+- 2025-01-05: d4a88ff Merge branch 'main' of https://github.com/KevoBato/batocera-unofficial-addons
+- 2025-01-05: 55f6ad3 Update openrgb.sh
+- 2025-01-06: ee96e16 Update brave.sh
+- 2025-01-06: af78ba9 Update brave.sh
+- 2025-01-06: d30003b Update template.sh
+- 2025-01-06: fe6a49c Update brave.sh
+- 2025-01-05: 829df78 Merge branch 'DTJW92:main' into main
+- 2025-01-06: 833fb12 Update brave.sh
+- 2025-01-06: a6a45e5 Update gparted.sh
+- 2025-01-06: 3ea80f3 Update desktop_template.sh
+- 2025-01-06: 308b9ce Update github_desktop.sh
+- 2025-01-06: 2ed46bf Update local_template.sh
+- 2025-01-06: 95cc94e Update brave.sh
+- 2025-01-06: a2eb306 Update template.sh
+- 2025-01-06: 187fad7 Update template.sh
+- 2025-01-05: 12a9543 Update openrgb.sh
+- 2025-01-05: a6954a5 Update openrgb.sh
+- 2025-01-05: eaf87fb Update openrgb.sh
+- 2025-01-05: f9fcd8c Update openrgb.sh
+- 2025-01-05: 1cba3e3 Update openrgb.sh
+- 2025-01-05: 8a0ec28 Update openrgb.sh
+- 2025-01-05: 1e59b09 Update openrgb.sh
+- 2025-01-05: a09f9c1 Update openrgb.sh
+- 2025-01-05: faccd31 Create gparted.sh
+- 2025-01-05: 5fcab19 +
+- 2025-01-05: 44713ec Update github_desktop.sh
+- 2025-01-05: ef7f0d0 Update desktop_template.sh
+- 2025-01-05: 072f284 Update github_desktop.sh
+- 2025-01-05: f58dd1d Create github_desktop.sh
+- 2025-01-05: 984cda9 Create desktop_template.sh
+- 2025-01-05: f86f2b6 Merge branch 'DTJW92:main' into main
+- 2025-01-05: d73cac3 adding openrgb
+- 2025-01-05: 2eab737 Update chiaki.sh
+- 2025-01-05: b4d0291 Update local_template.sh
+- 2025-01-05: b4efbe1 Create local_template.sh
+- 2025-01-05: cf8c9f9 Rename app/template.sh to app/templates/template.sh
+- 2025-01-05: 2bfe36d +
+- 2025-01-05: 28dcc60 Update template.sh
+- 2025-01-05: fb45ed4 Update brave.sh
+- 2025-01-05: 7952b78 Update README.md
+- 2025-01-05: 6c877cf Update template.sh
+- 2025-01-05: ad72f51 Update brave.sh
+- 2025-01-05: 5a6e892 Create brave-logo.png
+- 2025-01-05: 977edb7 Update brave.sh
+- 2025-01-05: 53dc877 Create template.sh
+- 2025-01-05: 2de8759 Create brave.sh
+- 2025-01-05: 1f7f3c1 Update README.md
+- 2025-01-05: 69377b8 Update README.md
+- 2025-01-05: bfa5988 Update chiaki.sh
+- 2025-01-05: fe2e878 Update README.md
+- 2025-01-05: 30a0ec5 Update chiaki.sh
+- 2025-01-05: 1887fd0 Create icon.png
+- 2025-01-05: b198151 Update chiaki.sh
+- 2025-01-05: 9de127a Update shadps4.sh
+- 2025-01-05: e3e10cf Update heroic.sh
+- 2025-01-05: 795c18b Update shadps4.sh
+- 2025-01-05: b5f583c Delete parsec.sh
+- 2025-01-05: a5ec2c0 Update batocera-unofficial-addons.sh
+- 2025-01-05: 72d9d8c -
+- 2025-01-05: 02e30d0 Update shadps4.sh
+- 2025-01-05: e213711 Create shadps4-icon.png
+- 2025-01-05: ea7cea1 Delete shadps4/extra/shadps4logo.png
+- 2025-01-05: 7d97bab Delete shadps4/es_ps4/+UPDATE-PS4-SHORTCUTS.sh
+- 2025-01-05: 7d75c93 Delete shadps4/es_ps4/es_ps4_install.sh_
+- 2025-01-05: c544e4a Delete shadps4/shadps4.sh_
+- 2025-01-05: 1db0055 Update create_game_launchers.sh
+- 2025-01-05: 7cd800b Update create_game_launchers.sh
+- 2025-01-05: 6a2fdd6 Create PS4_Title_ID_List.csv
+- 2025-01-05: 7ed6749 Create es_ps4_install.sh
+- 2025-01-05: bfd5a85 Rename es_ps4_install.sh to es_ps4_install.sh_
+- 2025-01-05: e276bc0 Rename _shadps4.sh to shadps4.sh
+- 2025-01-05: 5c1f794 Rename shadps4.sh to shadps4.sh_
+- 2025-01-05: cb21de3 Update create_game_launchers.sh
+- 2025-01-05: 215fd13 Update create_game_launchers.sh
+- 2025-01-05: 80a51f8 Update _shadps4.sh
+- 2025-01-05: c7a9878 Update heroic.sh
+- 2025-01-05: 3181a36 Update create_game_launchers.sh
+- 2025-01-05: 6aca427 Update _shadps4.sh
+- 2025-01-05: 6c0cb3a Update _shadps4.sh
+- 2025-01-05: 22b5351 Update create_game_launchers.sh
+- 2025-01-05: 507a06c Create _shadps4.sh
+- 2025-01-05: 7cf0d71 Create create_game_launchers.sh
+- 2025-01-05: 4313cd7 Create monitor_shadps4.sh
+- 2025-01-04: fa8ac3b Merge pull request #1 from trashbus99/main
+- 2025-01-04: 3b2092e Create zenitysym.sh
+- 2025-01-04: 4fdf5cd Update es_ps4_install.sh
+- 2025-01-04: cc84689 Update es_ps4_install.sh
+- 2025-01-04: e1a3d26 Create es_ps4_install.sh
+- 2025-01-04: 3aed997 Create +UPDATE-PS4-SHORTCUTS.sh
+- 2025-01-04: 087b5d7 Update es_systems_ps4.cfg
+- 2025-01-04: 6da714b Add files via upload
+- 2025-01-04: aea7fb7 Create readme.MD
+- 2025-01-04: b54f292 Update create_game_launchers.sh
+- 2025-01-04: aec83a5 Update create_game_launchers.sh
+- 2025-01-04: e388a15 -
+- 2025-01-04: 6116a8a Rename undertake-logo.jpg to undertaker-logo.jpg
+- 2025-01-04: cb76a97 Update speeddreams.sh
+- 2025-01-04: 7dab6b5 Update plex.sh
+- 2025-01-04: 25d6c2e Update speeddreams.sh
+- 2025-01-04: 93a4132 Update plex.sh
+- 2025-01-04: 2956255 Update undertaker141.sh
+- 2025-01-04: 90117e8 Update plex.sh
+- 2025-01-04: 4fdbcc0 Update csportable.sh
+- 2025-01-04: 7481375 Update csportable.sh
+- 2025-01-04: 20d4983 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2025-01-04: 21a4e8a +
+- 2025-01-04: d0bd440 Rename speeddreams.sh_ to speeddreams.sh
+- 2025-01-04: 38cc96a Rename speeddreams.sh to speeddreams.sh_
+- 2025-01-04: b6828e6 Create speeddreams.sh
+- 2025-01-04: e57889e Delete speeddreams/speeddreams.sh
+- 2025-01-04: 5d2253e Create speeddreams.sh
+- 2025-01-04: e982f86 Delete speeddreams/speeddreams.sh
+- 2025-01-04: 97232aa Update speeddreams.sh
+- 2025-01-04: 23da9e9 Update speeddreams.sh
+- 2025-01-04: bbc0c70 Delete plex/plex.sh_
+- 2025-01-04: 70b53c4 Create plex.sh
+- 2025-01-04: c723172 Update and rename plex.sh to plex.sh_
+- 2025-01-04: d25b40e Create CS-Portable-2023.zip
+- 2025-01-04: 5019eaa Update csportable.sh
+- 2025-01-04: 1927f62 Update csportable.sh
+- 2025-01-04: 7078b4f Update csportable.sh
+- 2025-01-04: a5c229e Delete csportable/csportable.sh_
+- 2025-01-04: 0ca50d1 Create csportable.sh
+- 2025-01-04: 288604c Update and rename csportable.sh to csportable.sh_
+- 2025-01-04: 56fd511 Create .gitattributes
+- 2025-01-04: c4cca96 Update csportable.sh
+- 2025-01-04: a87081b Update monitor_heroic.sh
+- 2025-01-04: 2997e10 Update monitor_heroic.sh
+- 2025-01-04: 55be622 Delete heroic/create_game_launchers.sh_
+- 2025-01-04: ba283cf Rename create.sh to create_game_launchers.sh
+- 2025-01-04: 3a1335f Create create.sh
+- 2025-01-04: 240d67d Rename create_game_launchers.sh to create_game_launchers.sh_
+- 2025-01-04: fc0906b Update create_game_launchers.sh
+- 2025-01-03: 9061a30 Update create_game_launchers.
+- 2025-01-03: 62f150f Update create_game_launchers.sh
+- 2025-01-03: 3d3ca2d Update spotify.sh
+- 2025-01-03: a522232 Update undertaker141.sh
+- 2025-01-03: 7777ae5 Update plex.sh
+- 2025-01-03: 5acfb53 Update csportable.sh
+- 2025-01-03: f0f901d Update speeddreams.sh
+- 2025-01-03: 371828e Create speed-dreams-logo.png
+- 2025-01-03: a810e13 Update shadps4.sh
+- 2025-01-03: 2e8ef5d Update undertaker141.sh
+- 2025-01-03: f1954e8 Update csportable.sh
+- 2025-01-03: 14ea1e1 Update speeddreams.sh
+- 2025-01-03: 9c254b6 Update speeddreams.sh
+- 2025-01-03: 6c74eda Update speeddreams.sh
+- 2025-01-03: 0843979 Create CS-Portable.sh.keys
+- 2025-01-03: 80c85ab Create cs-portable-logo.jpg
+- 2025-01-03: 058b773 Update csportable.sh
+- 2025-01-03: dd77e0f +
+- 2025-01-03: adce143 Update undertaker141.sh
+- 2025-01-03: cfe2b14 Create Plex.sh.keys
+- 2025-01-03: ec2213f Update plex.sh
+- 2025-01-03: 35dd393 Create plex-logo.jpg
+- 2025-01-03: 2a6c02f +
+- 2025-01-03: 082a3a3 Delete .dep/base.sh
+- 2025-01-03: f40d01a Update batocera-unofficial-addons.sh
+- 2025-01-03: eca87dd Update create_game_launchers.sh
+- 2025-01-03: bccd595 Update monitor_heroic.sh
+- 2025-01-03: 4c3a878 Update create_game_launchers.sh
+- 2025-01-03: b33419f +-
+- 2025-01-03: 1325b0d +
+- 2025-01-03: f17d67c Update batocera-unofficial-addons.sh
+- 2025-01-03: f051b33 Update spotify.sh
+- 2025-01-03: adc562b Update netflix.sh
+- 2025-01-03: 0290344 Update spotify.sh
+- 2025-01-03: 12589c1 Update spotify.sh
+- 2025-01-03: 303fe2a +
+- 2025-01-03: 773e335 +
+- 2025-01-03: d49e556 Create spotify.sh
+- 2025-01-03: 77e88aa Update batocera-unofficial-addons.sh
+- 2025-01-03: 5b2ad62 Update firefox.sh
+- 2025-01-03: a31c825 Create firefox-logo.png
+- 2025-01-03: dfa1e97 Create firefox.sh
+- 2025-01-03: ed5bd6d Update chrome.sh
+- 2025-01-03: eb938fc Update batocera-unofficial-addons.sh
+- 2025-01-03: bb47095 Update netflix.sh
+- 2025-01-03: 95720e4 Update youtubetv.sh
+- 2025-01-03: ac897a8 Create YoutubeTV.sh.keys
+- 2025-01-03: 15627c8 Update youtubetv.sh
+- 2025-01-03: c417ac4 Update install.sh
+- 2025-01-03: ad24aec Update youtubetv.sh
+- 2025-01-03: 5f27d44 Create youtubetv.sh
+- 2025-01-03: 0cbabb6 Create youtubetv-logo.jpg
+- 2025-01-03: c32cb76 Update netflix.sh
+- 2025-01-03: 0ef83b2 Create Netflix.sh.keys
+- 2025-01-03: 9d38980 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2025-01-03: d5e4805 Create eaglercraft-logo.jpg
+- 2025-01-03: 9a12f7b Update iptvnator.sh
+- 2025-01-03: f1721e4 Update minecraft.sh
+- 2025-01-03: a0cb825 Update minecraft.sh
+- 2025-01-03: 1255c74 Create minecraft_3.sh
+- 2025-01-03: 6553dbd Update netflix.sh
+- 2025-01-03: ef80316 Create netflix-logo.jpg
+- 2025-01-03: 8931bd4 Create netflix.sh
+- 2025-01-03: b4a084d Update create_game_launchers.sh
+- 2025-01-03: 4b07a3a Update iptvnator.sh
+- 2025-01-03: 3053166 Update iptvnator.sh
+- 2025-01-03: 32d313e +
+- 2025-01-03: 0cc7e85 Update stremio.sh
+- 2025-01-03: db27dc3 -
+- 2025-01-03: 3a91b43 Update heroic.sh
+- 2025-01-03: 6fc2c84 Update create_game_launchers.sh
+- 2025-01-03: 0a5d5e9 Update create_game_launchers.sh
+- 2025-01-03: dc1332b Update create_game_launchers.sh
+- 2025-01-03: cdf64a5 Update monitor_heroic.sh
+- 2025-01-03: be9e18e Update heroic.sh
+- 2025-01-03: 6879f67 Update heroic.sh
+- 2025-01-03: 26a62b5 Update monitor_heroic.sh
+- 2025-01-03: 8169c26 Update heroic.sh
+- 2025-01-03: fe2b2a7 Update monitor_heroic.sh
+- 2025-01-03: f6d41bb Update heroic.sh
+- 2025-01-03: 56a56a9 Update heroic.sh
+- 2025-01-03: b51dede Update heroic.sh
+- 2025-01-03: d32e41f Update heroic.sh
+- 2025-01-03: a6bfab2 Update heroic.sh
+- 2025-01-03: 5ed2a0f Update icon.png
+- 2025-01-03: 0b21016 Update heroic.sh
+- 2025-01-03: b46ccd1 Update create_game_launchers.sh
+- 2025-01-03: 65647aa Update create_game_launchers.sh
+- 2025-01-03: 04727ed Update heroic.sh
+- 2025-01-03: 1a66669 Update heroic.sh
+- 2025-01-03: 00267a0 Update heroic.sh
+- 2025-01-02: ffb97fd Update heroic.sh
+- 2025-01-02: f6c6535 Update heroic.sh
+- 2025-01-02: f94afc4 Update heroic.sh
+- 2025-01-02: 9fc8360 Create icon.png
+- 2025-01-02: 014413b Update heroic.sh
+- 2025-01-02: a5b38b8 Update heroic.sh
+- 2025-01-02: 09dd8d0 +
+- 2025-01-02: 31a629c Create heroic.sh
+- 2025-01-02: 672c705 Create create_game_launchers.sh
+- 2025-01-02: 7f8cd89 Update create_game_launchers.sh
+- 2025-01-02: aa75e57 Update install.sh
+- 2025-01-02: 8382f27 Update install.sh
+- 2025-01-02: 22f4175 Update README.md
+- 2025-01-02: 2f7d520 Update create_game_launchers.sh
+- 2025-01-02: 42feb8c Update shadps4.sh
+- 2025-01-02: e783b09 Update shadps4.sh
+- 2025-01-02: 6a16593 Update shadps4.sh
+- 2025-01-02: 9d99153 Update create_game_launchers.sh
+- 2025-01-02: 1088371 Update create_game_launchers.sh
+- 2025-01-02: 5ab37fc Update create_game_launchers.sh
+- 2025-01-02: 701114a Update heroic.sh
+- 2025-01-02: 7969b4c Update create_game_launchers.sh
+- 2025-01-02: 97a9c25 Update create_game_launchers.sh
+- 2025-01-02: d918c64 Update create_game_launchers.sh
+- 2025-01-02: 3ff07a3 Update create_game_launchers.sh
+- 2025-01-02: 62df52f Update create_game_launchers.sh
+- 2025-01-02: 96f76f6 Update install.sh
+- 2025-01-01: b6b7a23 Update heroic.sh
+- 2025-01-01: a38c151 Update batocera-unofficial-addons.sh
+- 2025-01-01: 022af35 Update create_game_launchers.sh
+- 2025-01-01: ec19be1 Update create_game_launchers.sh
+- 2025-01-01: dc34472 Update heroic.sh
+- 2025-01-01: dd788cc Update heroic.sh
+- 2025-01-01: 2a78fd0 Update create_game_launchers.sh
+- 2025-01-01: 45f0bc8 Update create_game_launchers.sh
+- 2025-01-01: 5a4d887 Update heroic.sh
+- 2025-01-01: b156f82 Update heroic.sh
+- 2025-01-01: 5fdaf7d Update heroic.sh
+- 2025-01-01: 5e40194 Update heroic.sh
+- 2025-01-01: 89ce552 Update heroic.sh
+- 2025-01-01: 123e23a Update create_game_launchers.sh
+- 2025-01-01: 4e1f83b Update create_game_launchers.sh
+- 2025-01-01: a1edc54 Update heroic.sh
+- 2025-01-01: 4cb7127 Update heroic.sh
+- 2025-01-01: 70288b5 Update monitor_heroic.sh
+- 2025-01-01: 05941dc Update monitor_heroic.sh
+- 2025-01-01: 5d57387 Update monitor_heroic.sh
+- 2025-01-01: b8d999f Create create_game_launchers.sh
+- 2025-01-01: 0a8ba33 Create monitor_heroic.sh
+- 2025-01-01: 1131979 Update heroic.sh
+- 2025-01-01: b22ddab Update heroic.sh
+- 2025-01-01: a07e526 Create heroic.sh
+- 2024-12-31: ef40081 Update install_cli.sh
+- 2024-12-31: 818996a Update README.md
+- 2024-12-31: 76102ea Update qemu.sh
+- 2024-12-31: 8d2a90b Update install.sh
+- 2024-12-31: 376d890 Update bliss_install.sh
+- 2024-12-31: a355d68 Update Bliss-OS.sh
+- 2024-12-31: 6527464 +-
+- 2024-12-31: 7af047e Update README.md
+- 2024-12-31: 4bbed71 +-
+- 2024-12-31: d36560a Update fightcade.sh
+- 2024-12-31: a65b6d9 Update fightcade.sh
+- 2024-12-31: bad7806 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-31: bd27105 +
+- 2024-12-31: 7a9d7f2 Update minecraft_2.sh
+- 2024-12-31: ed9dd2d +
+- 2024-12-31: 908dd8a Delete Minecraft
+- 2024-12-31: 301d400 Update minecraft.sh
+- 2024-12-31: 23f9309 Update minecraft.sh
+- 2024-12-31: d55ea85 Update minecraft.sh
+- 2024-12-31: f9ef8c7 Update minecraft_2.sh
+- 2024-12-31: 6eb7bc3 Update minecraft_2.sh
+- 2024-12-31: 581dbe9 Update minecraft.sh
+- 2024-12-31: d00850b +
+- 2024-12-31: d173f5a +
+- 2024-12-31: e015adf Update batocera-unofficial-addons.sh
+- 2024-12-31: 8a5a27d Update batocera-unofficial-addons.sh
+- 2024-12-31: 2036491 Update shadps4.sh
+- 2024-12-31: 794244b Update portmaster.sh
+- 2024-12-31: bd6279d Update shadps4.sh
+- 2024-12-31: aed4e76 Update portmaster.sh
+- 2024-12-31: 589a224 Update shadps4.sh
+- 2024-12-31: 2eaa54c Update portmaster.sh
+- 2024-12-31: 9b0a937 Update batocera-unofficial-addons.sh
+- 2024-12-31: 0b02dfd Update shadps4.sh
+- 2024-12-31: e5ff1b4 Update greenlight.sh
+- 2024-12-31: f256ce1 Update greenlight.sh
+- 2024-12-31: 3aefe79 Create greenlight.png
+- 2024-12-31: 2c8d370 Create greenlight.sh
+- 2024-12-31: a195895 Update endlesssky.sh
+- 2024-12-31: fed8235 Update portmaster.sh
+- 2024-12-31: 77f4b52 Update batocera-unofficial-addons.sh
+- 2024-12-31: 1b9fbfe Update chrome.sh
+- 2024-12-30: b04f848 Update chrome.sh
+- 2024-12-30: 0a00db0 Update chrome.sh
+- 2024-12-30: ec76ec0 Update chrome.sh
+- 2024-12-30: 1c7f897 Update chrome.sh
+- 2024-12-30: 98a5fef Update chrome.sh
+- 2024-12-30: cf33632 Update chrome.sh
+- 2024-12-30: c267b30 Update chrome.sh
+- 2024-12-30: 66057a5 Update amazonluna.sh
+- 2024-12-30: d3cc102 Update chrome.sh
+- 2024-12-30: 2f92da7 Update amazonluna.sh
+- 2024-12-30: 00d5cf3 Update amazonluna.sh
+- 2024-12-30: 490bb41 Update amazonluna.sh
+- 2024-12-30: 0ac396a +
+- 2024-12-30: 16ae792 Create luna.jpg
+- 2024-12-30: 1da2d09 Create chrome-logo.png
+- 2024-12-30: 9fe4a00 Create amazonluna.sh
+- 2024-12-30: 8b12ae6 Update chrome.sh
+- 2024-12-30: 1223f63 Update chrome.sh
+- 2024-12-30: 258282c Update chrome.sh
+- 2024-12-30: ea57a83 Update chrome.sh
+- 2024-12-30: 7381a95 -
+- 2024-12-30: 0f30f6a -
+- 2024-12-30: 33b6872 Update gamelist-manager.sh
+- 2024-12-30: f417fd2 Update gamelist-manager.sh
+- 2024-12-30: 743a08d Update gamelist-manager.sh
+- 2024-12-30: 4296584 Update gamelistmanager.sh
+- 2024-12-30: 078ab0b Update gamelistmanager.sh
+- 2024-12-30: 5a8e678 Update gamelistmanager.sh
+- 2024-12-30: 178f613 Update gamelist-manager.sh
+- 2024-12-30: f522be7 +
+- 2024-12-30: 168cb2a Update minecraft.sh
+- 2024-12-30: 1feaa76 Update minecraft.sh
+- 2024-12-30: ae3d3e4 Update minecraft.sh
+- 2024-12-30: b0b9d79 Update moonlight.sh
+- 2024-12-30: 840988e Update minecraft.sh
+- 2024-12-30: d184226 Update minecraft.sh
+- 2024-12-30: 4cddfb1 Update minecraft.sh
+- 2024-12-30: 3977673 Update minecraft.sh
+- 2024-12-30: 60e82cc Create minecraft-java.png
+- 2024-12-30: b9cd3e1 Update clonehero.sh
+- 2024-12-30: 42769aa Update chiaki.sh
+- 2024-12-30: 91cca24 Update clonehero.sh
+- 2024-12-30: ba8f929 Update batocera-unofficial-addons.sh
+- 2024-12-30: bbbf327 Update README.md
+- 2024-12-30: b985b84 +
+- 2024-12-30: f964369 upload
+- 2024-12-30: 4cb1600 Update gamelistmanager.sh
+- 2024-12-30: 2ee740c Update clonehero.sh
+- 2024-12-30: b7ef1ed Rename gamelistmanager.sh to gamelistmanager/gamelistmanager.sh
+- 2024-12-30: d367f2d Create gamelistmanager.sh
+- 2024-12-29: 39daa80 Update README.md
+- 2024-12-29: fde6372 Create batocera-unofficial-addons.png
+- 2024-12-29: c33db92 Delete app/extra/batocera-unofficial-addons.png
+- 2024-12-28: 87b0eab Update README.md
+- 2024-12-28: 612e3d3 Update sunshine.sh
+- 2024-12-28: a9e51ae Update sunshine.sh
+- 2024-12-28: 7079811 Update arcademanager.sh
+- 2024-12-28: 55f6e9f Update sunshine.sh
+- 2024-12-28: a2162e6 Update shadps4.sh
+- 2024-12-28: 05b9871 Update shadps4.sh
+- 2024-12-28: 0c2520f Update shadps4.sh
+- 2024-12-27: bf3c102 Update install.sh
+- 2024-12-27: 47a7dbe Update stremio.sh
+- 2024-12-27: 7440e75 Update stremio.sh
+- 2024-12-27: 762cd7f Update install.sh
+- 2024-12-27: 08db8df Update install.sh
+- 2024-12-27: a0eda55 Update stremio.sh
+- 2024-12-27: 3a0a206 Update stremio.sh
+- 2024-12-27: 3ddedb6 Create Stremio+4.4.20.appimage
+- 2024-12-27: 2ae2ad8 Update stremio.sh
+- 2024-12-27: 001e73a Upload
+- 2024-12-27: 4d58204 Update batocera-unofficial-addons.sh
+- 2024-12-27: d3f43b6 Create iptvnator.sh
+- 2024-12-27: 95c146e Update chiaki.sh
+- 2024-12-27: 7fc48dc Update chiaki.sh
+- 2024-12-27: 6dc45df Update chiaki.sh
+- 2024-12-27: a7eba00 Update chiaki.sh
+- 2024-12-27: 5ba640d Create chiakilogo.png
+- 2024-12-27: b43e793 Create stremio.sh
+- 2024-12-27: 72735d7 Create parsec.sh
+- 2024-12-27: 4c28888 Create chiaki.sh
+- 2024-12-27: bd185fe Update clonehero.sh
+- 2024-12-27: 7ad5608 Update minecraft.sh
+- 2024-12-27: 1649734 Update batocera-unofficial-addons.sh
+- 2024-12-27: 7d84108 Update batocera-unofficial-addons.sh
+- 2024-12-27: 2e80def Update batocera-unofficial-addons.sh
+- 2024-12-27: 947cc31 Update batocera-unofficial-addons.sh
+- 2024-12-27: 9852b35 Update batocera-unofficial-addons.sh
+- 2024-12-27: 84d6ddc Update batocera-unofficial-addons.sh
+- 2024-12-27: d299ef9 Update BatoceraUnofficialAddOns.sh
+- 2024-12-27: 1fb8742 Update batocera-unofficial-addons.sh
+- 2024-12-27: caa5a14 Update batocera-unofficial-addons.sh
+- 2024-12-27: e1ce47b Update vesktop.sh
+- 2024-12-27: baabea9 Create vesktoplogo.png
+- 2024-12-27: 96daca9 Update shadps4.sh
+- 2024-12-27: 441d544 Create shadps4logo.png
+- 2024-12-27: f370f7f Update portmaster.sh
+- 2024-12-27: 8216dbb Create portmasterlogo.png
+- 2024-12-27: fb62a24 Update moonlight.sh
+- 2024-12-27: d125354 Create moonlightlogo.png
+- 2024-12-27: 301d835 Update minecraft.sh
+- 2024-12-27: e83bc48 Create minecraft-bedrock-logo.png
+- 2024-12-27: 4e0dbd1 Update endlesssky.sh
+- 2024-12-27: 02c3a97 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-27: 860c2f0 Create endlessskylogo.png
+- 2024-12-27: e8dbc3f Update clonehero.sh
+- 2024-12-27: dd9d10c Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-27: 2ef302a Create cloneherologo.png
+- 2024-12-27: a9d8334 Update armagetron.sh
+- 2024-12-27: d826fa9 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-27: 2fab4ce Create armagetronlogo.png
+- 2024-12-27: dfc1801 Update install.sh
+- 2024-12-27: 945c341 Update install.sh
+- 2024-12-27: c9a5074 Update install.sh
+- 2024-12-27: 79fea7d Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-27: a92e505 Create batocera-unofficial-addons.png
+- 2024-12-27: c4fe2a0 Update arcademanager.sh
+- 2024-12-27: 4f856a9 Update arcademanager.sh
+- 2024-12-27: c900412 Update arcademanager.sh
+- 2024-12-27: b956e34 Update arcademanager.sh
+- 2024-12-27: 98b5ad1 Update arcademanager.sh
+- 2024-12-27: 824649d Update arcademanager.sh
+- 2024-12-27: 2c7b009 Create icon.png
+- 2024-12-27: caacf8e Update symlinks.sh
+- 2024-12-27: 9de8271 Update install.sh
+- 2024-12-27: 41aa5cd Add files via upload
+- 2024-12-27: 4449edf Update arcademanager.sh
+- 2024-12-27: 8eaa229 Create chrome.sh
+- 2024-12-27: 1dfc24e Update batocera-unofficial-addons.sh
+- 2024-12-27: ce17707 Update endlesssky.sh
+- 2024-12-27: c913dda Create endlesssky.sh
+- 2024-12-27: 0872fec Update arcademanager.sh
+- 2024-12-27: 96e7928 Update arcademanager.sh
+- 2024-12-27: 0f65961 Update arcademanager.sh
+- 2024-12-27: 658c291 Update arcademanager.sh
+- 2024-12-26: ec9d440 Update arcademanager.sh
+- 2024-12-26: 21bd31d Update base.sh
+- 2024-12-26: df17b57 Update arcademanager.sh
+- 2024-12-26: af05e83 Create base.sh
+- 2024-12-26: 4415b24 Create arcademanager.sh
+- 2024-12-26: f92cd53 Update README.md
+- 2024-12-26: a005c8d Update fightcade.sh
+- 2024-12-26: 321be7e Update fightcade.sh
+- 2024-12-26: f5d7a0d Update fightcade.sh
+- 2024-12-26: 6895e06 Update fightcade.sh
+- 2024-12-26: 7c4ab08 Update fightcade.sh
+- 2024-12-26: f3fd0db Update fightcade.sh
+- 2024-12-26: da9130b Update unwine.sh
+- 2024-12-26: 70dc5bd Update syncwine.sh
+- 2024-12-26: 014221c Update syncwine.sh
+- 2024-12-26: 416a4b9 Update fightcade.sh
+- 2024-12-26: ed97f15 Update fightcade.sh
+- 2024-12-26: fcfad04 Create syncwine.sh
+- 2024-12-26: 972030e Create unwine.sh
+- 2024-12-26: 432631a Update wine.sh
+- 2024-12-26: c220172 Create wine.sh
+- 2024-12-26: 165a7a3 Update fightcade.sh
+- 2024-12-26: 552758d /
+- 2024-12-26: 68d5a29 Add files via upload
+- 2024-12-26: bd519ca Delete fightcade/lib/lib.zip
+- 2024-12-26: 53c0f1d Update fightcade.sh
+- 2024-12-26: 68834dc Update fightcade.sh
+- 2024-12-26: 34edef3 Update fightcade.sh
+- 2024-12-26: acdc0a0 Update fightcade.sh
+- 2024-12-26: 90c34cf Rename libs.zip to lib.zip
+- 2024-12-26: 695e086 Update fightcade.sh
+- 2024-12-26: 6c59b96 Update fightcade.sh
+- 2024-12-26: 28f8678 Update fightcade.sh
+- 2024-12-26: 8d2f5a9 Update fightcade.sh
+- 2024-12-26: b141eea Add files via upload
+- 2024-12-26: d28e080 Update fightcade.sh
+- 2024-12-26: 42225f4 Update fightcade.sh
+- 2024-12-26: 480f6c8 Update fightcade.sh
+- 2024-12-26: 54eae13 uploads
+- 2024-12-26: 5e6df5d Update fightcade.sh
+- 2024-12-26: f66e28b Delete fightcade/lib/lib.zip
+- 2024-12-26: 201e410 Add files via upload
+- 2024-12-26: bc69702 Create lib.zip
+- 2024-12-26: 4e5d0ce Create fightcade.sh
+- 2024-12-26: c8760c0 Delete fightcade/installer directory
+- 2024-12-26: 67568d0 Delete fightcade/package directory
+- 2024-12-26: 5f404e2 Update shadps4.sh
+- 2024-12-26: fbd0fd1 Update shadps4.sh
+- 2024-12-26: 723833b Update shadps4.sh
+- 2024-12-26: bde2dda Update shadps4.sh
+- 2024-12-26: 88bb542 Update shadps4.sh
+- 2024-12-26: 70620e5 Update Fightcade2.sh
+- 2024-12-26: 391a6a7 Update vesktop.sh
+- 2024-12-26: 82e50f6 Update vesktop.sh
+- 2024-12-26: 3d0d97c Update vesktop.sh
+- 2024-12-26: 3c15375 Update install.sh
+- 2024-12-26: 72183b5 Update batocera-unofficial-addons.sh
+- 2024-12-26: 0e18a6d Update vesktop.sh
+- 2024-12-26: 24bc92f Update symlinks.sh
+- 2024-12-26: e457a3b Update install.sh
+- 2024-12-26: 099af7f Delete .dep/dep
+- 2024-12-26: 763e5c3 Add files via upload
+- 2024-12-26: 7090390 Create dep
+- 2024-12-26: c0f2389 Update install.sh
+- 2024-12-26: 81169ce Delete vesktop/lib/lib
+- 2024-12-26: 7bf4dcd Add files via upload
+- 2024-12-26: d1b8965 Create lib
+- 2024-12-26: 55d7965 Update vesktop.sh
+- 2024-12-26: f4ec29b Update vesktop.sh
+- 2024-12-26: 2ecce86 Delete app/test.sh
+- 2024-12-26: b8413b2 Update test.sh
+- 2024-12-26: 55f31e6 Update test.sh
+- 2024-12-26: baa0765 Update test.sh
+- 2024-12-26: 540f936 Update test.sh
+- 2024-12-26: 8aea9a2 Update test.sh
+- 2024-12-26: 8fccae5 Create test.sh
+- 2024-12-26: 04965b3 Update clonehero.sh
+- 2024-12-26: bb1d262 Delete clonehero/clonehero_.sh
+- 2024-12-26: 27db5d6 Update batocera-unofficial-addons.sh
+- 2024-12-26: 93e1254 Update clonehero.sh
+- 2024-12-26: 81d07b3 #
+- 2024-12-26: 534ee16 Update clonehero.sh
+- 2024-12-26: cfe4018 Update clonehero.sh
+- 2024-12-26: 10a7c30 Update clonehero.sh
+- 2024-12-26: 0ca2557 Update clonehero.sh
+- 2024-12-26: cfda32d Update armagetron.sh
+- 2024-12-26: 7d8326d Add files via upload
+- 2024-12-26: 3fa9302 Update minecraft.sh
+- 2024-12-26: 994f5c7 Update batocera-unofficial-addons.sh
+- 2024-12-26: a3d4c7e Update batocera-unofficial-addons.sh
+- 2024-12-26: 495edc5 Update armagetron.sh
+- 2024-12-26: 3869166 Add files via upload
+- 2024-12-26: 6f4c33f Delete armagetron/ArmagetronAdvanced.AppImage
+- 2024-12-26: 6ad1a11 Update ArmagetronAdvanced.AppImage
+- 2024-12-26: 436f708 Update ArmagetronAdvanced.AppImage
+- 2024-12-26: 8eea12f Update syncwine.sh
+- 2024-12-26: 7608fb9 Add files via upload
+- 2024-12-26: e46d34d Update batocera-unofficial-addons.sh
+- 2024-12-26: 9993300 Update minecraft.sh
+- 2024-12-26: 543b7ba Update portmaster.sh
+- 2024-12-26: 48016fb Create minecraft.sh
+- 2024-12-26: a79013b Update shadps4.sh
+- 2024-12-26: 52e0369 Update startup.sh
+- 2024-12-25: 8af0201 Update fightcade.sh
+- 2024-12-25: cd6263b Delete fightcade/installer/test.sh
+- 2024-12-25: e14e86a Update syncwine.sh
+- 2024-12-25: 08437d9 Update startup.sh
+- 2024-12-25: 9652f08 Update Fightcade2.sh
+- 2024-12-25: 54d9283 Update fightcade.sh
+- 2024-12-25: 09ae720 Update Fightcade2.sh
+- 2024-12-25: a18b4ed Update winesync.sh
+- 2024-12-25: 2941965 Update wine.sh
+- 2024-12-25: 9cbb21a Update fightcade.sh
+- 2024-12-25: 22e5537 Update portmaster.sh
+- 2024-12-25: afe1d9a Update portmaster.sh
+- 2024-12-25: 3c2d9c3 Update and rename portsmaster.sh to portmaster.sh
+- 2024-12-25: d0cc9c6 Update batocera-unofficial-addons.sh
+- 2024-12-25: f7d22eb Update batocera-unofficial-addons.sh
+- 2024-12-25: ef48beb Update shadps4.sh
+- 2024-12-25: 484b88b Delete cemu directory
+- 2024-12-25: 941d633 Update shadps4.sh
+- 2024-12-25: d62ceb4 Update install.sh
+- 2024-12-25: bb8bc87 Update batocera-unofficial-addons.sh
+- 2024-12-25: 1eb92a7 Update shadps4.sh
+- 2024-12-25: 8638cde Update cemu.sh
+- 2024-12-25: 3248e1e Update batocera-unofficial-addons.sh
+- 2024-12-25: 4537f6e Update batocera-unofficial-addons.sh
+- 2024-12-25: 76c14c4 Update install.sh
+- 2024-12-25: 2ca32c9 Update BatoceraUnofficialAddOns.sh
+- 2024-12-25: 4ba2010 Update install.sh
+- 2024-12-25: 7e2c3ff Uploads
+- 2024-12-25: d297bb5 Update and rename app.sh to install.sh
+- 2024-12-25: 58a13f1 Update app.sh
+- 2024-12-25: 5319d92 Create batocera-unofficial-addons.sh
+- 2024-12-25: 4303e8f Rename batocera-unofficial-addons-symlinks.sh to symlinks.sh
+- 2024-12-25: 001651a Create batocera-unofficial-addons-symlinks.sh
+- 2024-12-25: 009a02d Update conty.sh
+- 2024-12-25: 4b69a9d Create app.sh
+- 2024-12-25: 3427d9a Create winemanager.sh
+- 2024-12-25: 3ea9f58 Create armagetron.sh
+- 2024-12-25: 8c82fed Create cemu.sh
+- 2024-12-25: 77c9841 Create vesktop.sh
+- 2024-12-25: 48d59c4 Create portsmaster.sh
+- 2024-12-25: dc0cff8 Create berryos.sh
+- 2024-12-25: 128b310 Update README.md
+- 2024-12-25: 0c7445b Create shadps4.sh
+- 2024-12-25: 9b717e9 Create conty.sh
+- 2024-12-22: a0ad457 Create test.sh
+- 2024-12-22: 4ffb6d3 Update winesync.sh
+- 2024-12-22: c386680 Update wine.sh
+- 2024-12-22: 783efd3 Update unwine.sh
+- 2024-12-22: f15cec7 Update syncwine.sh
+- 2024-12-22: 0e12e66 Update startup.sh
+- 2024-12-22: 27d695b Rename _wine.sh to wine.sh
+- 2024-12-22: 9181be0 Delete fightcade/installer/wine.sh
+- 2024-12-22: cf142a8 Update Fightcade2.sh
+- 2024-12-22: 649bc40 Update fightcade.sh
+- 2024-12-22: 37aa7d2 Update Fightcade2.sh
+- 2024-12-22: b5801b0 Update fightcade.sh
+- 2024-12-22: 8c1d1b0 Update fightcade.sh
+- 2024-12-22: 1d23cdf Update fightcade.sh
+- 2024-12-22: 298df2e Update fightcade.sh
+- 2024-12-22: 24fe6cc Update fightcade.sh
+- 2024-12-22: 6174111 Delete berry-os/berry-os.sh
+- 2024-12-22: fb149eb Update berry-os.sh
+- 2024-12-22: 457b0cb Update berry-os.sh
+- 2024-12-22: 99970f3 Create berry-os.sh
+- 2024-12-22: e760a9e Update README.md
+- 2024-12-22: 682d1f7 Update switch.sh
+- 2024-12-22: 75a3664 Update switch.sh
+- 2024-12-22: e728456 Create switch.sh
+- 2024-12-21: babad47 Update README.md
+- 2024-12-21: 2e7c974 Update README.md
+- 2024-12-21: 27c9acf Update wine.sh
+- 2024-12-21: efaaa22 Update wine.sh
+- 2024-12-21: ce2f5cc Update wine.sh
+- 2024-12-21: 036608a Update wine.sh
+- 2024-12-21: 0a461e4 Update Fightcade2.sh
+- 2024-12-21: 7b9c428 Update clonehero.sh
+- 2024-12-21: 3559556 Update README.md
+- 2024-12-21: e3ad1a0 clonehero
+- 2024-12-20: 52b5d2b Update README.md
+- 2024-12-20: 28a43ca Update README.md
+- 2024-12-20: 301b9ad Update README.md
+- 2024-12-20: 517e580 Update README.md
+- 2024-12-20: b7cacb2 Update README.md
+- 2024-12-20: caab862 Update fightcade.sh
+- 2024-12-20: 28ae44a Update fightcade.sh
+- 2024-12-20: 93b0a62 Update moonlight.sh
+- 2024-12-20: f152de7 Delete rdp directory
+- 2024-12-20: a86da3a Update tailscale.sh
+- 2024-12-20: 91d3f62 Update nvidiapatch.sh
+- 2024-12-20: b391a8c Update sunshine.sh
+- 2024-12-20: 06ff9ee Update sunshine.sh
+- 2024-12-20: 5fbf6f0 Update sunshine.sh
+- 2024-12-20: cbb0f0f Update sunshine.sh
+- 2024-12-20: 850a2eb Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-20: ca1a163 Create patches.sh
+- 2024-12-20: ae383d3 Update sunshine.sh
+- 2024-12-20: fbd299f Update moonlight.sh
+- 2024-12-20: 3b21aba Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-20: 5290126 Update moonlight.sh
+- 2024-12-20: cd89179 Update sunshine.sh
+- 2024-12-20: c8d8830 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-20: be8dd02 Update package
+- 2024-12-20: 3b24c0e Update fightcade.sh
+- 2024-12-20: d95bcc2 Update fightcade.sh
+- 2024-12-20: 45c4562 Update fightcade.sh
+- 2024-12-20: 48a5e6a Delete fightcade/installer/fightcade2.sh
+- 2024-12-20: 1c9ae2c Update fightcade2.sh
+- 2024-12-20: 4d28bea Create fightcade2.sh
+- 2024-12-20: 8f6f0e6 Update fightcade.sh
+- 2024-12-20: 2fca29a Delete moonlight/Moonlight.sh.keys
+- 2024-12-20: 631275a Update moonlight.sh
+- 2024-12-20: 42bc41b Update moonlight.sh
+- 2024-12-20: f76aa2a Update moonlight.sh
+- 2024-12-20: 691c09b Update moonlight.sh
+- 2024-12-20: 4b1a7f8 Update moonlight.sh
+- 2024-12-20: 7442722 Update moonlight.sh
+- 2024-12-20: a48fd98 Update Moonlight.sh.keys
+- 2024-12-20: 46d8db3 Add files via upload
+- 2024-12-20: 3f21cac Update nvidiapatch.sh
+- 2024-12-20: b94f7ab Rename nvidiapatchers.sh to nvidiapatch.sh
+- 2024-12-20: 25c6317 Update nvidiapatchers.sh
+- 2024-12-19: e96db96 Update README.md
+- 2024-12-19: e4bf16f Update README.md
+- 2024-12-19: bf7c806 Update README.md
+- 2024-12-19: 555a343 Update README.md
+- 2024-12-19: 6eca46c Update startup.sh
+- 2024-12-19: 43d45c4 Update syncwine.sh
+- 2024-12-19: c886b42 Update unwine.sh
+- 2024-12-19: 869bd0d Update winesync.sh
+- 2024-12-19: 1110b9d Update wine.sh
+- 2024-12-19: 2a0624c Update _wine.sh
+- 2024-12-19: af4a69f Update Fightcade2.sh
+- 2024-12-19: 6b2db22 Update fightcade.sh
+- 2024-12-19: 167d4d5 Merge branch 'main' of https://github.com/DTJW92/batocera-unofficial-addons
+- 2024-12-19: bfcd468 Update README.md
+- 2024-12-19: c7e5bff Fightcade
+- 2024-12-19: 7c66ecd Update sunshine.sh
+- 2024-12-19: 1ecdcb8 Update nvidiapatchers.sh
+- 2024-12-19: 82b0b68 Update tailscale.sh
+- 2024-12-19: 700cbea Update sunshine.sh
+- 2024-12-19: cb0e5a1 Create sunshine.AppImage
+- 2024-12-19: 39b33bc Update sunshine.sh
+- 2024-12-19: bdec9ae Update moonlight.sh
+- 2024-12-19: 5383afe Create rdp.sh
+- 2024-12-19: 8fa4ae9 Create tailscale.sh
+- 2024-12-19: d759a3c Create nvidiapatchers.sh
+- 2024-12-19: df4548e Create moonlight.sh
+- 2024-12-19: 5c80a1c Create sunshine.sh
+- 2024-12-19: 9fade6e Initial commit
+
 <!-- AUTO-CHANGELOG:END -->
