@@ -559,6 +559,7 @@ APPS: Dict[str, str] = {
     "Greenlight": bua("greenlight/greenlight_arm64.sh"),
     "IPTV Nator": bua("iptvnator/iptvnator.sh"),
     "Minecraft": bua("minecraft/bedrock.sh"),
+    "Nazi Zombies Portable": bua("nzp/nzp.sh"),
     "PortMaster": bua("portmaster/portmaster.sh"),
     "Raspberry Pi Imager": bua("rpi/rpi.sh"),
     "RGSX": "curl -L bit.ly/rgsx-install | sh",
@@ -600,6 +601,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "Greenlight": "Client for xCloud and Xbox streaming.",
     "IPTV Nator": "IPTV client for watching live TV.",
     "Minecraft": "Minecraft: Bedrock Edition.",
+    "Nazi Zombies Portable": "Classic Nazi Zombies on modern platforms",
     "PortMaster": "Download and manage games on handhelds.",
     "Raspberry Pi Imager": "Flash OS images to USB and SD cards.",
     "RGSX": "Retro Game Sets Xtra. A free, user-friendly ROM downloader for Batocera",
@@ -625,7 +627,7 @@ DESCRIPTIONS: Dict[str, str] = {
 
 CATEGORIES: Dict[str, List[str]] = {
     "Games": [
-        "Minecraft", "Super Mario X", "SuperTuxKart", "Celeste 64"
+        "Minecraft", "Super Mario X", "SuperTuxKart", "Celeste 64", "Nazi Zombies Portable"
     ],
     "Game Utilities": [
         "PortMaster", "Chiaki", "Greenlight", "Amazon Luna", "RGSX"
