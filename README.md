@@ -54,6 +54,8 @@ Special thanks to:
 
 📦 **ruanformigoni** — for creating FlatImage, which made Steam and Lutris integration possible.
 
+📼 ** VHSGunzo** - for creating RunImage, which provides the framework for some of the add-ons included.
+
 🍷 **Gregoryc** — for developing and sharing the Wine Manager used in the system.
 
 🎮 **Foclabroc** — for providing the Switch emulation tools that power part of the experience.
