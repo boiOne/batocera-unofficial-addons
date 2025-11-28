@@ -7,8 +7,8 @@
 | `7zip/7zip.sh` | 2025-05-22 17:09:18 +0100 |
 | `7zip/7zip_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `Android/Install_Android.sh` | 2025-11-13 23:41:52 +0000 |
-| `Desktop_for_Batocera/Install_Desktop.sh` | 2025-07-20 07:33:12 -0300 |
-| `Desktop_for_Batocera/Install_Desktop_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
+| `Desktop_for_Batocera/Install_Desktop.sh` | 2025-11-27 19:42:58 -0300 |
+| `Desktop_for_Batocera/Install_Desktop_uninstall.sh` | 2025-11-27 19:42:58 -0300 |
 | `Freej2me/Install_j2me-old .sh` | 2025-03-29 15:06:00 -0300 |
 | `Freej2me/Install_j2me-old _uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `Freej2me/Install_j2me.sh` | 2025-06-08 00:01:28 -0300 |
@@ -26,7 +26,7 @@
 | `app/BatoceraUnofficialAddons_ARM64.sh` | 2025-05-22 17:15:31 +0100 |
 | `app/batocera-unofficial-addons-arm64.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/batocera-unofficial-addons.sh` | 2025-11-20 16:56:24 +0000 |
-| `app/bua_installerarm64.py` | 2025-11-27 22:40:38 +0000 |
+| `app/bua_installerarm64.py` | 2025-11-27 22:40:36 +0000 |
 | `app/bua_installerx86.py` | 2025-11-27 22:39:15 +0000 |
 | `app/dep.sh` | 2025-05-22 17:16:35 +0100 |
 | `app/dep_arm64.sh` | 2025-05-22 17:16:49 +0100 |
