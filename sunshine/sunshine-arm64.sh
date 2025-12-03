@@ -43,11 +43,11 @@ cat << 'EOF' > /userdata/system/services/sunshine
 # sunshine service script for Batocera (ARM64)
 # Functional start/stop/restart/status (update)/uninstall
 
-# Environment setup
-export $(cat /proc/1/environ | tr '\0' '\n')
+set -e
+
+# Basic environment for Sunshine
 export DISPLAY=:0.0
-export HOME=/userdata/system/add-ons/sunshine
-modprobe fuse
+modprobe fuse 2>/dev/null || true
 
 # Directories and file paths
 app_dir="/userdata/system/add-ons/sunshine"
@@ -58,58 +58,63 @@ log_file="${log_dir}/sunshine.log"
 # Ensure log directory exists
 mkdir -p "${log_dir}"
 
-
 # Append all output to the log file
 exec &> >(tee -a "$log_file")
 echo "$(date): ${1} service sunshine"
 
 case "$1" in
-    start)
-        echo "Starting Sunshine service..."
+  start)
+    echo "Starting Sunshine service..."
 
-        # Start Sunshine AppImage
-        if [ -x "${app_image}" ]; then
-            cd "${app_dir}"
-            ./sunshine.AppImage > "${log_file}" 2>&1 &
-            echo "Sunshine started successfully."
-        else
-            echo "Sunshine.AppImage not found or not executable."
-            exit 1
-        fi
-        ;;
-    stop)
-        echo "Stopping Sunshine service..."
-        # Stop the specific processes for sunshine.AppImage
-        pkill -f "./sunshine.AppImage" && echo "Sunshine stopped." || echo "Sunshine is not running."
-        pkill -f "/tmp/.mount_sunshi" && echo "Sunshine child process stopped." || echo "Sunshine child process is not running."
-        ;;
-restart)
+    if [ -x "${app_image}" ]; then
+      cd "${app_dir}"
+
+      # Run in foreground (service-style); remove '&' if you want it blocking
+      ./sunshine.AppImage > "${log_file}" 2>&1 &
+      echo "Sunshine exited with code $?"
+    else
+      echo "Sunshine.AppImage not found or not executable."
+      exit 1
+    fi
+    ;;
+
+  stop)
+    echo "Stopping Sunshine service..."
+    pkill -f "sunshine.AppImage" && echo "Sunshine stopped." || echo "Sunshine is not running."
+    pkill -f "/tmp/.mount_sunshi" && echo "Sunshine child process stopped." || echo "Sunshine child process is not running."
+    ;;
+
+  restart)
     "$0" stop
     "$0" start
     ;;
-    status)
-        if pgrep -f "sunshine.AppImage" > /dev/null; then
-            echo "Sunshine is running."
-            exit 0
-        else
-            echo "Sunshine is stopped. Going to update now"
-            curl -L https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/sunshine/sunshine-arm64.sh | bash
-            exit 1
-        fi
-        ;;
-    uninstall)
-        echo "Uninstalling Sunshine service..."
-        "$0" stop
-        rm -f "${app_image}"
-        echo "Sunshine uninstalled successfully."
-        ;;
-    *)
-        echo "Usage: $0 {start|stop|restart|status(update)|uninstall}"
-        exit 1
-        ;;
+
+  status)
+    if pgrep -f "sunshine.AppImage" > /dev/null; then
+      echo "Sunshine is running."
+      exit 0
+    else
+      echo "Sunshine is stopped. Going to update now"
+      curl -L https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/sunshine/sunshine-arm64.sh | bash
+      exit 1
+    fi
+    ;;
+
+  uninstall)
+    echo "Uninstalling Sunshine service..."
+    "$0" stop
+    rm -f "${app_image}"
+    echo "Sunshine uninstalled successfully."
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart|status(update)|uninstall}"
+    exit 1
+    ;;
 esac
 
 exit $?
+
 
 EOF
 
