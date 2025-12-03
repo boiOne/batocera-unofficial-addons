@@ -1055,12 +1055,12 @@ def init_display():
         size = (1280, 720)
         flags = pygame.RESIZABLE
     else:
-        size = (1280, 720)
+        size = (1920, 1080)
 
     screen = pygame.display.set_mode(size, flags)
     W, H = screen.get_size()
 
-    UI_SCALE = max(1.0, min(W / 1280.0, H / 720.0))
+    UI_SCALE = max(1.0, min(W / 1920.0, H / 1080.0))
 
 def S(n: int) -> int:
     return int(round(n * UI_SCALE))
