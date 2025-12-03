@@ -219,7 +219,7 @@
 | `stremio/stremio-arm64.sh` | 2025-05-22 18:14:23 +0100 |
 | `stremio/stremio-arm64_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `stremio/stremio.sh` | 2025-11-25 15:20:38 +0000 |
-| `sunshine/sunshine-arm64.sh` | 2025-12-03 01:17:23 +0000 |
+| `sunshine/sunshine-arm64.sh` | 2025-12-03 01:37:34 +0000 |
 | `sunshine/sunshine.sh` | 2025-11-06 20:03:30 +0000 |
 | `sunshine/sunshine_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `supermariox/supermariox.sh` | 2025-11-27 22:20:19 +0000 |
