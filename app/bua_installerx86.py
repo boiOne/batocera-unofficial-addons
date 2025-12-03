@@ -4972,7 +4972,6 @@ class SettingsScreen(BaseScreen):
             (t("controller_layout"), t("controller_layout_desc")),
             (t("configure_buttons"), t("configure_buttons_desc")),
             (t("language"), t("language_desc")),
-            (t("resolution"), t("resolution_desc")),
             (t("cards_per_page"), t("cards_per_page_desc")),
         ]
         self.idx = 0
@@ -5019,8 +5018,6 @@ class SettingsScreen(BaseScreen):
             push_screen(InfoDialog(t("settings_title"), msg))
         elif name == t("language"):
             push_screen(LanguageScreen())
-        elif name == t("resolution"):
-            push_screen(ResolutionScreen())
         elif name == t("cards_per_page"):
             push_screen(CardsPerPageScreen())
 
