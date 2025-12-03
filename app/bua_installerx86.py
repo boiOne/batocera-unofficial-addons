@@ -712,7 +712,7 @@ APPS.update({
 })
 
 DESCRIPTIONS: Dict[str, str] = {
-    "Sunshine": "Game streaming app for remote play on Batocera.",
+    "Sunshine": "Self-hosted game streaming server (host for Moonlight).",
     "Moonlight": "Stream PC games on Batocera.",
     "NVIDIA Patcher": "Enable NVIDIA GPU support on Batocera.",
     "Switch": "Nintendo Switch emulator for Batocera.",
@@ -1038,32 +1038,35 @@ def mark_changelog_shown():
     except Exception:
         pass
 
-# Borderless fullscreen window that doesn't change video mode
+# Safe exit function that properly releases KMS/DRM resources
+def clean_exit(code=0):
+    pygame.display.quit()
+    pygame.quit()
+    sys.exit(code)
+
+# Safe display initialization that never corrupts the Batocera framebuffer
 def init_display():
-    global screen, W, H
-    # Try to load saved resolution first
-    saved_res = load_saved_resolution()
+    global screen, W, H, UI_SCALE
 
-    if saved_res:
-        # Use saved resolution in fullscreen
-        screen = pygame.display.set_mode(saved_res, pygame.FULLSCREEN)
-    elif os.environ.get("BUA_WINDOWED"):
-        # Windowed mode for development/testing
-        screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)
+    flags = pygame.SCALED | pygame.FULLSCREEN
+
+    # Windowed mode for development/testing if needed
+    if os.environ.get("BUA_WINDOWED"):
+        size = (1280, 720)
+        flags = pygame.RESIZABLE
     else:
-        # Default: Borderless window at current display size (no video mode change)
-        info = pygame.display.Info()
-        screen = pygame.display.set_mode((info.current_w, info.current_h), pygame.NOFRAME)
+        size = (1280, 720)
 
+    screen = pygame.display.set_mode(size, flags)
     W, H = screen.get_size()
+
+    UI_SCALE = max(1.0, min(W / 1280.0, H / 720.0))
+
+def S(n: int) -> int:
+    return int(round(n * UI_SCALE))
 
 init_display()
 clock = pygame.time.Clock()
-
-# UI scale to keep elements readable at high resolutions
-UI_SCALE = max(1.0, min(W/1280.0, H/720.0))
-def S(n: int) -> int:
-    return int(round(n * UI_SCALE))
 
 def load_fonts():
     # DejaVu Sans for primary UI - good Latin/Cyrillic/Greek coverage
@@ -1641,14 +1644,15 @@ def draw_background(surf):
 # Assets will be loaded during splash screen
 # init_assets() - moved to play_splash_and_load()
 
-# Handle window resizing (windowed mode) to keep background and fonts crisp
+# Handle window resizing (windowed mode only - safe for testing)
 def handle_resize(new_w: int, new_h: int):
     if not os.environ.get("BUA_WINDOWED"):
         return
     global screen, W, H, UI_SCALE, FONT, FONT_SMALL, FONT_BIG
+    # Safe for windowed mode - does not affect KMS/DRM
     screen = pygame.display.set_mode((new_w, new_h), pygame.RESIZABLE)
     W, H = screen.get_size()
-    UI_SCALE = max(1.0, min(W/1280.0, H/720.0))
+    UI_SCALE = max(1.0, min(W / 1280.0, H / 720.0))
     FONT, FONT_SMALL, FONT_BIG = load_fonts()
     init_assets()
 
@@ -2285,7 +2289,7 @@ class MenuScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 # Toggle search on the main menu with X
                 if e.key == pygame.K_x:
@@ -2302,6 +2306,8 @@ class MenuScreen(BaseScreen):
                 if e.key == pygame.K_ESCAPE:
                     if self.title != "Batocera Unofficial Add-Ons":
                         pop_screen()
+                    else:
+                        clean_exit(0)
             if e.type == pygame.JOYHATMOTION:
                 # D-Pad
                 x, y = e.value
@@ -2342,7 +2348,7 @@ class MenuScreen(BaseScreen):
         }
 
         if name == t("exit"):
-            pygame.quit(); sys.exit(0)
+            clean_exit(0)
         if name in SPECIAL_TOPLEVEL_RUN:
             cmd = SPECIAL_TOPLEVEL_RUN[name]
             push_screen(RunListScreen([(name, cmd)], title=name))
@@ -2479,7 +2485,7 @@ class ConfirmDialog(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_LEFT, pygame.K_RIGHT):
                     self.selected = 1 - self.selected
@@ -2566,7 +2572,7 @@ class InfoDialog(BaseScreen):
     def handle(self, events):
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_KP_ENTER):
                     if self.on_close:
@@ -2633,7 +2639,7 @@ class ChangelogDialog(BaseScreen):
     def handle(self, events):
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_KP_ENTER):
                     mark_changelog_shown()
@@ -2732,7 +2738,7 @@ class InteractiveDialog(BaseScreen):
     def handle(self, events):
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_DOWN,):
                     self.idx = (self.idx + 1) % len(self.options)
@@ -2936,7 +2942,7 @@ class MenuSelectionDialog(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_DOWN,):
                     self.idx = (self.idx + 1) % len(self.options)
@@ -3036,7 +3042,7 @@ class WineTypeMenu(BaseScreen):
     def handle(self, events):
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_ESCAPE:
                     pop_screen(); return
@@ -3178,7 +3184,7 @@ class WineSelectionScreen(BaseScreen):
         
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_ESCAPE:
                     pop_screen(); return
@@ -3348,7 +3354,7 @@ class ChecklistScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_ESCAPE:
                     pop_screen()
@@ -3632,7 +3638,7 @@ class GlobalSearchScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_ESCAPE:
                     pop_screen(); return
@@ -3796,7 +3802,7 @@ class NoResultsScreen(BaseScreen):
     def handle(self, events):
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_RETURN, pygame.K_KP_ENTER, pygame.K_ESCAPE):
                     pop_screen(); return
@@ -3825,7 +3831,7 @@ class QueueScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_ESCAPE:
                     pop_screen(); return
@@ -4144,7 +4150,7 @@ export -f desktop
     def handle(self, events):
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_ESCAPE:
                     self.runner.kill(); pop_screen(); return
@@ -4638,7 +4644,7 @@ class UpdaterScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_ESCAPE:
                     pop_screen(); return
@@ -4981,7 +4987,7 @@ class SettingsScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_ESCAPE,):
                     pop_screen(); return
@@ -5070,7 +5076,7 @@ class ControllerLayoutScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_ESCAPE,):
                     pop_screen(); return
@@ -5138,7 +5144,7 @@ class LanguageScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key == pygame.K_ESCAPE:
                     pop_screen(); return
@@ -5282,7 +5288,7 @@ class CardsPerPageScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_ESCAPE,):
                     pop_screen(); return
@@ -5416,7 +5422,7 @@ class ResolutionScreen(BaseScreen):
 
         for e in events:
             if e.type == pygame.QUIT:
-                pygame.quit(); sys.exit(0)
+                clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_ESCAPE,):
                     pop_screen(); return
@@ -5439,48 +5445,14 @@ class ResolutionScreen(BaseScreen):
                     pop_screen(); return
 
     def apply_choice(self):
-        global screen, W, H, UI_SCALE, FONT, FONT_SMALL, FONT_BIG
-        label, w, h = self.options[self.idx]
-
-        try:
-            if label == "Native (Borderless)":
-                # Remove saved resolution file to use borderless window on next launch
-                try:
-                    if os.path.exists(RESOLUTION_FILE):
-                        os.remove(RESOLUTION_FILE)
-                except Exception:
-                    pass
-                # Use native display resolution in borderless window
-                info = pygame.display.Info()
-                w, h = info.current_w, info.current_h
-
-                # Quit and reinitialize pygame display
-                pygame.display.quit()
-                pygame.display.init()
-                pygame.display.set_caption(t('main_title'))
-                screen = pygame.display.set_mode((w, h), pygame.NOFRAME)
-            else:
-                # Save specific resolution and use fullscreen
-                save_resolution(w, h)
-
-                # Quit and reinitialize pygame display
-                pygame.display.quit()
-                pygame.display.init()
-                pygame.display.set_caption(t('main_title'))
-                screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN)
-
-            # Update globals
-            W, H = screen.get_size()
-            UI_SCALE = max(1.0, min(W/1280.0, H/720.0))
-            FONT, FONT_SMALL, FONT_BIG = load_fonts()
-            init_assets()
-
-            msg = [f"{t('resolution')}: {label} ({W}x{H})"]
-            push_screen(InfoDialog(t("settings_title"), msg))
-        except Exception as e:
-            # If resolution change fails, show error
-            msg = [f"{t('error')}: {str(e)}"]
-            push_screen(InfoDialog(t("settings_title"), msg))
+        # Display is now fixed at 1280x720 with SCALED|FULLSCREEN to prevent KMS corruption
+        # Resolution changes are disabled for safe operation on Batocera KMS/DRM backend
+        msg = [
+            "Resolution is fixed at 1280x720 for safe operation.",
+            "The display uses pygame.SCALED to fit your screen",
+            "without changing the video mode or corrupting KMS."
+        ]
+        push_screen(InfoDialog(t("settings_title"), msg))
 
     def draw(self):
         draw_background(screen)
@@ -5765,7 +5737,8 @@ def play_splash_and_load():
         except (ImportError, Exception) as e:
             print(f"[BUA] Could not play video with cv2: {e}, showing loading screen instead")
             # Show a simple loading screen if ffplay not available (e.g., on Windows)
-            splash_screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+            # Use existing screen instead of creating new unsafe fullscreen mode
+            splash_screen = screen
             splash_screen.fill((20, 24, 31))
 
             # Show loading text
