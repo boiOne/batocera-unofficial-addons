@@ -8,7 +8,7 @@ mkdir -p /userdata/system/add-ons/sunshine
 
 # Fetch latest ARM64 AppImage URL and download it
 echo "Fetching the latest Sunshine ARM64 AppImage release..."
-APPIMAGE_URL="https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/sunshine/extra/sunshine-aarch64.AppImage"
+APPIMAGE_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/sunshine/extra/Sunshine-aarch64.AppImage"
 if [ -n "$APPIMAGE_URL" ]; then
     echo "Downloading Sunshine ARM64 AppImage from $APPIMAGE_URL..."
     curl -L "$APPIMAGE_URL" -o /userdata/system/add-ons/sunshine/sunshine.AppImage
