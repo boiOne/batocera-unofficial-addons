@@ -1048,19 +1048,20 @@ def clean_exit(code=0):
 def init_display():
     global screen, W, H, UI_SCALE
 
-    flags = pygame.SCALED | pygame.FULLSCREEN
-
     # Windowed mode for development/testing if needed
     if os.environ.get("BUA_WINDOWED"):
         size = (1280, 720)
         flags = pygame.RESIZABLE
     else:
-        size = (1920, 1080)
+        # Get native resolution and use it with SCALED flag for safety
+        info = pygame.display.Info()
+        size = (info.current_w, info.current_h)
+        flags = pygame.SCALED | pygame.FULLSCREEN
 
     screen = pygame.display.set_mode(size, flags)
     W, H = screen.get_size()
 
-    UI_SCALE = max(1.0, min(W / 1920.0, H / 1080.0))
+    UI_SCALE = max(1.0, min(W / 1280.0, H / 720.0))
 
 def S(n: int) -> int:
     return int(round(n * UI_SCALE))
