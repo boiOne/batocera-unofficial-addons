@@ -213,6 +213,7 @@
 | `spotify/spotify_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `steam/extra/create-steam-launchers.sh` | 2025-11-21 00:52:13 +0000 |
 | `steam/steam.sh` | 2025-11-21 01:31:43 +0000 |
+| `steam/steam2.sh` | 2025-12-04 02:57:03 +0000 |
 | `steam/steam_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `stepmania/stepmania.sh` | 2025-05-22 18:13:47 +0100 |
 | `stepmania/stepmania_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
