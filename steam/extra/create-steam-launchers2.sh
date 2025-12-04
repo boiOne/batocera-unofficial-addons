@@ -89,7 +89,7 @@ STEAM_LAUNCHER="\${STEAM_DIR}/steam"
 cd "\$STEAM_DIR" || exit 1
 
 # Launch game via Steam
-"\$STEAM_LAUNCHER" fim-exec steam -gamepadui -silent -applaunch "\$APPID" &
+"\$STEAM_LAUNCHER" -gamepadui -silent -applaunch "\$APPID" &
 STEAM_PID=\$!
 
 # Wait for the game process to finish
