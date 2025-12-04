@@ -12,26 +12,10 @@ else
     exit 1
 fi
 
-# Check if fusermount3 exists
-if ! command -v fusermount3 &> /dev/null; then
-
-    # Display a YES/NO dialog
-    dialog --stdout --yesno "BUA needs to be updated to the latest version for this app to run. Do you want to continue?" 10 60
-    response=$?
-    if [ $response -eq 0 ]; then
-    clear
-        echo "Updating BUA..."
-        curl -L bit.ly/BUAinstaller | bash
-    else
-        echo "Update declined. Exiting."
-        exit 1
-    fi
-fi
-
-# Step 2: Download Steam Parts
-echo "Downloading Steam parts..."
+# Step 2: Download Steam
+echo "Downloading Steam..."
 mkdir -p /userdata/system/add-ons/steam
-wget -q -c --show-progress -O /userdata/system/add-ons/steam/steam_part_aa "$appimage_url/steam.AppImage"
+wget -q -c --show-progress -O /userdata/system/add-ons/steam/steam "$appimage_url/steam.AppImage"
 
 if [ $? -ne 0 ]; then
     echo "Failed to download Steam."
@@ -52,11 +36,13 @@ INSTALL_DIR="/userdata/system/add-ons/steam"
 
 echo "Downloading Steam helper scripts..."
 SCRIPTS_BASE_URL="https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/steam/extra"
-wget --show-progress -qO "/userdata/system/add-ons/steam/Launcher" "${SCRIPTS_BASE_URL}/Launcher2"
-wget --show-progress -qO "/userdata/system/add-ons/steam/create-steam-launchers.sh" "${SCRIPTS_BASE_URL}/create-steam-launchers2.sh"
+wget --show-progress -qO "/userdata/system/add-ons/steam/Launcher" "${SCRIPTS_BASE_URL}/Launcher"
+wget --show-progress -qO "/userdata/system/add-ons/steam/create-steam-launchers.sh" "${SCRIPTS_BASE_URL}/create-steam-launchers.sh"
+wget --show-progress -qO "/userdata/system/add-ons/steam/lbfix.sh" "${SCRITPS_BASE_URL}/lbfix.sh"
 
 chmod +x /userdata/system/add-ons/steam/Launcher
 chmod +x /userdata/system/add-ons/steam/create-steam-launchers.sh
+chmod +x /userdata/system/add-ons/steam/lbfix.sh
 
 echo "Downloading EmulationStation config..."
 mkdir -p /userdata/system/configs/emulationstation
@@ -128,12 +114,12 @@ echo "Downloading key mapping file..."
 curl -L -o "/userdata/roms/steam/Steam_Big_Picture.sh.keys" "$KEYS_URL"
 # Download the image
 echo "Downloading Steam logo..."
-curl -L -o /userdata/roms/steam/images/steamlogo.jpg https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/main/steam/extra/logo.jpg
+curl -L -o /userdata/roms/steam/images/steamlogo.jpg https://www.pcworld.com/wp-content/uploads/2025/09/Steam-logo-over-a-blurred-background-of-Steam-game-library-1.jpg
 
 echo "Adding logo to Steam entry in gamelist.xml..."
 xmlstarlet ed -s "/gameList" -t elem -n "game" -v "" \
   -s "/gameList/game[last()]" -t elem -n "path" -v "./Steam_Big_Picture.sh" \
-  -s "/gameList/game[last()]" -t elem -n "name" -v "Steam" \
+  -s "/gameList/game[last()]" -t elem -n "name" -v "Steam Big Picture" \
   -s "/gameList/game[last()]" -t elem -n "image" -v "./images/steamlogo.jpg" \
   /userdata/roms/ports/gamelist.xml > /userdata/roms/steam/gamelist.xml.tmp && mv /userdata/roms/steam/gamelist.xml.tmp /userdata/roms/steam/gamelist.xml
 
