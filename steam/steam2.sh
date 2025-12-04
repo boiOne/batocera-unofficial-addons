@@ -36,8 +36,8 @@ INSTALL_DIR="/userdata/system/add-ons/steam"
 
 echo "Downloading Steam helper scripts..."
 SCRIPTS_BASE_URL="https://raw.githubusercontent.com/batocera-unofficial-addons/batocera-unofficial-addons/main/steam/extra"
-wget --show-progress -qO "/userdata/system/add-ons/steam/Launcher" "${SCRIPTS_BASE_URL}/Launcher"
-wget --show-progress -qO "/userdata/system/add-ons/steam/create-steam-launchers.sh" "${SCRIPTS_BASE_URL}/create-steam-launchers.sh"
+wget --show-progress -qO "/userdata/system/add-ons/steam/Launcher" "${SCRIPTS_BASE_URL}/Launcher2"
+wget --show-progress -qO "/userdata/system/add-ons/steam/create-steam-launchers.sh" "${SCRIPTS_BASE_URL}/create-steam-launchers2.sh"
 wget --show-progress -qO "/userdata/system/add-ons/steam/lbfix.sh" "${SCRITPS_BASE_URL}/lbfix.sh"
 
 chmod +x /userdata/system/add-ons/steam/Launcher
