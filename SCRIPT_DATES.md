@@ -27,7 +27,7 @@
 | `app/batocera-unofficial-addons-arm64.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/batocera-unofficial-addons.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/bua_installerarm64.py` | 2025-12-03 01:10:36 +0000 |
-| `app/bua_installerx86.py` | 2025-12-03 01:10:36 +0000 |
+| `app/bua_installerx86.py` | 2025-12-04 05:15:14 +0000 |
 | `app/dep.sh` | 2025-05-22 17:16:35 +0100 |
 | `app/dep_arm64.sh` | 2025-05-22 17:16:49 +0100 |
 | `app/install.sh` | 2025-05-22 17:17:07 +0100 |
@@ -212,8 +212,10 @@
 | `spotify/spotify.sh` | 2025-05-22 18:13:05 +0100 |
 | `spotify/spotify_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `steam/extra/create-steam-launchers.sh` | 2025-11-21 00:52:13 +0000 |
+| `steam/extra/create-steam-launchers2.sh` | 2025-12-04 05:45:10 +0000 |
+| `steam/extra/lbfix.sh` | 2025-12-04 04:48:18 +0000 |
 | `steam/steam.sh` | 2025-11-21 01:31:43 +0000 |
-| `steam/steam2.sh` | 2025-12-04 02:57:03 +0000 |
+| `steam/steam2.sh` | 2025-12-05 00:02:06 +0000 |
 | `steam/steam_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `stepmania/stepmania.sh` | 2025-05-22 18:13:47 +0100 |
 | `stepmania/stepmania_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
