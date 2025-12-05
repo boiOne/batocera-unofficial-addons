@@ -17,6 +17,33 @@ echo "Downloading Steam..."
 
 mkdir -p /userdata/system/add-ons/steam
 
+########################################
+# Overlay migration from .steam.config #
+########################################
+SRC="/userdata/system/add-ons/steam/.steam.config/overlays/upperdir/home/steam"
+DEST="/userdata/system/add-ons/steam"
+CONFIG_DIR="/userdata/system/add-ons/steam/.steam.config"
+
+# Check if overlay directory exists
+if [ -d "$SRC" ]; then
+    echo "Steam overlay detected — migrating data from .steam.config..."
+
+    # Copy files into main Steam directory (preserve attributes)
+    cp -a "$SRC"/. "$DEST"/
+
+    # If copy is successful, delete .steam.config
+    if [ $? -eq 0 ]; then
+        echo "Copy complete — removing .steam.config..."
+        rm -rf "$CONFIG_DIR"
+        echo "Overlay migration cleanup complete."
+    else
+        echo "Copy failed — .steam.config preserved!"
+    fi
+else
+    echo "No Steam overlay present, skipping migration."
+fi
+########################################
+
 steam_file="/userdata/system/add-ons/steam/steam"
 size_limit=1000000000   # 1GB (adjust as needed)
 
@@ -28,7 +55,6 @@ fi
 
 # Resume or redownload
 wget -q -c --show-progress -O "$steam_file" "$appimage_url/steam.AppImage"
-
 
 if [ $? -ne 0 ]; then
     echo "Failed to download Steam."
@@ -101,7 +127,7 @@ chmod +x "/userdata/system/configs/steam/restore_desktop_entry.sh"
 
 # Add to startup script
 custom_startup="/userdata/system/custom.sh"
-if ! grep -q "/userdata/system/configs/steam/restore_desktop_entry.sh" "$custom_startup"; then
+if ! grep -q "/userdata/system/configs/steam/restore_desktop_entry.sh" "$custom_startup" 2>/dev/null; then
     echo "Adding Steam restore script to startup..."
     echo "bash \"/userdata/system/configs/steam/restore_desktop_entry.sh\" &" >> "$custom_startup"
 fi
