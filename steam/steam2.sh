@@ -14,8 +14,21 @@ fi
 
 # Step 2: Download Steam
 echo "Downloading Steam..."
+
 mkdir -p /userdata/system/add-ons/steam
-wget -q -c --show-progress -O /userdata/system/add-ons/steam/steam "$appimage_url/steam.AppImage"
+
+steam_file="/userdata/system/add-ons/steam/steam"
+size_limit=1000000000   # 1GB (adjust as needed)
+
+# Remove only if file exists AND is larger than limit
+if [ -f "$steam_file" ] && [ "$(stat -c '%s' "$steam_file")" -gt "$size_limit" ]; then
+    echo "Existing file too large — deleting"
+    rm -f "$steam_file"
+fi
+
+# Resume or redownload
+wget -q -c --show-progress -O "$steam_file" "$appimage_url/steam.AppImage"
+
 
 if [ $? -ne 0 ]; then
     echo "Failed to download Steam."
