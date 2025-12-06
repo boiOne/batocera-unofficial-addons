@@ -215,7 +215,7 @@
 | `steam/extra/create-steam-launchers2.sh` | 2025-12-04 05:45:10 +0000 |
 | `steam/extra/lbfix.sh` | 2025-12-04 04:48:18 +0000 |
 | `steam/steam.sh` | 2025-11-21 01:31:43 +0000 |
-| `steam/steam2.sh` | 2025-12-05 00:02:06 +0000 |
+| `steam/steam2.sh` | 2025-12-05 05:11:34 +0000 |
 | `steam/steam_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `stepmania/stepmania.sh` | 2025-05-22 18:13:47 +0100 |
 | `stepmania/stepmania_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
