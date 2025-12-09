@@ -19,8 +19,7 @@ echo "== Removing old extracted directory =="
 rm -rf "$EXTRACT_DIR"
 
 echo "== Extracting archive =="
-mkdir -p "$EXTRACT_DIR"
-tar -xzf "$TAR_PATH" -C "$EXTRACT_DIR"
+tar -xzf "$TAR_PATH" -C "$DEST_DIR"
 
 INSTALL_SCRIPT="${EXTRACT_DIR}/install_gamescope_v42.sh"
 UNINSTALL_SCRIPT="${EXTRACT_DIR}/uninstall_gamescope_v42.sh"
