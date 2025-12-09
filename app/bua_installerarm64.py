@@ -749,6 +749,47 @@ def get_visible_items(list_h: int, item_h: int) -> int:
     except Exception:
         return max(1, list_h // item_h)
 
+def _touch_positions(events) -> List[Tuple[int, int]]:
+    """Extract touch/mouse click positions in pixel coords from pygame events."""
+    positions: List[Tuple[int, int]] = []
+    for e in events:
+        try:
+            if e.type == pygame.MOUSEBUTTONDOWN and getattr(e, "button", None) == 1:
+                if hasattr(e, "pos"):
+                    positions.append(e.pos)  # type: ignore[arg-type]
+            elif hasattr(pygame, "FINGERDOWN") and e.type == pygame.FINGERDOWN:  # type: ignore[attr-defined]
+                positions.append((int(e.x * W), int(e.y * H)))
+        except Exception:
+            continue
+    return positions
+
+def reset_touch_targets(obj):
+    """Clear touch targets on a screen object."""
+    setattr(obj, "_touch_targets", [])
+
+def register_touch_target(obj, rect: pygame.Rect, callback):
+    """Register a clickable/touchable rect for the given object."""
+    targets = getattr(obj, "_touch_targets", None)
+    if not isinstance(targets, list):
+        targets = []
+        setattr(obj, "_touch_targets", targets)
+    targets.append((rect, callback))
+
+def dispatch_touch_targets(obj, events) -> bool:
+    """Handle touch/mouse presses against registered targets. Returns True if consumed."""
+    targets = getattr(obj, "_touch_targets", [])
+    if not targets:
+        return False
+    for pos in _touch_positions(events):
+        for rect, cb in list(targets):
+            if rect.collidepoint(pos):
+                try:
+                    cb()
+                except Exception as e:
+                    print(f"[BUA] Touch callback error: {e}")
+                return True
+    return False
+
 def should_show_changelog() -> bool:
     """Check if changelog should be shown (has content and hasn't been shown for this version)."""
     if not CHANGELOG or not CHANGELOG.strip():
@@ -2028,6 +2069,9 @@ class MenuScreen(BaseScreen):
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.items)
 
+        if dispatch_touch_targets(self, events):
+            return
+
         for e in events:
             if e.type == pygame.QUIT:
                 clean_exit(0)
@@ -2108,6 +2152,7 @@ class MenuScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         header_y = S(18)
         header_h = 0
         try:
@@ -2205,6 +2250,14 @@ class MenuScreen(BaseScreen):
                 draw_text(screen, ln, FONT_SMALL, MUTED, (desc_x, rect.y + S(34) + li*S(18)))
             
             # per-card hint removed (now shown in top bar)
+            register_touch_target(self, rect, lambda idx=actual_idx: self._on_touch_item(idx))
+
+    def _on_touch_item(self, idx: int):
+        # First tap selects, second tap activates
+        if idx == self.idx:
+            self.activate()
+        else:
+            self.idx = idx
 
 
 class ConfirmDialog(BaseScreen):
@@ -2220,6 +2273,9 @@ class ConfirmDialog(BaseScreen):
         _analog_v, analog_h = process_analog_navigation(events)
         if analog_h != 0:  # Left or Right
             self.selected = 1 - self.selected
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -2252,6 +2308,7 @@ class ConfirmDialog(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         
         # Semi-transparent overlay
         overlay = pygame.Surface((W, H))
@@ -2300,6 +2357,15 @@ class ConfirmDialog(BaseScreen):
             pygame.draw.rect(screen, FG, no_rect, width=3, border_radius=8)
         draw_text(screen, t("no"), FONT, FG, (no_x + 55, button_y + 10))
 
+        register_touch_target(self, yes_rect, lambda: self._on_touch_button(0))
+        register_touch_target(self, no_rect, lambda: self._on_touch_button(1))
+
+    def _on_touch_button(self, idx: int):
+        if idx != self.selected:
+            self.selected = idx
+            return
+        self.activate()
+
 
 class InfoDialog(BaseScreen):
     def __init__(self, title: str, message: List[str], on_close=None):
@@ -2308,6 +2374,8 @@ class InfoDialog(BaseScreen):
         self.on_close = on_close
 
     def handle(self, events):
+        if dispatch_touch_targets(self, events):
+            return
         for e in events:
             if e.type == pygame.QUIT:
                 clean_exit(0)
@@ -2328,8 +2396,17 @@ class InfoDialog(BaseScreen):
                             pass
                     pop_screen()
 
+    def close(self):
+        if self.on_close:
+            try:
+                self.on_close()
+            except Exception:
+                pass
+        pop_screen()
+
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
 
         overlay = pygame.Surface((W, H))
         overlay.set_alpha(180)
@@ -2368,6 +2445,8 @@ class InfoDialog(BaseScreen):
         pygame.draw.rect(screen, ACCENT, btn_rect, border_radius=8)
         draw_text(screen, t("ok"), FONT, FG, (btn_rect.x + (btn_w - FONT.size(t("ok"))[0])//2, btn_rect.y + S(10)))
 
+        register_touch_target(self, btn_rect, self.close)
+
 
 class ChangelogDialog(BaseScreen):
     """Display changelog on first run when content exists"""
@@ -2375,20 +2454,25 @@ class ChangelogDialog(BaseScreen):
         pass
 
     def handle(self, events):
+        if dispatch_touch_targets(self, events):
+            return
         for e in events:
             if e.type == pygame.QUIT:
                 clean_exit(0)
             if e.type == pygame.KEYDOWN:
                 if e.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_KP_ENTER):
-                    mark_changelog_shown()
-                    pop_screen()
+                    self.close()
             if e.type == pygame.JOYBUTTONDOWN:
                 if e.button in (BTN_A, BTN_B, BTN_BACK, BTN_START):
-                    mark_changelog_shown()
-                    pop_screen()
+                    self.close()
+
+    def close(self):
+        mark_changelog_shown()
+        pop_screen()
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
 
         overlay = pygame.Surface((W, H))
         overlay.set_alpha(180)
@@ -2429,6 +2513,8 @@ class ChangelogDialog(BaseScreen):
         pygame.draw.rect(screen, ACCENT, btn_rect, border_radius=8)
         btn_text = t("ok")
         draw_text(screen, btn_text, FONT, FG, (btn_rect.x + (btn_w - FONT.size(btn_text)[0])//2, btn_rect.y + S(10)))
+
+        register_touch_target(self, btn_rect, self.close)
 
 
 class InteractiveDialog(BaseScreen):
@@ -2636,6 +2722,7 @@ class InteractiveDialog(BaseScreen):
                 text_x = checkbox_x + checkbox_size + S(15)
 
             draw_text(screen, label, FONT, FG, (text_x, opt_rect.y + S(12)))
+            register_touch_target(self, opt_rect, lambda idx=i: self._on_touch_item(idx))
 
         # Draw scroll indicators if needed
         if len(self.options) > visible_items:
@@ -2657,6 +2744,12 @@ class InteractiveDialog(BaseScreen):
                     (dialog_x + dialog_w // 2 + S(10), arrow_down_y)
                 ])
 
+    def _on_touch_item(self, idx: int):
+        if idx != self.idx:
+            self.idx = idx
+            return
+        self.select()
+
 
 class MenuSelectionDialog(BaseScreen):
     def __init__(self, title: str, options: List[Tuple[str, str]], callback):
@@ -2677,6 +2770,9 @@ class MenuSelectionDialog(BaseScreen):
             self.idx = (self.idx + 1) % len(self.options)
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.options)
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -2794,6 +2890,9 @@ class ChecklistScreen(BaseScreen):
             self.idx = (self.idx + 1) % len(self.items)
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.items)
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -2959,6 +3058,7 @@ class ChecklistScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         draw_text(screen, f"{self.category}", FONT_BIG, FG, (40, 30))
 
         # Show queue count and installation stats
@@ -3023,8 +3123,22 @@ class ChecklistScreen(BaseScreen):
             desc = DESCRIPTIONS.get(key, "")
             if desc:
                 draw_text(screen, desc, FONT_SMALL, MUTED, (name_x, rect.y + S(30)))
+            register_touch_target(self, rect, lambda idx=actual_idx: self._on_touch_item(idx))
         
         # no search keyboard on category screens
+
+    def _on_touch_item(self, idx: int):
+        current_time = pygame.time.get_ticks() / 1000.0
+        if idx != self.idx:
+            self.idx = idx
+            return
+        if current_time - self.last_action_time > self.action_cooldown:
+            key = self.items[self.idx]
+            if key == "Custom Wine":
+                push_screen(RunListScreen([(key, APPS[key])], title=key))
+            else:
+                SELECTED_APPS[key] = not SELECTED_APPS[key]
+            self.last_action_time = current_time
 
 
 class GlobalSearchScreen(BaseScreen):
@@ -3078,6 +3192,9 @@ class GlobalSearchScreen(BaseScreen):
             self.idx = (self.idx + 1) % len(self.flat)
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.flat)
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -3167,6 +3284,7 @@ class GlobalSearchScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         title = f"{t('search_results')}: '{self.query}'"
         draw_text(screen, title, FONT_BIG, FG, (40, 30))
 
@@ -3208,6 +3326,7 @@ class GlobalSearchScreen(BaseScreen):
                 # ASCII indicators for collapsed/expanded
                 prefix = ">" if cat in self.collapsed else "v"
                 draw_text(screen, f"{prefix} {cat} [{count}]", FONT, FG, (rect.x + S(12), rect.y + S(8)))
+                register_touch_target(self, rect, lambda idx=actual_idx: self._on_touch_item(idx))
                 continue
 
             # app row
@@ -3236,6 +3355,21 @@ class GlobalSearchScreen(BaseScreen):
             desc = DESCRIPTIONS.get(key, "")
             if desc:
                 draw_text(screen, desc, FONT_SMALL, MUTED, (name_x, rect.y + S(30)))
+            register_touch_target(self, rect, lambda idx=actual_idx: self._on_touch_item(idx))
+
+    def _on_touch_item(self, idx: int):
+        if idx >= len(self.flat):
+            return
+        item = self.flat[idx]
+        if idx != self.idx:
+            self.idx = idx
+            return
+        if item[0] == "header":
+            self.toggle_header()
+        elif item[0] == "app":
+            key = item[1]
+            SELECTED_APPS[key] = not SELECTED_APPS.get(key, False)
+            self.queue_message = ""
 
 
 class NoResultsScreen(BaseScreen):
@@ -3271,6 +3405,9 @@ class QueueScreen(BaseScreen):
             self.idx = (self.idx + 1) % (len(INSTALL_QUEUE) + 1)
         elif analog_v == -1 and INSTALL_QUEUE:  # Up
             self.idx = (self.idx - 1) % (len(INSTALL_QUEUE) + 1)
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -3344,6 +3481,7 @@ class QueueScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         draw_text(screen, t("installation_queue"), FONT_BIG, FG, (40, 30))
 
         if not INSTALL_QUEUE:
@@ -3383,6 +3521,7 @@ class QueueScreen(BaseScreen):
                     if r_index == self.idx:
                         pygame.draw.rect(screen, SELECT, rect, width=3, border_radius=10)
                     draw_text(screen, f"{r_index + 1}. {name}", FONT, FG, (rect.x + 16, rect.y + 12))
+                    register_touch_target(self, rect, lambda idx=r_index: self._on_touch_item(idx))
                 else:
                     # Start row
                     start_rect = pygame.Rect(40, y, W - 80, 55)
@@ -3390,6 +3529,19 @@ class QueueScreen(BaseScreen):
                     if self.idx == len(INSTALL_QUEUE):
                         pygame.draw.rect(screen, SELECT, start_rect, width=3, border_radius=10)
                     draw_text(screen, f">>> {t('start_install')} ({len(INSTALL_QUEUE)} {t('items_lowercase')}) <<<", FONT, FG, (start_rect.x + 16, start_rect.y + 15))
+                    register_touch_target(self, start_rect, lambda idx=r_index: self._on_touch_item(idx))
+
+    def _on_touch_item(self, idx: int):
+        if idx != self.idx:
+            self.idx = idx
+            return
+        if idx == len(INSTALL_QUEUE):
+            if INSTALL_QUEUE:
+                self.start_install()
+        elif 0 <= idx < len(INSTALL_QUEUE):
+            INSTALL_QUEUE.pop(idx)
+            if self.idx >= len(INSTALL_QUEUE) and self.idx > 0:
+                self.idx -= 1
     def move_item(self, delta: int):
         # Move the currently selected queue item up/down
         if 0 <= self.idx < len(INSTALL_QUEUE):
@@ -4085,6 +4237,9 @@ class UpdaterScreen(BaseScreen):
             elif analog_v == -1:  # Up
                 self.idx = max(self.idx - 1, 0)
 
+        if dispatch_touch_targets(self, events):
+            return
+
         for e in events:
             if e.type == pygame.QUIT:
                 clean_exit(0)
@@ -4186,6 +4341,7 @@ class UpdaterScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         draw_text(screen, t("updater_title"), FONT_BIG, FG, (40, 30))
         current_needs = False
         if not self.loading and self.items:
@@ -4248,6 +4404,17 @@ class UpdaterScreen(BaseScreen):
                 color = ACCENT if needs else MUTED
                 suffix = f" — {detail}" if detail else ""
                 draw_text(screen, status + suffix, FONT_SMALL, color, (name_x, rect.y + 30))
+            register_touch_target(self, rect, lambda idx=actual: self._on_touch_item(idx))
+
+    def _on_touch_item(self, idx: int):
+        if idx != self.idx:
+            self.idx = idx
+            return
+        if self.loading or not self.items or idx >= len(self.items):
+            return
+        app, _status, needs, _detail = self.items[idx]
+        if needs:
+            self.selected[app] = not self.selected.get(app, False)
 
 
 class OnScreenKeyboard:
@@ -4313,6 +4480,56 @@ class OnScreenKeyboard:
                     return self.select_key()
                 if e.button in (BTN_B, BTN_BACK):  # B/Back -> exit keyboard
                     return "EXIT"
+        for pos in _touch_positions(events):
+            key = self._key_at(pos)
+            if key is not None:
+                return key
+        return None
+
+    def _key_width(self, key: str) -> int:
+        return self.key_width * 2 if key in ("SPACE", "BACKSPACE", "ENTER", "EXIT") else self.key_width
+
+    def _layout_info(self):
+        padding = S(40)
+        total_rows = len(self.keys)
+        row_widths = []
+        for row in self.keys:
+            cols = row.split()
+            w = sum(self._key_width(k) for k in cols) + max(0, len(cols) - 1) * self.margin
+            row_widths.append(w)
+        keys_block_width = max(row_widths) if row_widths else 0
+        keys_height = total_rows * self.key_height + max(0, total_rows - 1) * self.margin
+        # Include input field and spacing inside the box height
+        input_h = S(50)
+        input_spacing = S(20)
+        box_width = keys_block_width + 2 * padding
+        box_height = input_h + input_spacing + keys_height + 2 * padding
+        box_x = (W - box_width) // 2
+        box_y = (H - box_height) // 2
+        start_x = box_x + padding
+        start_y = box_y + padding + input_h + input_spacing
+        return padding, row_widths, keys_block_width, box_width, box_height, box_x, box_y, start_x, start_y, input_h
+
+    def _key_at(self, pos: Tuple[int, int]) -> str | None:
+        """Return key label if touch/click hits a key, otherwise None."""
+        padding, row_widths, keys_block_width, box_w, box_h, box_x, box_y, start_x, start_y, _input_h = self._layout_info()
+        # Quick reject if outside keyboard box
+        if not pygame.Rect(box_x, box_y, box_w, box_h).collidepoint(pos):
+            return None
+        if not row_widths:
+            return None
+        y = start_y
+        for row_idx, row in enumerate(self.keys):
+            cx = start_x + (keys_block_width - row_widths[row_idx]) // 2
+            for col_idx, key in enumerate(row.split()):
+                w = self._key_width(key)
+                rect = pygame.Rect(cx, y, w, self.key_height)
+                if rect.collidepoint(*pos):
+                    self.selected_row = row_idx
+                    self.selected_col = col_idx
+                    return self.select_key()
+                cx += w + self.margin
+            y += self.key_height + self.margin
         return None
 
     def select_key(self):
@@ -4336,33 +4553,9 @@ class OnScreenKeyboard:
         overlay.fill(BG)
         surf.blit(overlay, (0, 0))
 
-        # Compute dynamic box size to fully cover keys (with variable widths)
-        padding = S(40)
-        total_rows = len(self.keys)
+        padding, row_widths, keys_block_width, box_width, box_height, box_x, box_y, start_x_base, start_y, input_h = self._layout_info()
 
-        def key_w(k: str) -> int:
-            # Uniform sizing: all letters use key_width;
-            # SPACE, BACKSPACE, ENTER, EXIT use the same wider width
-            if k in ("SPACE", "BACKSPACE", "ENTER", "EXIT"):
-                return self.key_width * 2
-            return self.key_width
-
-        # Width of each row using variable key widths
-        row_widths = []
-        for row in self.keys:
-            cols = row.split()
-            w = sum(key_w(k) for k in cols) + max(0, len(cols) - 1) * self.margin
-            row_widths.append(w)
-        keys_block_width = max(row_widths) if row_widths else 0
-        keys_height = total_rows * self.key_height + max(0, total_rows - 1) * self.margin
-
-        # Include input field and spacing inside the box height
-        input_h = S(50)
-        input_spacing = S(20)
-        box_width = keys_block_width + 2 * padding
-        box_height = input_h + input_spacing + keys_height + 2 * padding
-        box_x = (W - box_width) // 2
-        box_y = (H - box_height) // 2
+        # Draw keyboard background box
         pygame.draw.rect(surf, CARD, (box_x, box_y, box_width, box_height), border_radius=15)
         pygame.draw.rect(surf, ACCENT, (box_x, box_y, box_width, box_height), width=3, border_radius=15)
 
@@ -4373,42 +4566,21 @@ class OnScreenKeyboard:
         draw_text(surf, f"{t('search')}: {current_text}_", FONT, FG, (input_rect.x + S(12), input_rect.y + S(10)))
 
         # Draw keys centered per row inside box
-        x_start = box_x + padding
-        y_start = input_rect.bottom + input_spacing
         for row_idx, row in enumerate(self.keys):
-            cols = row.split()
-            row_width = sum(key_w(k) for k in cols) + max(0, len(cols) - 1) * self.margin
-            row_x_offset = (keys_block_width - row_width) // 2
-            cx = x_start + row_x_offset
-            for col_idx, key in enumerate(cols):
-                w = key_w(key)
-                rect = pygame.Rect(
-                    cx,
-                    y_start + row_idx * (self.key_height + self.margin),
-                    w,
-                    self.key_height,
-                )
-                # Draw key background
+            y = start_y + row_idx * (self.key_height + self.margin)
+            row_width = row_widths[row_idx]
+            cx = start_x_base + (keys_block_width - row_width) // 2
+            for col_idx, key in enumerate(row.split()):
+                w = self._key_width(key)
+                rect = pygame.Rect(cx, y, w, self.key_height)
                 pygame.draw.rect(surf, CARD, rect, border_radius=8)
-                # Draw selection border if selected
                 if row_idx == self.selected_row and col_idx == self.selected_col:
                     pygame.draw.rect(surf, SELECT, rect, width=3, border_radius=8)
-                # Center the key label
                 label = FONT.render(key, True, FG)
                 lx = rect.x + (rect.w - label.get_width()) // 2
                 ly = rect.y + (rect.h - label.get_height()) // 2
                 surf.blit(label, (lx, ly))
                 cx += w + self.margin
-
-
-# ------------------------------
-# Screen stack helpers and queue
-# ------------------------------
-
-SCREENS: List[BaseScreen] = []
-INSTALL_QUEUE: List[Tuple[str, str]] = []  # Global queue for installs
-SELECTED_APPS: Dict[str, bool] = {}  # Global selections that persist across category navigation
-
 class SettingsScreen(BaseScreen):
     def __init__(self):
         self.items = [
@@ -4426,6 +4598,9 @@ class SettingsScreen(BaseScreen):
             self.idx = (self.idx + 1) % len(self.items)
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.items)
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -4466,6 +4641,7 @@ class SettingsScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         draw_text(screen, t("settings_title"), FONT_BIG, FG, (40, 30))
         hint = f"A={t('hint_open')} | B={t('hint_return')} | Back={t('hint_close_settings')}"
         draw_hints_line(screen, hint, FONT_SMALL, ACCENT, (40, 70))
@@ -4492,6 +4668,13 @@ class SettingsScreen(BaseScreen):
                 dy = ny + name_img.get_height() + gap
                 screen.blit(desc_img, (nx, dy))
             y += rect_h + spacing
+            register_touch_target(self, rect, lambda idx=i: self._on_touch_item(idx))
+
+    def _on_touch_item(self, idx: int):
+        if idx != self.idx:
+            self.idx = idx
+            return
+        self.activate()
 
 
 class ControllerLayoutScreen(BaseScreen):
@@ -4513,6 +4696,9 @@ class ControllerLayoutScreen(BaseScreen):
             self.idx = (self.idx + 1) % len(self.options)
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.options)
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -4546,6 +4732,7 @@ class ControllerLayoutScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         title = t("controller_layout_title")
         draw_text(screen, title, FONT_BIG, FG, (40, 30))
         hint = f"A={t('hint_select')} | B={t('hint_return')} | Back={t('hint_back_settings')}"
@@ -4563,6 +4750,13 @@ class ControllerLayoutScreen(BaseScreen):
             if i == self.idx:
                 pygame.draw.rect(screen, SELECT, rect, width=3, border_radius=10)
             draw_text(screen, label, FONT, FG, (rect.x + 14, rect.y + 8))
+            register_touch_target(self, rect, lambda idx=i: self._on_touch_item(idx))
+
+    def _on_touch_item(self, idx: int):
+        if idx != self.idx:
+            self.idx = idx
+            return
+        self.apply_choice()
 
 
 class LanguageScreen(BaseScreen):
@@ -4581,6 +4775,9 @@ class LanguageScreen(BaseScreen):
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.options)
             self.adjust_scroll()
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -4657,6 +4854,7 @@ class LanguageScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         draw_text(screen, t("language"), FONT_BIG, FG, (40, 30))
         hint = f"A={t('hint_select')} | B={t('hint_return')} | Back={t('hint_back_settings')}"
         draw_hints_line(screen, hint, FONT_SMALL, ACCENT, (40, 70))
@@ -4694,6 +4892,14 @@ class LanguageScreen(BaseScreen):
             display_text = native
             text_surf = FONT.render(display_text, True, FG)
             screen.blit(text_surf, (rect.x + 14, rect.y + 8))
+            register_touch_target(self, rect, lambda idx=i: self._on_touch_item(idx))
+
+    def _on_touch_item(self, idx: int):
+        if idx != self.idx:
+            self.idx = idx
+            self.adjust_scroll()
+            return
+        self.apply_choice()
 
 
 class CardsPerPageScreen(BaseScreen):
@@ -4725,6 +4931,9 @@ class CardsPerPageScreen(BaseScreen):
             self.idx = (self.idx + 1) % len(self.options)
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.options)
+
+        if dispatch_touch_targets(self, events):
+            return
 
         for e in events:
             if e.type == pygame.QUIT:
@@ -4758,6 +4967,7 @@ class CardsPerPageScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         draw_text(screen, t("cards_per_page"), FONT_BIG, FG, (40, 30))
         hint = f"A={t('hint_select')} | B={t('hint_return')} | Back={t('hint_close_settings')}"
         draw_hints_line(screen, hint, FONT_SMALL, ACCENT, (40, 70))
@@ -4817,7 +5027,13 @@ class CardsPerPageScreen(BaseScreen):
                 screen.blit(check_img, (check_x, text_y))
 
             y += item_height
+            register_touch_target(self, rect, lambda idx=i: self._on_touch_item(idx))
 
+    def _on_touch_item(self, idx: int):
+        if idx != self.idx:
+            self.idx = idx
+            return
+        self.apply_choice()
 
 class ResolutionScreen(BaseScreen):
     def __init__(self):
@@ -4860,6 +5076,9 @@ class ResolutionScreen(BaseScreen):
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.options)
 
+        if dispatch_touch_targets(self, events):
+            return
+
         for e in events:
             if e.type == pygame.QUIT:
                 clean_exit(0)
@@ -4896,6 +5115,7 @@ class ResolutionScreen(BaseScreen):
 
     def draw(self):
         draw_background(screen)
+        reset_touch_targets(self)
         draw_text(screen, t("resolution"), FONT_BIG, FG, (40, 30))
         hint = f"A={t('hint_select')} | B={t('hint_return')} | Back={t('hint_close_settings')}"
         draw_hints_line(screen, hint, FONT_SMALL, ACCENT, (40, 70))
@@ -4931,7 +5151,7 @@ class ResolutionScreen(BaseScreen):
         max_scroll = max(0, len(self.options) - visible_items)
         self.scroll_offset = max(0, min(self.scroll_offset, max_scroll))
 
-        # Draw resolution options (only visible ones)
+            # Draw resolution options (only visible ones)
         for i in range(self.scroll_offset, min(len(self.options), self.scroll_offset + visible_items)):
             label, _w, _h = self.options[i]
             display_index = i - self.scroll_offset
@@ -4953,6 +5173,13 @@ class ResolutionScreen(BaseScreen):
             # Show resolution label
             text_surf = FONT.render(label, True, FG)
             screen.blit(text_surf, (rect.x + 14, rect.y + 8))
+            register_touch_target(self, rect, lambda idx=i: self._on_touch_item(idx))
+
+    def _on_touch_item(self, idx: int):
+        if idx != self.idx:
+            self.idx = idx
+            return
+        self.apply_choice()
 
 
 def push_screen(s: BaseScreen):
