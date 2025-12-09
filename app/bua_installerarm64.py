@@ -1454,6 +1454,7 @@ last_analog_vertical_state = 0  # -1 (up), 0 (neutral), 1 (down)
 last_analog_horizontal_state = 0  # -1 (left), 0 (neutral), 1 (right)
 last_tap_time = 0.0
 last_tap_pos: Tuple[int, int] | None = None
+last_tap_src: str | None = None  # 'mouse' or 'touch'
 
 
 def detect_pad_style() -> str:
@@ -1567,25 +1568,31 @@ def process_analog_navigation(events) -> tuple:
 def check_double_tap_back(events) -> bool:
     """Return True if two taps occurred quickly in nearly the same spot."""
     try:
-        global last_tap_time, last_tap_pos
+        global last_tap_time, last_tap_pos, last_tap_src
         now = pygame.time.get_ticks() / 1000.0
         for e in events:
             pos = None
+            src = None
             if e.type == pygame.MOUSEBUTTONDOWN and getattr(e, "button", None) == 1:
                 pos = getattr(e, "pos", None)
+                src = "mouse"
             elif hasattr(pygame, "FINGERDOWN") and e.type == pygame.FINGERDOWN:  # type: ignore[attr-defined]
                 pos = (int(e.x * W), int(e.y * H))
+                src = "touch"
             if pos:
                 dt = now - last_tap_time
-                if last_tap_pos and dt <= 0.35:
+                # Require two distinct taps: same source, within 0.08..0.4s, and near each other
+                if last_tap_pos and last_tap_src == src and 0.08 <= dt <= 0.4:
                     dx = pos[0] - last_tap_pos[0]
                     dy = pos[1] - last_tap_pos[1]
                     if dx*dx + dy*dy <= (40 * 40):
                         last_tap_time = 0.0
                         last_tap_pos = None
+                        last_tap_src = None
                         return True
                 last_tap_time = now
                 last_tap_pos = pos
+                last_tap_src = src
     except Exception as e:
         print(f"[BUA] Double-tap check error: {e}")
     return False
