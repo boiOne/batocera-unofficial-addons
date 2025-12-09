@@ -647,7 +647,7 @@ APPS: Dict[str, str] = {
     "FreeTube": bua("freetube/freetube.sh"),
     "Super Mario X": bua("supermariox/supermariox.sh"),
     "Celeste 64": bua("celeste64/celeste64.sh"),
-    "Steam": bua("steam/steam.sh"),
+    "Steam": bua("steam/steam2.sh"),
     "Lutris": bua("lutris/lutris.sh"),
     "FileZilla": bua("filezilla/filezilla.sh"),
     "PeaZip": bua("peazip/peazip.sh"),
@@ -667,7 +667,6 @@ APPS: Dict[str, str] = {
     "VClean": bua("vclean/vclean.sh"),
     "RGSX": "curl -L bit.ly/rgsx-install | sh",
     "Raspberry Pi Imager": bua("rpi/rpi.sh"),
-    "Steam Test": bua("steam/steam2.sh"),
 }
 
 # --- Integrated Windows Freeware installers (previously separate bash menu) ---
@@ -789,7 +788,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "FreeTube": "Privacy-minded YouTube client",
     "Super Mario X": "Fan-made Super Mario tribute",
     "Celeste 64": "Free 3D platformer (Celeste)",
-    "Steam": "Steam Big Picture / Desktop",
+    "Steam": "NEW BUILD DEC 25 - Steam Big Picture / Desktop",
     "Lutris": "Open source game manager",
     "FileZilla": "Cross-platform FTP client",
     "PeaZip": "Free and open-source file archiver",
@@ -809,7 +808,6 @@ DESCRIPTIONS: Dict[str, str] = {
     "VClean": "Service to clean the Batocera version string (removes extra flags)",
     "RGSX": "Retro Game Sets Xtra. A free, user-friendly ROM downloader for Batocera",
     "Raspberry Pi Imager": "Flash OS images to USB and SD cards.",
-    "Steam Test": "Test build for Steam",
 }
 
 # Descriptions for integrated Windows Freeware entries
