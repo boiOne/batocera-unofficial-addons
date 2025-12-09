@@ -5,7 +5,7 @@
 
 set -e
 
-GAMESCOPE_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/releases/download/AppImages/gamescope.tar.gz"
+GAMESCOPE_URL="https://github.com/batocera-unofficial-addons/batocera-unofficial-addons/raw/refs/heads/main/gamescope/extra/gamescope.tar.gz"
 DEST_DIR="/userdata/system"
 TAR_PATH="${DEST_DIR}/gamescope.tar.gz"
 EXTRACT_DIR="${DEST_DIR}/gamescope"
