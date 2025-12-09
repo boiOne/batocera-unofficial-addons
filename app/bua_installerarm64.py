@@ -4581,6 +4581,22 @@ class OnScreenKeyboard:
                 ly = rect.y + (rect.h - label.get_height()) // 2
                 surf.blit(label, (lx, ly))
                 cx += w + self.margin
+
+# ------------------------------
+# Screen stack helpers and queue
+# ------------------------------
+SCREENS: List[BaseScreen] = []
+INSTALL_QUEUE: List[Tuple[str, str]] = []  # Global queue for installs
+SELECTED_APPS: Dict[str, bool] = {}  # Global selections that persist across category navigation
+
+def push_screen(s: BaseScreen):
+    SCREENS.append(s)
+
+def pop_screen():
+    if SCREENS:
+        SCREENS.pop()
+
+
 class SettingsScreen(BaseScreen):
     def __init__(self):
         self.items = [
