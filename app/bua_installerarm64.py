@@ -1452,6 +1452,8 @@ last_analog_vertical_time = 0.0  # Track timing for vertical stick movement
 last_analog_horizontal_time = 0.0  # Track timing for horizontal stick movement
 last_analog_vertical_state = 0  # -1 (up), 0 (neutral), 1 (down)
 last_analog_horizontal_state = 0  # -1 (left), 0 (neutral), 1 (right)
+last_tap_time = 0.0
+last_tap_pos: Tuple[int, int] | None = None
 
 
 def detect_pad_style() -> str:
@@ -1543,7 +1545,6 @@ def process_analog_navigation(events) -> tuple:
                         vertical = new_state
                         last_analog_vertical_time = current_time
                         last_analog_vertical_state = new_state
-
             elif e.axis == 0:  # Horizontal axis (left stick X)
                 if e.value < -ANALOG_DEADZONE:  # Left
                     new_state = -1
@@ -1561,8 +1562,57 @@ def process_analog_navigation(events) -> tuple:
                         last_analog_horizontal_time = current_time
                         last_analog_horizontal_state = new_state
 
-    return (vertical, horizontal)
+    return vertical, horizontal
 
+def check_double_tap_back(events) -> bool:
+    """Return True if two taps occurred quickly in nearly the same spot."""
+    global last_tap_time, last_tap_pos
+    now = pygame.time.get_ticks() / 1000.0
+    for e in events:
+        pos = None
+        if e.type == pygame.MOUSEBUTTONDOWN and getattr(e, "button", None) == 1:
+            pos = getattr(e, "pos", None)
+        elif hasattr(pygame, "FINGERDOWN") and e.type == pygame.FINGERDOWN:  # type: ignore[attr-defined]
+            pos = (int(e.x * W), int(e.y * H))
+        if pos:
+            dt = now - last_tap_time
+            if last_tap_pos and dt <= 0.35:
+                dx = pos[0] - last_tap_pos[0]
+                dy = pos[1] - last_tap_pos[1]
+                if dx*dx + dy*dy <= (40 * 40):
+                    last_tap_time = 0.0
+                    last_tap_pos = None
+                    return True
+            last_tap_time = now
+            last_tap_pos = pos
+    return False
+
+def process_drag_scroll(events, threshold: int | None = None) -> int:
+    """Return vertical scroll intent from drag/touch/mouse move: -1 up, 1 down, 0 none."""
+    if threshold is None:
+        threshold = S(24)
+    total_dy = 0.0
+    dragging = False
+    for e in events:
+        # Mouse drag
+        if e.type == pygame.MOUSEBUTTONDOWN and getattr(e, "button", None) == 1:
+            dragging = True
+        if e.type == pygame.MOUSEMOTION and getattr(e, "buttons", (0,))[0]:
+            total_dy += e.rel[1]
+            dragging = True
+        # Touch drag
+        if hasattr(pygame, "FINGERDOWN") and e.type == pygame.FINGERDOWN:  # type: ignore[attr-defined]
+            dragging = True
+        if hasattr(pygame, "FINGERMOTION") and e.type == pygame.FINGERMOTION:  # type: ignore[attr-defined]
+            total_dy += e.dy * H
+            dragging = True
+    if not dragging:
+        return 0
+    if total_dy > threshold:
+        return 1
+    if total_dy < -threshold:
+        return -1
+    return 0
 
 def draw_text(surf, text, font, color, pos):
     img = font.render(text, True, color)
@@ -1646,9 +1696,10 @@ def _scale_and_style_icon(icon: pygame.Surface, w: int, h: int) -> pygame.Surfac
     return scaled
 
 
-def draw_hints_line(surf, hint_text: str, font, color, pos):
+def draw_hints_line(surf, hint_text: str, font, color, pos, collect_rects: List[Tuple[str, pygame.Rect]] | None = None):
     """Draw a hint line, replacing A/B/X/Y with icons when available.
     Accepts separators '|' or ',' and segments like 'A=toggle'.
+    If collect_rects is provided, tuples of (key, rect) for each segment are appended (for touch hit-testing).
     """
     x, y = pos
     segments = [s.strip() for s in re.split(r"[|,]", hint_text) if s.strip()]
@@ -1657,9 +1708,12 @@ def draw_hints_line(surf, hint_text: str, font, color, pos):
     icon_label_gap = 8  # px between icon/keycap and label
     segment_gap_extra = 4  # extra px after separator
     for i, seg in enumerate(segments):
+        seg_start_x = x
+        seg_key = None
         if "=" in seg:
             key, label = seg.split("=", 1)
             key = key.strip().upper()
+            seg_key = key
  
             raw_label = label.strip()
  
@@ -1705,6 +1759,8 @@ def draw_hints_line(surf, hint_text: str, font, color, pos):
                         sep_img = font.render(sep_text, True, color)
                         surf.blit(sep_img, (x, y))
                         x += sep_img.get_width() + segment_gap_extra
+                    if collect_rects is not None and seg_key:
+                        collect_rects.append((seg_key, pygame.Rect(seg_start_x, y, x - seg_start_x, font.get_height())))
                     continue
                 # If no kb mapping, fall back to icon/text below
             if icon is not None:
@@ -2067,6 +2123,16 @@ class MenuScreen(BaseScreen):
         if analog_v == 1:  # Down
             self.idx = (self.idx + 1) % len(self.items)
         elif analog_v == -1:  # Up
+            self.idx = (self.idx - 1) % len(self.items)
+        drag = process_drag_scroll(events)
+        if drag == 1 and self.items:
+            self.idx = (self.idx + 1) % len(self.items)
+        elif drag == -1 and self.items:
+            self.idx = (self.idx - 1) % len(self.items)
+        drag = process_drag_scroll(events)
+        if drag == 1 and self.items:
+            self.idx = (self.idx + 1) % len(self.items)
+        elif drag == -1 and self.items:
             self.idx = (self.idx - 1) % len(self.items)
 
         if dispatch_touch_targets(self, events):
@@ -2770,6 +2836,21 @@ class MenuSelectionDialog(BaseScreen):
             self.idx = (self.idx + 1) % len(self.options)
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.options)
+        drag = process_drag_scroll(events)
+        if drag == 1 and self.options:
+            self.idx = (self.idx + 1) % len(self.options)
+        elif drag == -1 and self.options:
+            self.idx = (self.idx - 1) % len(self.options)
+        drag = process_drag_scroll(events)
+        if drag == 1 and self.options:
+            self.idx = (self.idx + 1) % len(self.options)
+        elif drag == -1 and self.options:
+            self.idx = (self.idx - 1) % len(self.options)
+        drag = process_drag_scroll(events)
+        if drag == 1 and self.options:
+            self.idx = (self.idx + 1) % len(self.options)
+        elif drag == -1 and self.options:
+            self.idx = (self.idx - 1) % len(self.options)
 
         if dispatch_touch_targets(self, events):
             return
@@ -3192,6 +3273,11 @@ class GlobalSearchScreen(BaseScreen):
             self.idx = (self.idx + 1) % len(self.flat)
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.flat)
+        drag = process_drag_scroll(events)
+        if drag == 1 and self.flat:
+            self.idx = (self.idx + 1) % len(self.flat)
+        elif drag == -1 and self.flat:
+            self.idx = (self.idx - 1) % len(self.flat)
 
         if dispatch_touch_targets(self, events):
             return
@@ -3404,6 +3490,11 @@ class QueueScreen(BaseScreen):
         if analog_v == 1 and INSTALL_QUEUE:  # Down
             self.idx = (self.idx + 1) % (len(INSTALL_QUEUE) + 1)
         elif analog_v == -1 and INSTALL_QUEUE:  # Up
+            self.idx = (self.idx - 1) % (len(INSTALL_QUEUE) + 1)
+        drag = process_drag_scroll(events)
+        if drag == 1 and INSTALL_QUEUE:
+            self.idx = (self.idx + 1) % (len(INSTALL_QUEUE) + 1)
+        elif drag == -1 and INSTALL_QUEUE:
             self.idx = (self.idx - 1) % (len(INSTALL_QUEUE) + 1)
 
         if dispatch_touch_targets(self, events):
@@ -4236,6 +4327,11 @@ class UpdaterScreen(BaseScreen):
                 self.idx = min(self.idx + 1, len(self.items) - 1)
             elif analog_v == -1:  # Up
                 self.idx = max(self.idx - 1, 0)
+        drag = process_drag_scroll(events)
+        if drag == 1 and not self.loading and self.items:
+            self.idx = min(self.idx + 1, len(self.items) - 1)
+        elif drag == -1 and not self.loading and self.items:
+            self.idx = max(self.idx - 1, 0)
 
         if dispatch_touch_targets(self, events):
             return
@@ -4791,6 +4887,13 @@ class LanguageScreen(BaseScreen):
         elif analog_v == -1:  # Up
             self.idx = (self.idx - 1) % len(self.options)
             self.adjust_scroll()
+        drag = process_drag_scroll(events)
+        if drag == 1 and self.options:
+            self.idx = (self.idx + 1) % len(self.options)
+            self.adjust_scroll()
+        elif drag == -1 and self.options:
+            self.idx = (self.idx - 1) % len(self.options)
+            self.adjust_scroll()
 
         if dispatch_touch_targets(self, events):
             return
@@ -5224,6 +5327,12 @@ def main():
 
     while True:
         events = pygame.event.get()
+        if check_double_tap_back(events):
+            if len(SCREENS) > 1:
+                pop_screen()
+                continue
+            else:
+                clean_exit(0)
         # Handle window resize for windowed mode
         # React to device add/remove and resizing
         global PAD_STYLE, JOYS, LAST_JOY_COUNT
