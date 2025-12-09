@@ -27,7 +27,7 @@
 | `app/batocera-unofficial-addons-arm64.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/batocera-unofficial-addons.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/bua_installerarm64.py` | 2025-12-03 01:10:36 +0000 |
-| `app/bua_installerx86.py` | 2025-12-04 05:15:14 +0000 |
+| `app/bua_installerx86.py` | 2025-12-09 00:28:11 +0000 |
 | `app/dep.sh` | 2025-05-22 17:16:35 +0100 |
 | `app/dep_arm64.sh` | 2025-05-22 17:16:49 +0100 |
 | `app/install.sh` | 2025-05-22 17:17:07 +0100 |
@@ -128,7 +128,7 @@
 | `freedroidrpg/freedroidrpg_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `freetube/freetube.sh` | 2025-11-28 16:44:12 +0000 |
 | `freetube/freetube_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
-| `gamescope/gamescope.sh` | 2025-05-22 17:55:20 +0100 |
+| `gamescope/gamescope.sh` | 2025-12-09 00:39:17 +0000 |
 | `gparted/gparted.sh` | 2025-05-22 17:55:38 +0100 |
 | `gparted/gparted_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `greenlight/greenlight.sh` | 2025-11-13 16:16:42 +0000 |
