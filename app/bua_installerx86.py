@@ -647,6 +647,7 @@ APPS: Dict[str, str] = {
     "VClean": bua("vclean/vclean.sh"),
     "RGSX": "curl -L bit.ly/rgsx-install | sh",
     "Raspberry Pi Imager": bua("rpi/rpi.sh"),
+    "Gamescope": bua("gamescope/gamescope.sh"),
 }
 
 # --- Integrated Windows Freeware installers (previously separate bash menu) ---
@@ -788,6 +789,7 @@ DESCRIPTIONS: Dict[str, str] = {
     "VClean": "Service to clean the Batocera version string (removes extra flags)",
     "RGSX": "Retro Game Sets Xtra. A free, user-friendly ROM downloader for Batocera",
     "Raspberry Pi Imager": "Flash OS images to USB and SD cards.",
+    "Gamescope": "Full-screen gaming compositor with smoother performance, scaling & low-latency control.",
 }
 
 # Descriptions for integrated Windows Freeware entries
