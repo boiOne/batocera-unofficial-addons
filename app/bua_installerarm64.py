@@ -1566,53 +1566,60 @@ def process_analog_navigation(events) -> tuple:
 
 def check_double_tap_back(events) -> bool:
     """Return True if two taps occurred quickly in nearly the same spot."""
-    global last_tap_time, last_tap_pos
-    now = pygame.time.get_ticks() / 1000.0
-    for e in events:
-        pos = None
-        if e.type == pygame.MOUSEBUTTONDOWN and getattr(e, "button", None) == 1:
-            pos = getattr(e, "pos", None)
-        elif hasattr(pygame, "FINGERDOWN") and e.type == pygame.FINGERDOWN:  # type: ignore[attr-defined]
-            pos = (int(e.x * W), int(e.y * H))
-        if pos:
-            dt = now - last_tap_time
-            if last_tap_pos and dt <= 0.35:
-                dx = pos[0] - last_tap_pos[0]
-                dy = pos[1] - last_tap_pos[1]
-                if dx*dx + dy*dy <= (40 * 40):
-                    last_tap_time = 0.0
-                    last_tap_pos = None
-                    return True
-            last_tap_time = now
-            last_tap_pos = pos
+    try:
+        global last_tap_time, last_tap_pos
+        now = pygame.time.get_ticks() / 1000.0
+        for e in events:
+            pos = None
+            if e.type == pygame.MOUSEBUTTONDOWN and getattr(e, "button", None) == 1:
+                pos = getattr(e, "pos", None)
+            elif hasattr(pygame, "FINGERDOWN") and e.type == pygame.FINGERDOWN:  # type: ignore[attr-defined]
+                pos = (int(e.x * W), int(e.y * H))
+            if pos:
+                dt = now - last_tap_time
+                if last_tap_pos and dt <= 0.35:
+                    dx = pos[0] - last_tap_pos[0]
+                    dy = pos[1] - last_tap_pos[1]
+                    if dx*dx + dy*dy <= (40 * 40):
+                        last_tap_time = 0.0
+                        last_tap_pos = None
+                        return True
+                last_tap_time = now
+                last_tap_pos = pos
+    except Exception as e:
+        print(f"[BUA] Double-tap check error: {e}")
     return False
 
 def process_drag_scroll(events, threshold: int | None = None) -> int:
     """Return vertical scroll intent from drag/touch/mouse move: -1 up, 1 down, 0 none."""
-    if threshold is None:
-        threshold = S(24)
-    total_dy = 0.0
-    dragging = False
-    for e in events:
-        # Mouse drag
-        if e.type == pygame.MOUSEBUTTONDOWN and getattr(e, "button", None) == 1:
-            dragging = True
-        if e.type == pygame.MOUSEMOTION and getattr(e, "buttons", (0,))[0]:
-            total_dy += e.rel[1]
-            dragging = True
-        # Touch drag
-        if hasattr(pygame, "FINGERDOWN") and e.type == pygame.FINGERDOWN:  # type: ignore[attr-defined]
-            dragging = True
-        if hasattr(pygame, "FINGERMOTION") and e.type == pygame.FINGERMOTION:  # type: ignore[attr-defined]
-            total_dy += e.dy * H
-            dragging = True
-    if not dragging:
+    try:
+        if threshold is None:
+            threshold = S(24)
+        total_dy = 0.0
+        dragging = False
+        for e in events:
+            # Mouse drag
+            if e.type == pygame.MOUSEBUTTONDOWN and getattr(e, "button", None) == 1:
+                dragging = True
+            if e.type == pygame.MOUSEMOTION and getattr(e, "buttons", (0,))[0]:
+                total_dy += e.rel[1]
+                dragging = True
+            # Touch drag
+            if hasattr(pygame, "FINGERDOWN") and e.type == pygame.FINGERDOWN:  # type: ignore[attr-defined]
+                dragging = True
+            if hasattr(pygame, "FINGERMOTION") and e.type == pygame.FINGERMOTION:  # type: ignore[attr-defined]
+                total_dy += e.dy * H
+                dragging = True
+        if not dragging:
+            return 0
+        if total_dy > threshold:
+            return 1
+        if total_dy < -threshold:
+            return -1
         return 0
-    if total_dy > threshold:
-        return 1
-    if total_dy < -threshold:
-        return -1
-    return 0
+    except Exception as e:
+        print(f"[BUA] Drag scroll error: {e}")
+        return 0
 
 def draw_text(surf, text, font, color, pos):
     img = font.render(text, True, color)
