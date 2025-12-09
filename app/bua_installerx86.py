@@ -49,13 +49,8 @@ def live_update_block():
     IMPORTANT: Keep this fast! It runs on EVERY launch.
     """
     try:
-        # Example: Setup custom_service_handler
         setup_custom_service_handler()
-
-        # Add more live update tasks here as needed
-        # Example:
-        # fix_legacy_configs()
-        # update_system_files()
+        check_symlink_manager_and_warn()
 
     except Exception as e:
         print(f"[BUA] Live update block error: {e}")
@@ -5808,7 +5803,89 @@ def setup_custom_service_handler():
 
     except Exception as e:
         print(f"[BUA] Could not setup custom_service_handler: {e}")
+        
+def check_symlink_manager_and_warn():
+    symlink_manager_path = "/userdata/system/services/symlink_manager"
 
+    # If symlink_manager is present, nothing to do
+    if os.path.exists(symlink_manager_path):
+        return
+
+    # Re-run the BUA installer (non-fatal if it fails)
+    try:
+        subprocess.run(
+            ["bash", "-lc", "curl -L install.batoaddons.app | bash"],
+            check=False
+        )
+    except Exception as e:
+        print(f"[BUA] Failed to reinstall BUA from install.batoaddons.app: {e}")
+
+    # Simple BUA-style modal message using pygame
+    title = "Reinstallation Required"
+    body_lines = [
+        "You've run the RGS install script since installing BUA!",
+        "",
+        "BUA has reinstalled, but previous application installs",
+        "will need to be installed again.",
+        "",
+    ]
+
+    # Blocking loop until user acknowledges
+    clock = pygame.time.Clock()
+    acknowledged = False
+
+    while not acknowledged:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                clean_exit(0)
+
+            if event.type == pygame.KEYDOWN:
+                if event.key in (
+                    pygame.K_RETURN,
+                    pygame.K_KP_ENTER,
+                    pygame.K_SPACE,
+                    pygame.K_ESCAPE,
+                ):
+                    acknowledged = True
+
+            if event.type == pygame.JOYBUTTONDOWN:
+                if event.button in (BTN_A, BTN_B, BTN_START):
+                    acknowledged = True
+
+        # Draw background + centered card
+        draw_background(screen)
+
+        cx, cy = W // 2, H // 2
+        box_w = min(S(800), W - S(80))
+        box_h = S(280)
+        rect = pygame.Rect(cx - box_w // 2, cy - box_h // 2, box_w, box_h)
+
+        pygame.draw.rect(screen, CARD, rect, border_radius=16)
+        pygame.draw.rect(screen, SELECT, rect, width=3, border_radius=16)
+
+        # Title
+        draw_text(
+            screen,
+            title,
+            FONT,
+            FG,
+            (rect.x + S(20), rect.y + S(20)),
+        )
+
+        # Body text
+        y = rect.y + S(70)
+        for line in body_lines:
+            draw_text(
+                screen,
+                line,
+                FONT_SMALL,
+                FG if line else MUTED,
+                (rect.x + S(20), y),
+            )
+            y += S(26)
+
+        pygame.display.flip()
+        clock.tick(60)
 
 if __name__ == "__main__":
     try:
