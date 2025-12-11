@@ -27,7 +27,7 @@
 | `app/batocera-unofficial-addons-arm64.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/batocera-unofficial-addons.sh` | 2025-11-20 16:56:24 +0000 |
 | `app/bua_installerarm64.py` | 2025-12-09 22:39:42 +0000 |
-| `app/bua_installerx86.py` | 2025-12-09 23:11:38 +0000 |
+| `app/bua_installerx86.py` | 2025-12-11 02:34:14 +0000 |
 | `app/dep.sh` | 2025-05-22 17:16:35 +0100 |
 | `app/dep_arm64.sh` | 2025-05-22 17:16:49 +0100 |
 | `app/install.sh` | 2025-05-22 17:17:07 +0100 |
@@ -37,7 +37,7 @@
 | `app/install_x86.sh` | 2025-05-22 17:17:37 +0100 |
 | `app/install_x86_new.sh` | 2025-11-20 02:19:28 +0000 |
 | `app/rd.sh` | 2025-04-01 03:36:47 +0100 |
-| `app/symlinks.sh` | 2025-05-22 19:06:40 +0100 |
+| `app/symlinks.sh` | 2025-12-11 02:28:52 +0000 |
 | `app/templates/desktop_template.sh` | 2025-01-06 01:25:01 +0000 |
 | `app/templates/desktopbase.sh` | 2025-02-11 15:38:19 +0000 |
 | `app/templates/flatpak-template.sh` | 2025-11-25 15:20:38 +0000 |
@@ -129,7 +129,7 @@
 | `freetube/freetube.sh` | 2025-11-28 16:44:12 +0000 |
 | `freetube/freetube_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `gamescope/gamescope.sh` | 2025-12-09 23:14:24 +0000 |
-| `gparted/gparted.sh` | 2025-05-22 17:55:38 +0100 |
+| `gparted/gparted.sh` | 2025-12-11 02:16:04 +0000 |
 | `gparted/gparted_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `greenlight/greenlight.sh` | 2025-11-13 16:16:42 +0000 |
 | `greenlight/greenlight_arm64.sh` | 2025-05-22 17:56:09 +0100 |
