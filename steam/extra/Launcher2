@@ -40,8 +40,8 @@ fi
 
 echo "Steam launched. Waiting for window to appear..."
 
-# Wait for Steam window to appear (up to 60 seconds)
-TIMEOUT=60
+# Wait for Steam window to appear
+TIMEOUT=240
 ELAPSED=0
 STEAM_FOUND=0
 
