@@ -8,15 +8,16 @@ cd /userdata/temp || exit 1
 
 ARCH=$(uname -m)
 
+# Map uname -m to Tailscale's JSON arch keys
 case "$ARCH" in
   x86_64)
-    FILE="tailscale_1.76.1_amd64.tgz"
+    TS_ARCH_KEY="amd64"
     ;;
-  armv7l)
-    FILE="tailscale_1.76.1_arm.tgz"
+  armv7l|armv6l)
+    TS_ARCH_KEY="arm"
     ;;
   aarch64)
-    FILE="tailscale_1.76.1_arm64.tgz"
+    TS_ARCH_KEY="arm64"
     ;;
   *)
     echo "Unsupported architecture: $ARCH"
@@ -24,15 +25,39 @@ case "$ARCH" in
     ;;
 esac
 
-echo "Detected architecture: $ARCH"
+echo "Detected architecture: $ARCH ($TS_ARCH_KEY)"
+
+# Fetch latest stable tarball name from Tailscale's JSON endpoint
+META_URL="https://pkgs.tailscale.com/stable/?mode=json"
+echo "Querying latest Tailscale version from $META_URL ..."
+
+JSON=$(wget -qO- "$META_URL") || {
+  echo "Failed to fetch Tailscale metadata."
+  exit 1
+}
+
+# Extract tailscale_*.tgz filename for this arch without jq
+FILE=$(printf '%s\n' "$JSON" \
+  | grep -o "\"$TS_ARCH_KEY\":\"tailscale_[^\"]*\"" \
+  | head -n1 \
+  | sed 's/.*:\"//;s/\"$//')
+
+if [ -z "$FILE" ]; then
+  echo "Could not determine latest Tailscale tarball for arch key '$TS_ARCH_KEY'."
+  exit 1
+fi
+
+echo "Latest stable tarball for $TS_ARCH_KEY is: $FILE"
 echo "Downloading $FILE..."
-wget -q "https://pkgs.tailscale.com/stable/${FILE}"
+wget -q "https://pkgs.tailscale.com/stable/${FILE}" || {
+  echo "Failed to download Tailscale tarball."
+  exit 1
+}
 
 echo "Extracting..."
 tar -xf "$FILE"
 DIR="${FILE%.tgz}"
 cd "$DIR" || exit 1
-
 
 mkdir -p /userdata/system/add-ons/tailscale
 
