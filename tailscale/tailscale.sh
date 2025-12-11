@@ -34,7 +34,7 @@ JSON=$(wget -qO- "$META_URL") || {
   exit 1
 }
 
-# Extract the tarball filename EXACTLY as shown in your screenshot:
+# Extract the tarball filename
 FILE=$(printf '%s\n' "$JSON" \
   | grep -o "\"$TS_ARCH_KEY\" *: *\"tailscale_[^\"]*\.tgz\"" \
   | sed 's/.*": "\(.*\)".*/\1/')
