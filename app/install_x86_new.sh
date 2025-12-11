@@ -65,7 +65,7 @@ echo "Starting batocera-unofficial-addons-symlinks service..."
 batocera-services start symlink_manager &>/dev/null &
 
 echo "Downloading Batocera Unofficial Add-Ons Launcher from $BATOCERA_ADDONS_URL..."
-curl -fLs -o "$BATOCERA_ADDONS_PATH" "$BATOCERA_ADDONS_URL"
+wget --show-progress -qO "$BATOCERA_ADDONS_PATH" "$BATOCERA_ADDONS_URL"
 
 if [ ! -s "$BATOCERA_ADDONS_PATH" ]; then
     echo "Failed to download batocera-unofficial-addons launcher. Exiting."
@@ -77,7 +77,7 @@ chmod +x "$BATOCERA_ADDONS_PATH"
 # Download xmlstarlet
 echo "Downloading xmlstarlet..."
 mkdir -p "$(dirname "$XMLSTARLET_DEST")"
-curl -fLs -o "$XMLSTARLET_DEST" "$XMLSTARLET_URL"
+wget --show-progress -qO "$XMLSTARLET_DEST" "$XMLSTARLET_URL"
 
 if [ ! -s "$XMLSTARLET_DEST" ]; then
     echo "Failed to download xmlstarlet. Exiting."
