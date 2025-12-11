@@ -1,14 +1,13 @@
 #!/bin/bash
 export $(cat /proc/1/environ | tr '\0' '\n')
 
-# Step 1: Install Tailscale
 echo "Installing Tailscale..."
 mkdir -p /userdata/temp
 cd /userdata/temp || exit 1
 
 ARCH=$(uname -m)
 
-# Map uname -m to Tailscale's JSON arch keys
+# Map uname -m → JSON arch key
 case "$ARCH" in
   x86_64)
     TS_ARCH_KEY="amd64"
@@ -27,28 +26,26 @@ esac
 
 echo "Detected architecture: $ARCH ($TS_ARCH_KEY)"
 
-# Fetch latest stable tarball name from Tailscale's JSON endpoint
 META_URL="https://pkgs.tailscale.com/stable/?mode=json"
-echo "Querying latest Tailscale version from $META_URL ..."
+echo "Fetching metadata from $META_URL ..."
 
 JSON=$(wget -qO- "$META_URL") || {
-  echo "Failed to fetch Tailscale metadata."
+  echo "Failed to download version metadata."
   exit 1
 }
 
-# Extract tailscale_*.tgz filename for this arch without jq
+# Extract the tarball filename EXACTLY as shown in your screenshot:
 FILE=$(printf '%s\n' "$JSON" \
-  | grep -o "\"$TS_ARCH_KEY\":\"tailscale_[^\"]*\"" \
-  | head -n1 \
-  | sed 's/.*:\"//;s/\"$//')
+  | grep -o "\"$TS_ARCH_KEY\" *: *\"tailscale_[^\"]*\.tgz\"" \
+  | sed 's/.*": "\(.*\)".*/\1/')
 
 if [ -z "$FILE" ]; then
-  echo "Could not determine latest Tailscale tarball for arch key '$TS_ARCH_KEY'."
+  echo "Could not parse Tailscale tarball for arch '$TS_ARCH_KEY'"
   exit 1
 fi
 
-echo "Latest stable tarball for $TS_ARCH_KEY is: $FILE"
-echo "Downloading $FILE..."
+echo "Latest version tarball: $FILE"
+echo "Downloading..."
 wget -q "https://pkgs.tailscale.com/stable/${FILE}" || {
   echo "Failed to download Tailscale tarball."
   exit 1
