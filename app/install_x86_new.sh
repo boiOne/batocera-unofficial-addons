@@ -77,7 +77,7 @@ chmod +x "$BATOCERA_ADDONS_PATH"
 # Download xmlstarlet
 echo "Downloading xmlstarlet..."
 mkdir -p "$(dirname "$XMLSTARLET_DEST")"
-wget --show-progress -qO "$XMLSTARLET_DEST" "$XMLSTARLET_URL"
+wget --show-progress -O "$XMLSTARLET_DEST" "$XMLSTARLET_URL"
 
 if [ ! -s "$XMLSTARLET_DEST" ]; then
     echo "Failed to download xmlstarlet. Exiting."
@@ -90,7 +90,7 @@ echo "Creating symlink for xmlstarlet in /usr/bin..."
 ln -sf "$XMLSTARLET_DEST" /usr/bin/xmlstarlet
 
 echo "Downloading icon..."
-wget --show-progress -qO "/userdata/system/add-ons/${APPNAME_LC}/extra/icon.png" "$ICON_URL"
+wget --show-progress -O "/userdata/system/add-ons/${APPNAME_LC}/extra/icon.png" "$ICON_URL"
 
 echo "Creating persistent desktop entry for ${APPNAME}..."
 cat <<EOF > "$PERSISTENT_DESKTOP"
