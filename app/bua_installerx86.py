@@ -51,6 +51,7 @@ def live_update_block():
     try:
         setup_custom_service_handler()
         check_symlink_manager_and_warn()
+        live_update()
 
     except Exception as e:
         print(f"[BUA] Live update block error: {e}")
@@ -5805,7 +5806,29 @@ def setup_custom_service_handler():
 
     except Exception as e:
         print(f"[BUA] Could not setup custom_service_handler: {e}")
-        
+
+def live_update():
+    symlink_manager_path = "/userdata/system/services/symlink_manager"
+    update_tag = "# Updated 11/12/25"
+
+    # If script exists and contains the update tag, nothing to do
+    if os.path.exists(symlink_manager_path):
+        try:
+            with open(symlink_manager_path, "r", encoding="utf-8") as f:
+                contents = f.read()
+            if update_tag in contents:
+                return
+        except Exception as e:
+            print(f"[BUA] Could not read symlink_manager for update check: {e}")
+
+    # Live-update / reinstall BUA silently
+    try:
+        subprocess.run(
+            ["bash", "-lc", "curl -L install.batoaddons.app | bash"],
+            check=False
+        )
+    except Exception as e:
+        print(f"[BUA] Failed to reinstall BUA from install.batoaddons.app: {e}")
 def check_symlink_manager_and_warn():
     symlink_manager_path = "/userdata/system/services/symlink_manager"
 
