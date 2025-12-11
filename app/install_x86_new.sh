@@ -65,7 +65,7 @@ echo "Starting batocera-unofficial-addons-symlinks service..."
 batocera-services start symlink_manager &>/dev/null &
 
 echo "Downloading Batocera Unofficial Add-Ons Launcher from $BATOCERA_ADDONS_URL..."
-wget --show-progress -qO "$BATOCERA_ADDONS_PATH" "$BATOCERA_ADDONS_URL"
+wget --show-progress -O "$BATOCERA_ADDONS_PATH" "$BATOCERA_ADDONS_URL"
 
 if [ ! -s "$BATOCERA_ADDONS_PATH" ]; then
     echo "Failed to download batocera-unofficial-addons launcher. Exiting."
