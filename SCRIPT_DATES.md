@@ -35,7 +35,7 @@
 | `app/install_arm64_new.sh` | 2025-11-20 02:19:28 +0000 |
 | `app/install_new.sh` | 2025-11-20 03:09:00 +0000 |
 | `app/install_x86.sh` | 2025-05-22 17:17:37 +0100 |
-| `app/install_x86_new.sh` | 2025-11-20 02:19:28 +0000 |
+| `app/install_x86_new.sh` | 2025-12-11 18:18:53 +0000 |
 | `app/rd.sh` | 2025-04-01 03:36:47 +0100 |
 | `app/symlinks.sh` | 2025-12-11 02:28:52 +0000 |
 | `app/templates/desktop_template.sh` | 2025-01-06 01:25:01 +0000 |
@@ -233,7 +233,7 @@
 | `supertuxkart/supertuxkart_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
 | `switch/switch.sh` | 2025-03-27 18:37:52 +0000 |
 | `switch/switch_uninstall.sh` | 2025-11-13 17:23:41 +0000 |
-| `tailscale/tailscale.sh` | 2025-11-25 23:13:18 +0000 |
+| `tailscale/tailscale.sh` | 2025-12-11 19:39:06 +0000 |
 | `tailscale/tailscale_uninstall.sh` | 2025-11-25 23:13:18 +0000 |
 | `telegraf/telegraf.sh` | 2025-11-25 23:13:18 +0000 |
 | `telegraf/telegraf_uninstall.sh` | 2025-11-25 23:13:18 +0000 |
